@@ -1,0 +1,17 @@
+
+ 
+  <p>
+    <span>
+      <% if( item._id == current ){ %>
+      <form action="/persons/create" method="post" accept-charset="utf-8">
+        <input type="text" name="title" value="" />
+        <input type="text" name="number" value="" />
+        <input type="text" name="description" value="" />
+        <button type="submit">Add new</button>
+      </form>
+   <a href="/persons/edit/<%= item._id %>" title="Update this item item"><%= item.title %></a>
+  </span>
+    
+  </p>
+ 
+

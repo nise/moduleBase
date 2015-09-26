@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+		<meta content="utf-8" http-equiv="encoding">
+		
+		
+    <title>vi2 framework showcase</title>		
+					
+		<style>
+
+			html, body {
+				 position: relative;
+			 	 min-height: 100%;
+			 	 max-width: 100%;
+				 overflow-x: hidden;
+			 	 margin:0;
+			 	 
+			 	 background-color: #fff;
+			 	 font-family: Arial;
+			 	 font-size:12px;
+			}
+			body{
+			padding:40px;
+			}
+			#fixedDiv {
+					float: left;
+					width: 20%;
+					margin: 30px;
+			}
+			#fixedDiv, #categoryInputs {
+					height: 120px;
+			}
+			#buckets{
+				width:60%;
+				float:left;
+			}
+			.bucketItems {
+				width: 40%;
+				height:150px;
+				padding: 5px;
+				display:inline-block;
+				background-color: #ddd;
+				margin:5px;
+			}
+			.bucketItems h3 {
+				padding:0;
+				margin: 0 5px;
+			}	
+			ul {
+				padding:0;
+			}
+			li {
+				padding: 2px 4px;
+				background-color: #eee;
+				list-style:none;
+				margin:0;
+			}
+			li:hover{
+					background-color: lightblue;
+			}
+			
+			.droppable_category {
+					margin-top: 5px;
+					cursor: move;
+					font-size:16px;
+			}
+			.droppable_bucket {
+					float: left;
+					border: 1px solid red;
+					width:95%;
+					height:120px;
+					margin: 5px;
+					overflow:auto;
+			}
+			.droppable_bucket li {
+					cursor: move;
+			}		
+			#categoryInputs {
+					margin: 30px 0 30px 0;
+					float: right;
+					width: 40%;
+			}
+		</style>
+		
+		<link type="text/css" href="/vi-lab/js/jquery-ui.min.css" rel="stylesheet" media="screen" />
+
+  	<!-- libs -->		
+		<script src="/vi-lab/js/jquery-1.11.2.min.js"></script>
+		<script src="/vi-lab/js/jquery-ui.min.js"></script>
+
+		<script src="/vi-lab/js/jquery.tooltip.js"></script>
+			
+		<script language ="javascript">
+		/*
+		- zielgruppenspezifische buckts
+		- auswahl der eigenen Statusgruppe => Abfrage von Erfahrungen ..
+		- send + save
+		
+		*/
+		
+			$(document).ready(function(){
+				$("button").click(function(e) { 
+					e.preventDefault(); 
+					$('#bucket').find('.bucketItem').each(function(i, bucket){
+						$(bucket).find('li').each(function(j, item){
+							alert(bucket+'_'+item);
+						});
+					});
+					var $this = $(this); // `this` refers to the current form element
+					/*$.post(
+						  $this.attr("action"), // Gets the URL to sent the post to
+						  $this.serialize(), // Serializes form data in standard format
+						  function(data) { //alert(data)
+						  },
+						  "json" // The format the response should be in
+					);*/
+					return false;
+			});
+			
+			
+				$(function() {
+					//
+					var demografics = {
+						roles: ["Lehrender","UI Designer","Software Entwickler","Nutzer"],
+						experienceLevels: ["0-1","1-2","2-4","4-6","< 4"],
+					};
+					$('#demografics').append('Bitte geben Sie an, in welche Rolle Sie bereits Erfahrungen mit Videolernumgebungen gemacht haben:');		
+							
+					$.each( demografics.roles, function(i,val){
+						var b = $('<div></div>').html( val ).appendTo('#demografics');
+						$.each(demografics.experienceLevels, function(j, vall){
+							$('<input />').attr('name', val).attr('type', 'radio').attr('value', vall).appendTo( b );
+						});
+					});
+										
+				
+					// load items
+					var items = [
+						{ title:"Basic Controls", desc:"ss"},
+{title:"Add Video", desc:"Allow users to upload videos."},
+{title:"Search", desc:"Search within and across videos."},
+{title:"Annotated Timeline", desc:"Interactive visualization of the temporal layout of events."},
+{title:"Simultaneous Media", desc:"Prefer simultaneously rather then edged-in media."},
+{title:"Video Manager", desc:"Brief overview of multiple videos linked to detailed contents."},
+{title:"Overlays", desc:"Temporally present additional information on top of the video."},
+{title:"Hyperlinks", desc:"Cross reference through time-related spatio-temporal links."},
+{title:"Sequential Media", desc:"Sequencing continuous and discrete media in a flow."},
+{title:"Table of Content", desc:"Chronological ordered list to access content inside the video."},
+{title:"Playlist", desc:"Temporally select learning resources for later use."},
+{title:"Related Videos", desc:"Offer additional but related instructional videos."},
+{title:"Annotations", desc:"Extend video content without editing the video itself."}, 
+{title:"Closed Captions", desc:"Present dialogues and relevant audio information as closed caption."}, 
+{title:"User Traces", desc:"Represent user activities and behaviour related to playback time."},
+{title:"Loading Indicator", desc:"Provide feedback in case the media presentation is interrupted."},
+{title:"Assessment", desc:"Assessment of training success during the video presentation."},
+{title:"Transcript", desc:"Written transcript in terms of a navigable and skimable text."},
+{title:"Detail on Demand", desc:"Provide details on demand by referring to sequences of videos."},
+{title:"Comments", desc:"Time-accurate comments that can emerge to anchored discussions."},
+{title:"Appropriate Delivery", desc:"Maxmize video quality and frame size automatically."},
+{title:"Playback Speed", desc:"Adjust playback speed and direction to your own cognitive needs."},
+{title:"Temporal Bookmarks", desc:"Filling of references that allows accurate access to videos."},
+{title:"Viewing History", desc:"Indicate the videos that have been watched in previous sessions."},
+{title:"Classified Marks", desc:"Distinguish the quality of a large number of time-related marks."},
+{title:"Object Tracking", desc:"Spatially attach annotations to moving objects in the video."},
+{title:"Media Fragments", desc:"Facilitate  the reuse and citation of video fragments."},
+{title:"User Notes", desc:"Allow users to take notes while watching a video."},
+{title:"User Ratings", desc:"Provide orientation in terms of the quality of instructional resources."},
+{title:"Keyboard Commands", desc:"Make the video player operable through a keyboard interface."},
+{title:"Branching Videos", desc:"Users decide which learning path they take."},
+{title:"Visual Summary", desc:"Visual summary of key aspects of the video."},
+{title:"Temporal Tags", desc:"Time-accurate semantic annotation within one or many videos."},
+{title:"Journaled Navigation", desc:"Time accuracy when going back and forth in a sequence of videos."},
+{title:"Visual Highlighting", desc:"Highlight visual objects inside a video frame dependent on time."},
+{title:"Full Screen", desc:"Include time-dependent media and essential controls on full screen."},
+{title:"Follow Revisions", desc:"Enable comprehension of changes since the last visit."},
+{title:"Loop", desc:"Allow replay of the whole video or parts of it for repetition."},
+{title:"Video Manipulation", desc:"Enable basic video manipulation for content production."},
+{title:"Zoom", desc:"Zoom in and out time-dependent content during the playback."},
+{title:"Skip Back", desc:"Skip back the playback position for a few seconds to watch or listen the past content."},
+{title:"Synchronized Map", desc:"Show geographic points and regions that are related to the current video content."},
+{title:"Inline Drawing", desc:"Make notes an sketeches on top of the video image."},
+{title:"Video Clip Quest", desc:"Anchore questions inside a video that can only be answered after watching the subsequent scene that provides the necessary context."},
+
+					];
+					$.each(items, function(i,val){
+						var el = $('<li></li>')
+							.addClass("droppable_category")
+							.text( val.title +' ')
+							.attr( 'title', val.desc )
+							.appendTo('#category')
+							;
+					});
+					
+					// load buckets
+					var buckets = [
+						{title:"I am familiar with this feature", desc:"ein erstes pattern"},
+						{title:"I would like to use this feature", desc:"ein erstes pattern"},
+						{title:"I don't know how this can be usefull", desc:"ein erstes pattern"},
+						{title:"I am not sure what that should be", desc:"ein s pattern"}
+					]; 
+					$.each(buckets, function(i,val){
+						var el = $('<div></div>')
+							.addClass('bucketItems bucket'+i)
+							.appendTo('#buckets')
+							;
+						var head = $('<h3></h3>')
+							.text( val.title )
+							.attr( 'title', val.desc )
+							.appendTo(el)
+							;
+						var ul = $('<ul></ul>')
+							.addClass("droppable_bucket")
+							.attr('id','column_'+i+'_count')
+							.attr('data-input','cat'+i)
+							.appendTo(el)
+							;
+					});
+					
+					// enable tooltip
+					$( '.droppable_category, .droppable_bucket' ).tooltip( { 
+						track: true,       
+						position: {
+        			my: "left top",
+        			at: "right+5 top-5"
+      			} 
+      		} );
+				
+					var transferred = false;
+					var title = "--";
+					$('.droppable_category').draggable({
+						  connectToSortable: '.droppable_bucket',
+						  helper: 'clone',
+//						  handle: "p",
+						  start: function(event, ui)
+						  {
+						      
+						      $(this).hide();
+						      
+						  },
+						  stop: function(event, ui)
+						  {
+						      if(!transferred){
+						      	
+						          $(this).show();
+						      }else
+						      {	
+						      		title = $(event.target).attr('title');
+						          $(this).remove();
+						          transferred = false;
+						          //title = $(event.target).attr('title');
+						          //alert($(ui.helper[0]).children().attr('id'))
+						      }
+						  }
+					});
+					
+					
+					$('.droppable_bucket').droppable({
+						 drop: function(event, ui) {
+								       // do something with the dock
+								       $(ui.draggable).attr('title', title)
+								       //alert($(ui.draggable).attr('title'))
+
+								   }
+					});
+
+					$('.droppable_bucket').sortable({
+						  connectWith: ".droppable_category, .droppable_bucket",
+						  receive: function(event, ui)
+						  {
+						      transferred = true;
+						      var targetInput = $(this).data('input');
+						      var targetCatCount = parseInt($("#"+targetInput).val(), 10);
+						      $("#"+targetInput).val(++targetCatCount); 
+						      if (ui.sender.hasClass("droppable_bucket")) {
+						          var sourceInput = ui.sender.data('input');
+						          var sourceCatCount = parseInt($("#"+sourceInput).val(), 10);
+						          $("#"+sourceInput).val(--sourceCatCount);                 
+						      }           
+						  }
+					});
+				
+					$( "ul, li" ).disableSelection();
+				});
+			});
+		</script>
+
+
+	
+	</head>
+<body>
+
+<div class="jumbotron">
+	<div class="container">
+  <h2></h2>
+  <h2><%= title %></h2>
+  <p hidden>This example is a quick exercise to illustrate how the default, static and fixed to top navbar work. It includes the responsive CSS and HTML, so it also adapts to your viewport and device.</p>
+ 
+  <p hidden>
+    <a class="btn btn-lg btn-primary" href="../../components/#navbar" role="button">View navbar docs &raquo;</a>
+  </p>
+  </div>
+</div>
+
+
+<div class="container">
+<div class="row">
+
+<div id="demografics"></div>
+
+<div id="fixedDiv">
+    <ul id="category"></ul>
+</div>
+
+<br class="clear"/>
+<div id="buckets"></div>
+
+<div id="categoryInputs" hidden>
+    <form id="inputs">
+        Cat1: <input type="text" value="0" id="cat1" readonly /><br/>
+        Cat2: <input type="text" value="0" id="cat2" readonly /><br/>
+        Cat3: <input type="text" value="0" id="cat3" readonly /><br/>
+        Cat4: <input type="text" value="0" id="cat4" readonly /><br/>
+        Cat5: <input type="text" value="0" id="cat5" readonly /><br/>
+        Cat6: <input type="text" value="0" id="cat6" readonly />
+    </form>
+</div>
+<button class="btn btn-default dropdown-toggle" type="submit">I am done</button>
+
+</div></div>
+
+</body>
+</html>

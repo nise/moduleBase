@@ -1,0 +1,34 @@
+<% layout('layout') -%>
+ 
+ 
+<h2>
+	<img width="20" src="/vi-lab/img/user-icons/user-<%= item.id %>.png" /> 
+	Edit user: <a href="/users/<%= item._id %>"><%= item.username %></a></h2> 
+  <p>
+    <div class="edit-form">
+      
+      
+      <form action="/portals/update/<%= item._id %>" method="post" accept-charset="utf-8">
+        <br>
+				<label>Name:</label>
+				<input type="text" name="name" value="<%= item.name %>" />
+        <br>
+				<label>Description:</label>
+				<input type="text" name="description" value="<%= item.description %>" />
+        <br>
+				<label>Patterns:</label>
+				<input type="text" name="patterns" value="<%= item.patterns %>" />
+        <br>
+				<label>E-Mail:</label>
+				<input type="text" name="email" value="<%= item.email %>" />
+        <br>
+				<label>Passwort:</label>
+				<input type="passord" name="password" value="<%= item.password %>" />
+				 <br>
+        <div class="buttons">
+        	<button type="submit">update</button>  <a href="/portals/">cancel</a> <a class="alert-btn" href="/portals/destroy/<%= item._id %>" title="Delete this item item">delete</a>
+        </div>
+      </form>
+    </div>
+  </p>
+

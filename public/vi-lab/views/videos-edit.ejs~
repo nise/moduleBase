@@ -1,0 +1,43 @@
+<% layout( 'admin-layout' ) -%>
+
+
+<% items.forEach( function( item ){ %>
+<% if( item._id == current ){ %>
+<h2>Edit Video: <%= item.metadata[0].title %></h2> 
+		  <a href="/videos/<%= item._id %>">view</a>
+		  
+
+    <div class="edit-form">
+      
+      <form action="/videos/update/<%= item._id %>" method="post" accept-charset="utf-8">
+        <label>Title: </label>
+        <input type="text" name="title" value="<%= item.metadata[0].title %>" />
+        <br>
+        
+        <label for="form-url">Video-URL: </label>
+        <input type="text" name="video" id="form-url" value="<%= item.video %>" />
+        <br>
+        
+        <label for="form-author">Author/Lecturer: </label>
+        <input type="text" name="author" id="form-author" value="<%= item.metadata[0].author %>" />
+        <br>
+        
+        <label for="form-abstract">Short Description: </label>
+        <textarea name="abstract" id="form-abstract"><%= item.metadata[0].abstract %></textarea>
+        <br>
+        
+        <label for="form-category">Category: </label>
+        <input type="text" name="category" id="form-category" value="<%= item.metadata[0].category %>" />
+        <br>
+        
+        <div class="buttons">
+        	<button type="submit">update</button>  <a href="/admin/videos/">cancel</a>
+        </div>
+      </form>
+      <% }else{ %>
+        
+      <% } %>
+    </div>
+<% }); %>
+
+

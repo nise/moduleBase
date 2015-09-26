@@ -1,0 +1,56 @@
+vitwo2popcorn : function(dom){
+  	var json = '{"template":"basic","title":"'+this.title+'","guid":"AA41AB3B-D145-477E-A264-3B42701F1E85", "project": {"targets":[{"id":0,"name":"Area1"},{"id":1,"name":"pop-container"}],"media":[ {"id":"Media0","name":"Media01327337635028","url":"'+this.video_source+'","target":"main","duration":4829.205,"tracks":[';
+		var track_tags_1 = '', track_tags_2 = '', track_toc_1 = '', track_toc_2 = '', track_comments_1 = '', track_comments_2 = '', track_questions_1 = '', track_questions_2 = ''; 		
+		
+		// fetch tags
+		$(dom).find("div[type='tags']").each(function(i, val){ 
+			if(i % 2 == 0 ){
+				track_tags_1 += '{"id":"TrackEvent'+i+'","type":"tag","popcornOptions": {"start":'+$(this).attr('starttime')+',"end":'+(Number($(this).attr('starttime'))+10)+',"tag":"'+encodeURIComponent($(this).text())+'", "date":"'+$(this).attr('date')+'", "author":"'+$(this).attr('author')+'", "target":"Area1"}, "track":"Track_tags_1","name":"Track1327337639'+Math.ceil(Math.random()*1000)+'"},';		
+			}else{
+				track_tags_2 += '{"id":"TrackEvent'+i+'","type":"tag","popcornOptions": {"start":'+$(this).attr('starttime')+',"end":'+(Number($(this).attr('starttime'))+10)+',"tag":"'+encodeURIComponent($(this).text())+'", "date":"'+$(this).attr('date')+'", "author":"'+$(this).attr('author')+'", "target":"Area1"}, "track":"Track_tags_2","name":"Track1327337639'+Math.ceil(Math.random()*1000)+'"},';		
+			}
+		}); 
+
+		// fetch toc
+		$(dom).find("div[type='toc']").each(function(i, val){
+			if(i % 2 == 0 ){
+				track_toc_1 += '{"id":"TrackEvent'+i+'","type":"toc","popcornOptions": {"start":'+$(this).attr('starttime')+',"end":'+(Number($(this).attr('starttime'))+10)+',"toc":"'+encodeURIComponent($(this).text())+'", "date":"'+$(this).attr('date')+'", "author":"'+$(this).attr('author')+'", "target":"Area1"}, "track":"Track_toc_1","name":"Track1327337639'+Math.ceil(Math.random()*1000)+'"},';		
+			}else{
+				track_toc_2 += '{"id":"TrackEvent'+i+'","type":"toc","popcornOptions": {"start":'+$(this).attr('starttime')+',"end":'+(Number($(this).attr('starttime'))+10)+',"toc":"'+encodeURIComponent($(this).text())+'", "date":"'+$(this).attr('date')+'", "author":"'+$(this).attr('author')+'", "target":"Area1"}, "track":"Track_toc_2","name":"Track1327337639'+Math.ceil(Math.random()*1000)+'"},';		
+			}
+		});
+		
+		// fetch comments
+		$(dom).find("div[type='comment']").each(function(i, val){
+			if(i % 2 == 0 ){
+				track_comments_1 += '{"id":"TrackEvent'+i+'","type":"comment","popcornOptions": {"start":'+$(this).attr('starttime')+',"end":'+(Number($(this).attr('starttime'))+10)+', "comment":"'+encodeURIComponent($(this).text())+'", "date":"'+$(this).attr('date')+'", "author":"'+$(this).attr('author')+'", "target":"Area1"}, "track":"Track_comments_1","name":"Track1327337639'+Math.ceil(Math.random()*1000)+'"},';		
+			}else{
+				track_comments_2 += '{"id":"TrackEvent'+i+'","type":"comment","popcornOptions": {"start":'+$(this).attr('starttime')+',"end":'+(Number($(this).attr('starttime'))+10)+',"comment":"'+encodeURIComponent($(this).text())+'", "date":"'+$(this).attr('date')+'", "author":"'+$(this).attr('author')+'", "target":"Area1"}, "track":"Track_comments_2","name":"Track1327337639'+Math.ceil(Math.random()*1000)+'"},';		
+			}
+		});
+		
+		// fetch question
+		$(dom).find("div[type='question']").each(function(i, val){
+			if(i % 2 == 0 ){
+				track_questions_1 += '{"id":"TrackEvent'+i+'","type":"question","popcornOptions": {"start":'+$(this).attr('starttime')+',"end":'+(Number($(this).attr('starttime'))+10)+', "question":"'+encodeURIComponent($(this).text())+'", "date":"'+$(this).attr('date')+'", "author":"'+$(this).attr('author')+'", "target":"Area1"}, "track":"Track_comments_1","name":"Track1327337639'+Math.ceil(Math.random()*1000)+'"},';		
+			}else{
+				track_questions_2 += '{"id":"TrackEvent'+i+'","type":"question","popcornOptions": {"start":'+$(this).attr('starttime')+',"end":'+(Number($(this).attr('starttime'))+10)+',"question":"'+encodeURIComponent($(this).text())+'", "date":"'+$(this).attr('date')+'", "author":"'+$(this).attr('author')+'", "target":"Area1"}, "track":"Track_comments_2","name":"Track1327337639'+Math.ceil(Math.random()*1000)+'"},';		
+			}
+		});
+		
+		json += '{"name":"Track_tags_1","id":"Track0", "trackEvents":['+track_tags_1.substr(0, track_tags_1.length -1)+']},';
+		json += '{"name":"Track_tags_2","id":"Track1", "trackEvents":['+track_tags_2.substr(0, track_tags_2.length -1)+']},';
+		json += '{"name":"Track_toc_1","id":"Track2", "trackEvents":['+track_toc_1.substr(0, track_toc_1.length -1)+']},';
+		json += '{"name":"Track_toc_2","id":"Track3", "trackEvents":['+track_toc_2.substr(0, track_toc_2.length -1)+']},';
+		json += '{"name":"Track_comments_1","id":"Track4", "trackEvents":['+track_comments_1.substr(0, track_comments_1.length -1)+']},';
+		json += '{"name":"Track_comments_2","id":"Track5", "trackEvents":['+track_comments_2.substr(0, track_comments_2.length -1)+']},';
+		json += '{"name":"Track_questions_1","id":"Track6", "trackEvents":['+track_questions_1.substr(0, track_questions_1.length -1)+']},';
+		json += '{"name":"Track_questions_2","id":"Track7", "trackEvents":['+track_questions_2.substr(0, track_questions_2.length -1)+']}'; 
+		// closing
+		json += ']}]}}';
+		
+		//json = JSON.parse(json);
+		
+
+		return json;
+  },  

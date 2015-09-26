@@ -1,0 +1,59 @@
+
+<script>
+  $(function() {
+    //$( "#tabs" ).tabs();
+  });
+ </script>
+
+<div class="footer">
+	<div class="container mark">
+Powered by [nise81](http://www.nise81.com/) | cc-by Niels Seidel
+	</div>
+ 
+</div>
+<!--<a href="http://elearning.ihi-zittau.de/pwit/wiki/users/niels.seidel">Niels Seidel</a>.</div>-->
+<!--
+<div id="tabs">
+  <ul>
+    <li><a href="#tabs-1">Über uns</a></li>
+    <li><a href="#tabs-2">Förderer und Unterstützer</a></li>
+    <li><a href="#tabs-3">Impressum</a></li>
+  </ul>
+  <div id="tabs-1">
+		<div>
+		<strong>Diese Seite wurde realisiert von:</strong><br>
+		Dr. Sebastian Vogt, ...<br>
+		...
+		Niels Seidel, niels.seidel [ at ] tu-dresden.de, <a href="http://www.nise81.com">nise81.com</a><br><br><br>
+		...
+		<img src="/vi-lab/img/logos/tud.png" height="70px"/>
+		<img src="img/logos/hillerschevilla.jpg" height="70px"/>
+		<br><br>
+	
+		</div>  
+  </div>
+ 
+  
+  
+  
+  <div id="tabs-2"> (Hier ist Platz für Logos und Credits)
+		<img src="img/logos/escience.png" height="70px"/>
+		<img src="img/logos/esf.png" height="70px"/>
+		<img src="img/logos/eu.png" height="70px"/>
+		<img src="img/logos/startnext.png" height="70px"/>
+		<div>
+		<br><br>
+		...
+		</div>
+	</div>
+
+	<div id="tabs-3">
+		<div>
+		<b>Anbieterkennzeichnung:</b> Projekt “....”:
+		Verantwortlich für den Inhalt dieser Seite gemäß § 55 Abs. 2 des Rundfunkstaatsvertrages (RStV):
+		Niels Seidel, TU Dresden, IHI Zittau, Markt 23, 02763 Zittau
+		niels.seidel [ at ] tu-dresden.de
+		</div>
+	</div>
+</div>	
+ -->

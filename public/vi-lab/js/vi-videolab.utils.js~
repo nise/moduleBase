@@ -1,0 +1,13 @@
+
+/**
+* 
+*/
+function getArrayEntry( data, key, value){ 
+	var userData = {}; 
+	$.each(data, function(i, val){ 
+		if(this[key] == value){ 
+			userData = this; 
+		}
+	});
+	return userData;
+}

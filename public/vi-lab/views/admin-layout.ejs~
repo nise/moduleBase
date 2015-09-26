@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<title>E-Tutorenqualifizierung - Videos</title>
+<meta name='robots' content='noindex,nofollow' /> 
+
+<!---->
+<link rel='stylesheet' id='jquery-ui-css' href='/vi-lab/css/ui-lightness/jquery-ui-1.7.2.custom.css' type='text/css' media='all' />
+<link rel='stylesheet' id='vi-two_accordion-css' href='/vi-lab/css/jquery.hrzAccordion.defaults.css' type='text/css' media='all' />
+<link rel='stylesheet' id='vi-lab_cust-css' href='/vi-lab/css/videolab.css' type='text/css' media='all' />
+<link rel='stylesheet' id='vi-lab_cust-css' href='/vi-lab/css/theresienstadt.css' type='text/css' media='all' />
+<link href="/vi-lab/css/introjs.css" rel="stylesheet">
+<script type='text/javascript' src='/vi-lab/js/jquery-1.5.2.js'></script>
+<script type='text/javascript' src='/vi-lab/js/jquery-ui-1.8.6.custom.min.js'></script>
+<script type='text/javascript' src='/vi-lab/js/jquery.tinysort.min.js'></script>
+<script type="text/javascript" src="/vi-lab/js/intro.js"></script>
+  
+ 
+<!--
+<script type='text/javascript' src='/vi-lab/js/markdown-/vi-lab/js/src/markdown.js'></script>
+<script type='text/javascript' src='/vi-lab/js/jquery.colorbox-min.js'></script>
+-->
+
+<!-- 
+<link rel='stylesheet' id='jquery-ui-css' href='/vi-lab/css/vi-basic-style.min.css' type='text/css' media='all' />
+<script type='text/javascript' src='/vi-lab/js/vi-lab-basic.min.js'></script>
+-->
+  
+<script type='text/javascript' src="/socket.io/socket.io.js"></script>
+<script data-main="/vi-lab/js/requirejs-conf" src="/vi-lab/js/require.js"></script>
+
+
+
+<script type="text/javascript"> 
+ 
+/*
+The following lines need to be changed regarding the underlaying server
+**/ 
+
+var server = '';
+
+ 
+	 	
+/***/
+var render = function(template, remote, selector){ 
+  	require(['text!../views/'+template+'.ejs', 'ejs'], function(thetemplate) {  
+  		if(remote){         
+				$.ajax({
+		      type: "get",
+		      beforeSend: function(xhr){
+		  				if (xhr.overrideMimeType){
+						    xhr.overrideMimeType("application/json");
+		  				}
+					},
+		      url: server+'/json/'+template,
+		      dataType: 'json',
+		      success: function(data){ // alert(JSON.stringify(data)) 
+						var html = ejs.render(thetemplate, { items: data });
+						$(selector).html(html);
+						
+					},
+					error : function(e){ alert('ERROR at '+template+':'+JSON.stringify(e)); }				  
+				});
+			
+			}else{ 
+				var html = ejs.render(thetemplate, {items:0});
+				$(selector).html(html);
+			}	
+	}); // end require
+}	// end render
+
+jQuery(document).ready(function(e) { 
+	var t = render('user-data', true, '.user-area'); 
+	//var	socket = io.connect('http://127.0.0.1'); 
+	//socket.emit('registered user', { user_id: 22, group_id: 99 });
+		
+  //document.getElementById('startButton').onclick = function() {
+});  
+
+/*
+function startIntro(){
+        var intro = introJs();
+          intro.setOptions({
+            steps: [
+              {intro: "Herzlich willkommen zur Tour"},
+              {
+                element: document.querySelector('h1')[0],
+                intro: "Willkommen bei der E-Tutoren Qualifizierung!"
+              },
+              {
+                element: document.querySelectorAll('.user-menu')[0],
+                intro: "Dies hier ist Ihr Icon. Durch einen Klick können Sie ihr Profil einsehen oder sich ausloggen.",
+                position: 'left'
+              },
+              {
+                element: document.querySelectorAll('.scene-view')[0],
+                intro: "Hier gehts zum ersten Video der E-Tutoren Qualifizierung",
+                position: 'top'
+              }
+            ]
+          }).setOption('doneLabel', 'Nächste Seite').oncomplete(function() {
+          	window.location.href = '/videos/view/52a13d2e2aa9d35f24000074';
+        	});
+
+          intro.start();
+      } 
+      	//introJs().setOption('doneLabel', 'Next page').start().oncomplete(function() {
+          //window.location.href = 'second.html?multipage=true';
+        //});
+   //};
+*/
+</script> 	
+</head>
+
+<body class="">
+	<div style="display:none; visibility:hidden;" id="vi2"></div>
+	<!--<div class="left-panel">
+		<a href="/videos/">
+			<img class="title-img" src="/vi-lab/img/exif14-title.jpg"/>
+		</a>	
+		<br/>
+		<a href="https://twitter.com/exif14">#exif14</a>
+	</div>-->
+	<div class="page-head">
+		<h1>Qualifizierung von E-Tutoren</h1>
+		<a name="top"/>
+		<div class="header-nav messages">
+			<a class="message-nav" href="/videos" class="header-nav-item">Videos</a>
+			<!--<a id="startButton" class="message-nav btn btn-large btn-success" href="javascript:startIntro();">Tour</a>-->
+			<!--<a class="message-nav" href="javascript:render('info', false, '#page');" class="header-nav-item">Info</a>-->
+			<!--<a class="message-nav" href="javascript:render('story', false);" class="header-nav-item">Entstehungsgeschichte</a>
+			<a class="message-nav" href="javascript:render('film', true, '#page');" class="header-nav-item">Film</a>
+			<a class="message-nav" href="javascript:render('scenes', true, '#page');" class="header-nav-item">Szenen</a>
+			<a class="message-nav" href="javascript:render('persons', true, '#page');" class="header-nav-item">Personen</a>
+			<a class="message-nav" href="javascript:render('propaganda', false);" class="header-nav-item">Propaganda</a>-->	
+		</div>
+		<div class="instructions"></div>
+		<div class="messages" hidden >
+			<div class="toggler"></div>
+		</div>
+		<span class="user-area"></span>
+	</div>
+	<div class="left-panel">
+		<a class="admin-menu-item" href="/admin/videos">Videos</a>
+		<a class="admin-menu-item" href="/admin/users">Users</a>
+		<a class="admin-menu-item" href="/admin/collaborative-Writing">Koll.Writing</a>
+		<a class="admin-menu-item" href="javascript:render('admin-groups', true, '#page');">Groups</a>
+		<a class="admin-menu-item" href="javascript:render('admin-script', true, '#page');">Script</a>
+		<a class="admin-menu-item" href="javascript:render('admin-settings', true, '#page');">Settings</a>
+		<a class="admin-menu-item" href="javascript:render('admin-analytics', true, '#page');">Analytics</a>
+	</div>
+	<div id="page">
+		
+		<%- body %>
+	
+	
+	
+	
+	<div class="page-footer"><% include footer %></div>
+	</div>
+	<!--<div id="dialog3"></div>
+	<div class="page-footer">
+		<div class="col">Zur Verbesserung der Lernumgebung können meine Nutzungsdaten im Rahmen der Begleitstudie erhoben werden: <input type="checkbox" id="tracing" /></div>
+	</div>-->
+
+</body>
+</html>
+

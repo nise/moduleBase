@@ -1,0 +1,58 @@
+<% layout('layout') -%>
+ 
+ <div class="col-md-8 portfolio-item"> 
+ 
+  <h3>Add new Portal</h3>
+ 
+    <div class="edit-form">
+      
+      <form action="/portals/create" method="post" accept-charset="utf-8">
+        <br/>
+				<div class="input-group input-group-lg">
+					<span class="input-group-addon" id="sizing-addon1">Name</span>
+					<input type="text" class="form-control" placeholder="Name" aria-describedby="sizing-addon1" name="name">
+        </div>
+        <br/>
+         <div class="form-group">
+  				<label for="comment">Description</label>
+  				<textarea class="form-control" rows="5" id="comment" name="description"></textarea>
+				</div>
+				<br/>
+				 <div class="input-group input-group">
+					<span class="input-group-addon" id="sizing-addon1">Provider</span>
+					<input type="text" class="form-control" placeholder="Provider" aria-describedby="Portal provider" name="provider">
+        </div>
+        <br/>
+        <div class="input-group input-group">
+					<span class="input-group-addon" id="sizing-addon1">URL</span>
+					<input type="text" class="form-control" placeholder="URL" aria-describedby="URL of portal" name="url">
+        </div>
+        <br/>
+        <div class="input-group input-group">
+					<span class="input-group-addon" id="sizing-addon1">Accessible <input type="checkbox" class="form-control" placeholder="Acc" aria-describedby="Is the portal accessible?" name="accessible" value="true"></span>
+					
+        </div>
+        <br/>
+        <div class="input-group input-group">
+					<span class="input-group-addon" id="sizing-addon1">Availability</span>
+					<input type="text" class="form-control" placeholder="Some comments about the availability of the portal." aria-describedby="How is infomration about the portal available." name="availability">
+        </div>  
+				<br/>
+				<div class="input-group input-group">
+					<span class="input-group-addon" id="sizing-addon1">Tags</span>
+					<input type="text" class="form-control" placeholder="Tags" aria-describedby="Tags describing the portal" name="tags">
+        </div>
+				<br/>
+				<div class="input-group input-group">
+					<span class="input-group-addon" id="sizing-addon1">Patterns</span>
+					<input type="text" class="form-control" placeholder="Patterns" aria-describedby="Patterns that could be found in the portal" name="patterns">
+        </div>
+				<br/>
+        <div class="buttons">
+        	<button type="submit">add new</button>  <a href="/portals/">cancel</a>
+        </div>
+      </form>
+    </div>
+ </div>
+  
+

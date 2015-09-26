@@ -1,0 +1,68 @@
+<% layout( 'layout' ) -%>
+
+<script>
+$(document).ready (function () { 
+	$("input:text").focus(function() {;$(this).select(); } );
+});	
+</script>
+
+
+<div class="jumbotron">
+	<div class="container">
+  <h2></h2>
+  <h2><%= title %></h2>
+  <p hidden>This example is a quick exercise to illustrate how the default, static and fixed to top navbar work. It includes the responsive CSS and HTML, so it also adapts to your viewport and device.</p>
+ 
+  <p hidden>
+    <a class="btn btn-lg btn-primary" href="../../components/#navbar" role="button">View navbar docs &raquo;</a>
+  </p>
+  </div>
+</div>
+
+<div class="container">
+  <h2>Data <%= title %></h2>
+  <p class="mark">
+It is my aim to encourage other people to make further research regarding video patterns and video learning environments. Hence, all stored data is accessible through a REST API in JSON format. There are three datasets:
+
+* one about the design patterns that is structured by the pattern components,
+* a second about all analysed video learning environments including a categorization and references to the patterns, and
+* a structured description of images that are related to the former two datasets.
+  
+To get an impression about these datasets you can open on of the following link in your browser. </p>
+  
+  <h3>Patterns</h3>
+  <div class="input-group">
+		<span class="input-group-addon" id="sizing-addon2">HTTP GET</span>
+		<input style="cursor:pointer;" readonly type="text" class="form-control" placeholder="" value="http://designing-video.com/json/patterns" aria-describedby="sizing-addon2">
+	</div>
+	Patter Language Markup Language (PLML)
+	<div class="input-group">
+		<span class="input-group-addon" id="sizing-addon2">HTTP GET</span>
+		<input style="cursor:pointer;" readonly type="text" class="form-control" placeholder="" value="http://designing-video.com/plml/patterns" aria-describedby="sizing-addon2">
+	</div>
+  
+  
+  <h3>Video Learning Environments</h3>
+   <div class="input-group">
+  <span class="input-group-addon" id="sizing-addon2">HTTP GET</span>
+  <input style="cursor:pointer;" readonly type="text" class="form-control" value="http://designing-video.com/json/portals" aria-describedby="sizing-addon2">
+</div>
+  
+  <h3>Images</h3>
+   <div class="input-group">
+  <span class="input-group-addon" id="sizing-addon2">HTTP GET</span>
+  <input style="cursor:pointer;" readonly type="text" class="form-control" value="http://designing-video.com/json/images/all" aria-describedby="sizing-addon2">
+</div>
+ 
+  <p hidden>
+    <a class="btn btn-lg btn-primary" href="../../components/#navbar" role="button">View navbar docs &raquo;</a>
+  </p>
+  
+ 
+</div>
+  
+  
+</div>
+
+
+

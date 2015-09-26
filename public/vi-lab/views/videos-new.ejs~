@@ -1,0 +1,39 @@
+<% layout( 'admin-layout' ) -%>
+ 
+<h2>Add new video</h2> 
+<div class="edit-form">
+      
+      <form action="/videos/create" method="post" accept-charset="utf-8">
+        <label>Titel: </label>
+        <input type="text" name="title" value="" />
+        <br>
+        
+        <label for="form-url">Video-URL: </label>
+        <input type="text" name="video" id="form-url" value="" />
+        <br>
+        
+        <label for="form-author">Autor/Referent: </label>
+        <input type="text" name="author" id="form-author" value="" />
+        <br>
+        
+        <label for="form-abstract">Kurzbeschreibung: </label>
+        <textarea name="abstract" id="form-abstract"></textarea>
+        <br>
+        
+        <label for="form-category">Kategorie: </label>
+        <input type="text" name="category" id="form-category" value="" />
+        <br>
+        
+        <% id = Math.random()*9999 %>
+        <input type="hidden" name="id" value="" />
+        
+        <div class="buttons">
+        	<button type="submit">save</button>  <a href="/admin/videos/">cancel</a>
+        </div>
+      </form>
+</div>
+
+
+
+ 
+

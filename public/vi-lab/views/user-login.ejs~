@@ -1,0 +1,24 @@
+<% layout('layout') -%>
+
+<h2>Login oder <a href="/users/register">neu registrieren</a></h2>
+
+<% if (message) { %>
+<p><%= message %></p>
+<% } %>
+
+  <p>
+    <div class="edit-form">
+			<form action="/login" method="post">
+				<label>Benutzername/E-Mail:</label>
+				<input type="text" name="username" value="<% if (username) { %><%= username %><% } %>"/><br/>
+				<br>
+				<label>Passwort:</label>
+				<input type="password" name="password" value="<% if (password) { %><%= password %><% } %>"/>
+				<br>
+				<div class="buttons full">
+        	<button style="width:510px;float:right;" class="edit-btn" type="submit">login</button><!--<a href="/videos/">cancel</a>-->
+        </div>
+			</form>
+		</div>
+	</p>	
+

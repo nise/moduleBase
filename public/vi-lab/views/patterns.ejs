@@ -1,0 +1,159 @@
+<% layout( 'layout' ) -%>
+
+
+<!-- Main component for a primary marketing message or call to action -->
+
+  <!-- Main component for a primary marketing message or call to action -->
+<div class="jumbotron">
+	<div class="container">
+  <h2>Video Interaction Design Patterns</h2>
+  <p hidden>This example is a quick exercise to illustrate how the default, static and fixed to top navbar work. It includes the responsive CSS and HTML, so it also adapts to your viewport and device.</p>
+ 
+  <p hidden>
+    <a class="btn btn-lg btn-primary" href="../../components/#navbar" role="button">View navbar docs &raquo;</a>
+  </p>
+  </div>
+</div>
+
+<div class="container">
+		<!-- Default panel contents -->
+		<div class="panel-body">  
+			<div class="btn-group" role="group" aria-label="...">
+				<a type="button" class="btn btn-default navbar-btn all-btn vp-filter">All</a>
+				<a type="button" class="btn btn-default navbar-btn structure-btn vp-filter">Structure</a>
+				<a type="button" class="btn btn-default navbar-btn network-btn vp-filter">Network</a>
+				<a type="button" class="btn btn-default navbar-btn wizzard-btn vp-filter">Wizzard</a>
+				<a type="button" class="btn btn-default navbar-btn playlist-btn vp-filter">Playlist</a>
+			</div>
+			<!-- List group -->
+			<ul class="list-group wizzard vp-overview">
+				<li class="list-group-item">
+					<input name="wizzard-f1" id="switch-onText"  class="wizzard-switch" type="checkbox" data-on-text="Yes" data-off-text="No" data-size="mini">
+					Beinhaltet die Lernumgebung mehrere Medien (z.B. Videos, Bilder, Texte/Hypertexte)?
+				</li>
+			 	<li class="list-group-item">
+					<input name="wizzard-f2" id="switch-onText"  class="wizzard-switch" type="checkbox" data-on-text="Yes" data-off-text="No" data-size="mini">
+					Sind mehrere Videos in die Anwendung integriert?
+				</li>
+		 		<li class="list-group-item">
+					<input name="wizzard-f3" id="switch-onText"  class="wizzard-switch" type="checkbox" data-on-text="Yes" data-off-text="No" data-size="mini">
+					Stellen Sie weitere Medien synchron zum Video dar?
+				</li>
+		 		<li class="list-group-item">
+					<input name="wizzard-f4" id="switch-onText"  class="wizzard-switch" type="checkbox" data-on-text="Yes" data-off-text="No" data-size="mini">
+					Umfasst Ihre Zielgruppe Personen mit eingeschränkten visuellen, auditiven oder sprachlichen Fähigkeiten (z.B. Personen mit Sehschwäche, Schwerhörige oder Nicht-Muttersprachler)?
+				</li>
+		 		<li class="list-group-item">
+					<input name="wizzard-f5" id="switch-onText"  class="wizzard-switch" type="checkbox" data-on-text="Yes" data-off-text="No" data-size="mini">
+					Möchten Sie innerhalb der Videos oder zwischen Videos und anderen Lernressourcen Verknüpfungen herstellen?
+				</li>
+		 		<li class="list-group-item">
+					<input name="wizzard-f6" id="switch-onText"  class="wizzard-switch" type="checkbox" data-on-text="Yes" data-off-text="No" data-size="mini">
+					Ist mindestens ein Video länger als 10 Minuten?
+				</li>
+		 		<li class="list-group-item">
+					<input name="wizzard-f7" id="switch-onText"  class="wizzard-switch" type="checkbox" data-on-text="Yes" data-off-text="No" data-size="mini">
+					Besitzt mindestens ein Video eine hohe visuelle Dynamik oder viele visuelle Details?
+				</li>
+		 		<li class="list-group-item">
+					<input name="wizzard-f8" id="switch-onText"  class="wizzard-switch" type="checkbox" data-on-text="Yes" data-off-text="No" data-size="mini">
+					Ist die Menge an Lerninhalten unveränderlich oder prinzipiell durch die Lernenden erweiterbar?
+				</li>
+		 		<li class="list-group-item">
+					<input name="wizzard-f9" id="switch-onText"  class="wizzard-switch" type="checkbox" data-on-text="Yes" data-off-text="No" data-size="mini">
+					Sollen sich die Lernenden selbstständig mit den Lernressourcen auseinandersetzen?
+				</li>
+		 		<li class="list-group-item">
+					<input name="wizzard-f10" id="switch-onText"  class="wizzard-switch" type="checkbox" data-on-text="Yes" data-off-text="No" data-size="mini">
+					Beabsichtigen Sie die Schaffung eines Rückkanals für Kommentare oder Anmerkungen?
+				</li>
+		 		<li class="list-group-item">
+					<input name="wizzard-f11" id="switch-onText"  class="wizzard-switch" type="checkbox" data-on-text="Yes" data-off-text="No" data-size="mini">
+					Interagieren die Lernenden innerhalb der Anwendung miteinander oder bearbeiten sie eine gemeinsame Aufgabe?
+				</li>
+		 		<li class="list-group-item">
+					<input name="wizzard-f12" id="switch-onText"  class="wizzard-switch" type="checkbox" data-on-text="Yes" data-off-text="No" data-size="mini">
+					Gehen Sie davon aus, dass Ihre Zielgruppe vornehmlich mobile Endgeräte mit kleinem Display nutzt?
+				</li>
+			</ul>
+		</div>
+</div>
+
+
+<div class="container">
+<% i = 0 %>
+<% items.forEach( function ( item ){ %>
+<% i++ %>
+	<div class="col-md-2 portfolio-item" id="<%=: item.name | replace:/\ /g,'-' | downcase  %>">
+		<div class="panel panel-default pattern-card">
+			<h5><a class="" href="/patterns/view/<%=: item.name | replace:/\ /g,'-' %>"><%= item.name %></a> 
+				<a class="button" style="display:none;float:right;" href="/patterns/edit/<%= item._id %>" title="Update this item item"><span class="right glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+			</h5>
+
+			<% if (item.evidence.length > 0) { %>
+		 			<img	class="card-image" src="/vi-lab/img/screenshots/<%= item.evidence[0].example %>"/><br> 
+		 			<span hidden class="mark"><%= item.evidence[0].rational %></span>
+			<% } %>
+			<span onclick="javascript:addToFav('<%= item.name %>')" class="glyphicon glyphicon-plus  add-fav" aria-hidden="true"></span>	
+		</div>
+	</div>	
+<% }); %>	
+</div>
+
+
+
+<script>
+$(document).ready (function () {  
+
+	$.get('/json/images/all', function(data){ return;
+		$.each(data, function(i, val){ 
+			var image = $('<img/>')
+				.attr('src', val.url)
+				.attr('alt', val.filename);
+			var link = $('<a></a>')
+				.attr('href','#')
+				.addClass('thumbnail')
+				.append(image);
+			var div = $('<div></div>')
+				.addClass('col-xs-12 col-md-6')
+				.append(link); //alert('#'+String(val.portal).replace(/\ /g, '-')+'.panel-body.row')
+			var t = $('#'+String(val.portal).replace(/\ /g, '-')+' .panel .panel-body .row')
+				.append(div);
+		});
+	});
+	
+	$(".wizzard-switch").bootstrapSwitch();
+	
+	$('.vp-overview').hide();
+	
+	$('.vp-filter').click(function() {
+		if( $(this).hasClass('all-btn') ){
+			$('.portfolio-item').show();
+		}else if( $(this).hasClass('wizzard-btn') ){
+			$('.network').hide( "slow" );
+			$('.structure').hide( "slow" );
+			$('.playlist').hide( "slow" );
+			$('.wizzard').toggle( "slow" );
+		}else if( $(this).hasClass('network-btn') ){ 
+			$('.wizzard').hide( "slow" );
+			$('.structure').hide( "slow" );
+			$('.playlist').hide( "slow" );
+			$('.network').toggle( "slow" );
+		}else if( $(this).hasClass('structure-btn') ){ 
+			$('.network').hide( "slow" );
+			$('.wizzard').hide( "slow" );
+			$('.playlist').hide( "slow" );
+			$('.structure').toggle( "slow" );
+		}else if( $(this).hasClass('playlist-btn') ){
+			$('.network').hide( "slow" );
+			$('.wizzard').hide( "slow" );
+			$('.structure').hide( "slow" );
+			fetchAll();
+			//$('.playlist').toggle( "slow" );
+		}		
+	});
+	
+	
+});	// end document ready
+</script>
+

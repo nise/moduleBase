@@ -1,0 +1,5143 @@
+/* class Observer 
+	author: niels.seidel@nise81.com
+
+	- clear overlay-container and other at updateVideo()
+	- allow page back, offer bread crumb menu, ...
+	- RSS: http://code.google.com/apis/youtube/2.0/reference.html
+
+	code design
+	- use delegate(obj, func) instead of _this
+	- Error handling: throw new Error('...');
+
+	*/
+	var Observer = $.inherit(/** @lends Observer# */{
+	
+	/** 
+	*		@constructs
+	*		@params {object} options  
+	*/
+	__constructor : function(options) { 
+		this.options = $.extend(this.options, options);
+		this.widget_list = new Object(); // Assoc Array is an Object // Object.size(this.widget_list)
+		this.clock = new Clock({}, this.options.clockInterval); 
+		//this.init();	
+
+		//this.testing();
+	},
+	
+	// defaults
+	name : 'observer',
+	options : {id: 'start', embed: true, selector: '#screen', clockInterval: 500, videoSelector: '#video1', videoWidth:500, videoHeight:375, wrapControls:'#container', markupType: 'wiki', childtheme:''},
+	pieList : $('<ul></ul>').attr('class', 'pieContextMenu').attr('id', 'menu'),
+	player : undefined,
+	clock : undefined,
+	parseSelector : '',
+	widget : undefined,
+	widget_list : [],
+	hooks : [],
+	vid_arr : [],
+	current_stream : 'start',
+	parser : '',
+	
+	/* .. */
+	setCurrentStream : function(stream){ 
+		this.current_stream = stream;
+		$(vi2.dom)
+			.empty()
+			.append(vi2.db.getVideoById(stream)); 
+		this.annotationsToDOM();
+		this.clock.stopClock();
+		this.clock.reset(); 
+		var metadataa = new Metadata(vi2.db.getMetadataById(stream));
+		var p = new Parser(vi2.dom, 'html'); // parse the DOM
+		this.vid_arr = p.run(); 
+	},
+
+	/* -- */
+	parse : function(selector, markupType){  
+		this.parseSelector = selector;
+		this.parser = new Parser(selector, markupType == null ? this.markupType : markupType);
+		this.vid_arr = []; 
+		this.vid_arr = this.parser.run();
+		this.clock.stopClock();
+		this.clock.reset(); 
+		this.player.loadSequence(this.vid_arr);  
+					
+	},
+	
+
+	/* -- */
+	init : function(){  
+		var _this = this;
+		var videoo = $('<video controls autobuffer></video>')
+				.attr('id', this.options.videoSelector.replace(/\#|./,''))
+				.text('Your Browser does not support either this video format or videos at all');
+		$(this.options.selector).html(videoo);
+		this.player = new Video({embed: this.options.embed, selector: this.options.videoSelector, width:this.options.videoWidth, height:this.options.videoHeight, wrapControls: this.options.wrapControls, theme:this.options.theme, childtheme:this.options.childtheme}, this);
+		this.clock.player = this.player; 
+
+		// some event bindings hooks
+		$(this).bind('player.ready', function(e, id, i){ 
+			_this.setAnnotations();
+		});
+	},
+	
+	
+	/**
+	*
+	*/
+	setAnnotations : function(){  
+		var _this = this; 
+		_this.clock.annotations = [];				
+		_this.vid_arr = _this.parser.run(); 
+		
+		$.each(_this.vid_arr[0]['annotation'], function(i, val){ 		
+			_this.clock.addAnnotation(val);
+		}); 
+		
+		// initiate widgets
+		$.each(_this.widget_list, function(j, val){
+			this.init(_this.vid_arr[0]['annotation']);
+				
+		});
+		vi2.enableEditing('toc');
+		
+	},
+  		
+  		
+	/** -- */
+	checkVideo : function(){
+		// proof against available videos
+		if(!!document.createElement('video').canPlayType){
+			var vidTest = document.createElement("video");
+			oggTest = vidTest.canPlayType('video/ogg; codecs="theora, vorbis"');
+			if (!oggTest){
+				h264Test = vidTest.canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"');
+				if (!h264Test){
+					alert("Sorry. No video support.");
+				}else{
+					if (h264Test == "probably"){
+						//document.getElementById("checkVideoResult").innerHTML="Yeah! Full support!";
+					}else{
+						//document.getElementById("checkVideoResult").innerHTML="Meh. Some support.";
+					}
+				}
+			}else{
+				if (oggTest == "probably"){
+					//document.getElementById("checkVideoResult").innerHTML="Yeah! Full support!";
+				}else{
+					//document.getElementById("checkVideoResult").innerHTML="Meh. Some support.";
+				}
+			}
+		}else{
+			alert("Sorry. No video support. xx");
+		}
+	}, 
+			
+			
+	/* -- */
+	updateLocation : function(identifier, value){ 
+		// Exeption for IWRM Education
+		if(value == 'Introduction'){
+			window.location.replace(window.location.href.split('#')[0]+'#!borchardt2');
+			return;
+		}
+		window.location.replace(window.location.href.split('#')[0] + '#!'+identifier+':'+value.replace(/\ /g, '_'));
+	},
+  		  		
+  		  		
+/* WIDGETS *********/
+
+	/* -- */
+	isWidget : function(widget){
+		return this.widget_list[widget] != null;	
+	},
+
+
+	/* -- */ // - kill switch()!
+	addWidget : function(obj){ 
+		if(this.widget_list[obj.name] != null){ 
+			//return false;
+		}
+		var _this = this;   	
+		obj.player = this.player; 
+		this.clock.addHook(obj.name, obj);	
+
+		if(obj.type == 'annotation'){  
+			obj.appendToDOM(this.options.id);
+		}	
+
+		switch(obj.name){
+			case 'tags' : // no event bindings	
+				break;
+			case 'xlink' : 
+				 $(this.player).bind('annotation.begin.'+obj.name, function(e, a, b){ obj.begin(e, a, b);});
+				 $(this.player).bind('annotation.end.'+obj.name, function(e, a){ obj.end(e, a);});
+				//	_this.addPieItem('tag', 'img/ff.png', 'alert("addLink");'); // authoring mode
+				break;
+			case 'relatedVideos' :
+				$(this.player).bind('video.end', function(e, a){ obj.showLinkSummary(); });
+				break;  
+			case 'search' : 
+				// ...
+				break;	
+			case 'syncMedia' : 
+				 $(_this.player).bind('annotation.begin.'+obj.name, function(e, a, b){ obj.begin(e, a, b);});
+				 $(_this.player).bind('annotation.end.'+obj.name, function(e, a){ obj.end(e, a);});
+				//_this.addPieItem('tag', 'img/ff.png', 'alert("addSignal");');
+				break;	
+			case 'seqv' :
+				// bind to sync both videos
+				break;
+				case 'map' : // not fully implemented
+				 $(_this.player).bind('annotation.begin.'+obj.name, function(e, a, b){ obj.begin(e, a, b);});
+				 $(_this.player).bind('annotation.end.'+obj.name, function(e, a){ obj.end(e, a);});
+				break;
+			case 'assessment' :
+				$(this.player).bind('annotation.begin.'+obj.name, function(e, a, b){ obj.begin(e, a, b);});
+				$(this.player).bind('annotation.end.'+obj.name, function(e, a){ obj.end(e, a);});
+			 	break;		
+			case 'toc' :
+				//obj.clock = this.clock; 
+				$(this.player).bind('annotation.begin.'+obj.name, function(e, a, b){ obj.begin(e, a, b);});
+				$(this.player).bind('annotation.end.'+obj.name, function(e, a){ obj.end(e, a);});
+				//_this.addPieItem('tag', 'img/ff.png', 'alert("addSignal");');
+				break;
+			case 'log' :
+				$(this.player).bind('log', function(e, msg){ obj.add(msg); });
+				break;
+			//case 'trace' :
+				//break;	 
+
+		}
+	
+		// register widget	
+		this.widget_list[obj.name] = obj;   
+		return true; 
+	},
+	
+	/* -- */
+	removeWidget : function(widget_name){
+		// bugy?
+		this.widget_list[widget_name] = 0;
+	},
+
+	/* -- */
+	isWidget : function(name){
+		if(this.widget_list.indexOf("118") != -1){
+			return true;
+		}
+		return false;
+	},
+
+	/* append annotation data of widgets to DOM */
+	annotationsToDOM : function(){ 
+		var _this = this; 
+		$.each(this.widget_list, function(i, widget){ 
+			if(widget.type == 'annotation'){ 
+				widget.appendToDOM(_this.current_stream);
+			}
+		});
+	},
+  		  		
+  		
+  		
+  		
+/* HOOKS *********/
+// could all be done with event binding and trigger, like: $(_this.player).bind('annotation.begin.'+obj.name, function(e, a, b){ alert('a');});
+  		
+  		/* -- */
+  		isHook : function(widget, hook_name){
+  			return this.hooks[widget+'_'+hook_name] != null;	
+  		},
+
+  		
+  		/* -- */
+  		registerHook : function(widget, hook_name){
+  			return this.hooks[widget+'_'+hook_name] = [];	
+  		},
+  		  		
+  		/* not used anymore */
+			setHook : function(widget, hook_name, func){ 
+				if(this.isWidget(widget)){
+					if (this.isHook(widget, hook_name)){
+						// set hook 
+						//this.hooks[widget+'_'+hook_name].push({hook_name: hook_name, func: func});
+						$(this).bind(hook_name, func); // function(e, a, b){ alert('a');}
+						return true;
+					}else{ 
+						throw new Error('Vi2 Error: The hook '+hook_name+' you are trying set is not registered at widget '+widget+'.');
+					}
+				}
+				throw new Error('Vi2 Error: Widget '+widget+' does not exist.');
+			},
+			
+			/* -- */
+			callHook : function(widget, hook_name, param){ 
+				var _this = this;
+				if (this.isHook(widget, hook_name)){
+//					$.each(this.hooks[widget+'_'+hook_name], function(i, val){
+						$(_this).trigger(hook_name, param);
+//					});
+				} else {
+					throw new Error('Vi2 Error: Called undefined Hook: '+widget+'_'+hook_name+'.');
+				}
+			},
+			
+			test : function(e){
+				alert('test called '+e);
+			},
+			
+			test2 : function(e){
+				alert('test 2 called '+e);
+			},
+						
+			/* -- */
+  		updateVideo : function(id, i){ 
+		  	
+				var _this = this;   		
+  			
+  			
+/*
+
+  			// hook testings
+  			this.hooks = [];
+  			this.registerHook('xlink', 'maintest'); // 
+		  	this.setHook('xlink', 'maintest', function(e, a) {main.test(a);});
+		  	this.setHook('xlink', 'maintest', function(e, a) {main.test2(a);});
+		 		this.callHook('xlink', 'maintest', ['hello world']); 
+
+
+				this.clock.annotations = [];				
+  			$.each(this.vid_arr[i]['annotation'], function(i, val){
+  				_this.clock.addAnnotation(val);
+  			});
+  			
+				if(_this.widget_list['xlink'] != null){
+	  			_this.widget_list['xlink'].clear();
+  				_this.widget_list['xlink'].init(_this.vid_arr[i]['annotation']);
+  			}
+  			if(_this.widget_list['toc'] != null){ 	  				
+	  			_this.widget_list['toc'].init(_this.vid_arr[i]['annotation']);						
+	  		}
+	  		// if there is a sequential video, play it
+	  		if(_this.widget_list['seqv'] != null){ 	  				
+	  			_this.widget_list['seqv'].init();//_this.vid_arr[i]['annotation']);						
+	  		}
+*/
+  		},
+			
+			/* -- */
+			ended : function(){ 
+				var _this = this;
+				// _this.clock.reset(); // if enabled slide sync does not work after vides has ended.
+			},
+			
+			/* -- */
+			pause : function(){ 
+				var _this = this;
+				_this.clock.stopClock();
+			},
+
+			/* -- */
+			play : function(){ 
+				var _this = this;
+				_this.clock.startClock();
+			},
+			
+			/* -- */
+			log : function(msg){
+				$(this.player).trigger('log', [msg]);
+			},
+			
+			/* -- */
+			destroy : function(){
+				$('video').stop();
+				this.clock.reset();
+				$('#hydro1').empty();
+			},
+			  		
+			
+			
+			  		
+			  		
+/* AUTHORING *********/			  		
+  		
+  		/* -- */
+  		addPieItem : function(_name, _img, _callback){
+  			var item = $('<li></li>')
+  				.append($('<img / >')
+  					.attr('src', _img)
+  					.attr('alt','')
+  					.attr('href','#')
+//  					.bind('mouseup', {}, function(){ window.[_callback]; })
+  				);
+  			this.pieList.append(item);
+  		},  
+  		
+  		/* -- */
+  		openScreen : function(selector){ 
+  			if(selector == undefined){
+  				selector = '.vi2-video-player'; 
+  			}
+  			//this.player.pause();
+  			if($('.screen').length == 0){
+				var screen = $('<div></div>')
+					.addClass('screen');
+					//.width($(selector).width()-18)
+					//.height($(selector).height()-10)
+				}
+				$('.screen').show()
+					.appendTo(selector);
+			
+  			return screen;
+  		},
+  		
+  		/* -- */
+  		closeScreen : function(){
+  			$('.screen').remove();
+  			this.player.play();
+  		},	
+ 
+  
+  
+  
+  
+  
+  
+	/* -- */
+  		testing : function(){
+  			// sequential videos
+  			var arr = [];
+				arr[0] = [];	arr[1] = []; arr[2] = [];
+				arr[2]['url'] = 'http://127.0.0.1/elearning/videos/Compi.ogg';
+				arr[1]['url'] = 'http://127.0.0.1/elearning/videos/bunny.ogg';
+				arr[0]['url'] = 'http://127.0.0.1/elearning/videos/type.ogv';
+				//this.player.loadSequence(arr);
+				
+				this.clock.annotations.push({content: {title: 'hallo', target:'1.JPG'}, linktype:'', type: 'seq', displayPosition: {x: 0, y: 0, t1: 0, t2: 5}});
+				this.clock.annotations.push({content: {title: 'hallo', target:'4.JPG'}, linktype:'', type: 'seq', displayPosition: {x: 0, y: 0, t1: 5, t2: 10}});
+				this.clock.annotations.push({content: {title: 'hallo', target:'3.JPG'}, linktype:'', type: 'seq', displayPosition: {x: 0, y: 0, t1: 10, t2: 15}});
+				//
+  		}
+  		
+  });
+	
+	
+	
+	
+	
+		
+	
+	
+	/* DataBase
+	author: niels.seidel@nise81.com
+	
+	- call_back als Event umsetzen
+	- filenames as parameter
+	- handle different data sets
+	
+	*/
+
+
+	/* class DataBase **/ 
+	var DataBase = $.inherit(/** @lends DataBase# */{
+
+		/** 
+		*		@constructs
+		*		@param {object} options An object containing the parameters
+		*		@param {function} call_back Function that will be called after relevant data is available 
+		*/
+  	__constructor : function(options, call_back, fn, video_id) {  
+  		this.call_back = call_back;
+  		var _this = this;
+  		this.options = $.extend(this.options, options); 
+  		this._d = 0;
+  		this.jsonFiles_arr = [
+  			{path: this.options.path+'/videos/'+video_id, storage: 'json_data'}, 
+  			{path: this.options.path+'/groups', storage: 'json_group_data'},
+//  			{path: this.options.path+'data-slides.min.json', storage: 'json_slide_data'},
+  			{path: this.options.path+'/users', storage: 'json_user_data'}
+  		]; 
+  		$.each(this.jsonFiles_arr, function(key, file) { 
+        console.log("making requst for " + file);  
+        _this.loadJSON(file.path, file.storage, fn);
+       });
+		},
+				
+		name : 'dataBase',
+		options : {path:'./'}, // ?
+		call_back : {},
+		jsonFiles_arr : '',
+		_d : 0,
+		json_data : {},
+		json_slide_data : {},
+		json_user_data : {},
+		content_selector : '#content',
+		dom : '#hydro1', // unused
+		
+
+	/**
+	*	@param {Sring} URL of JSON file
+	*	@param {Object} Internal Object where the fetched data will be stored for processing within the class 
+	*/
+	loadJSON : function(jsonURL, storage, fn){ 
+		var _this = this;
+    $.ajax({
+        type: "get",
+        beforeSend: function(xhr){
+    				if (xhr.overrideMimeType){
+				      xhr.overrideMimeType("application/json");
+    				}
+  			},
+        url: jsonURL,
+        dataType: 'json',
+        success: function(data){   
+            console.log("got " + jsonURL);
+            _this[storage] = data;  //alert(JSON.stringify(data))
+            _this._d++; 
+            if (_this._d == Object.size(_this.jsonFiles_arr)){ 
+            	console.log('done'); 
+            	// call
+            	_this.call_back[fn]();
+            	
+            }
+        },
+        error: function(e){
+        	
+        	window.location = "http://localhost:3000/login"; 
+					var err = new Error('Could not catch data');
+				}
+    });
+	},
+
+
+/* DB Calls */	
+	
+	/* returns true if stream of id exists */
+	isStream : function(id){
+		var t = false;
+		$.each(this.json_data, function(val){
+			if (this.id == id){
+				t = true;
+			}
+		});
+		return t;
+	},
+		
+	//get stream by id
+	getStreamById : function(id){ 
+		var stream = {}; 
+		$.each(this.json_data, function(i, val){ 
+			if (this.id == id){  
+				stream = this; 
+			}
+		});
+		return stream;
+	},
+			
+
+
+	/* CATEGORIES*/
+
+	/* returns data of all categories */
+	getAllCategories : function(){ 
+		return this.json_data.categories;
+	},
+	
+	
+	// returns ordered list of all categories
+	getCategoryTaxonomie : function(){
+		var cat = new Object();
+		$.each(this.json_data.categories, function(i,val){ 
+				cat[this.pos] = {first_level: this.title, desc: this.desc};
+		}); 
+		return cat;
+	},
+	
+	
+	/* returns data of the requested category */
+	getCategory : function(cat_name){
+		var data = {};
+		$.each(this.json_data.categories, function(i,val){ 
+			if(this.title == cat_name){
+				data = {first_level: this.title, desc: this.desc, pos: this.pos, link: this.link, icon:this.icon};
+			} 
+		}); 
+		return data;
+	},
+	
+
+	/* META DATA */
+
+	//
+	getMetadataById : function(id){
+		return this.getStreamById(id).metadata[0];
+	},
+		
+	//get all titles
+	getTitles : function(){
+		var titles = [];
+		$.each(this.json_data, function(val){
+				titles.push({first_level: this.metadata[0].title});
+		});
+		return removeDuplicates(titles);
+	},
+	
+	//get all authors
+	getAuthors : function(){
+		var authors = [];
+		$.each(this.json_data, function(val){
+				authors.push({first_level: this.metadata[0].author});
+		});
+		return removeDuplicates(authors);
+	},
+	
+	/* - - */
+	getStreamsOfSameAuthor : function(id){
+		var author = this.getMetadataById(id).author; 
+		var authors = [];
+		$.each(this.json_data, function(i, stream){ 
+				if(stream.metadata[0].author == author && stream.id != id){ 
+					authors.push(stream.id); //$('#debug').val($('#debug').val() + stream.id);
+				}
+		});
+		return authors;
+	}, 
+	
+	
+
+	/* TAGS */	
+
+	/* returns all tags of a video/stream **/
+	getTagsById : function(id){
+		return this.getStreamById(id).tags;
+	},
+	
+	/* returns all comments related to an video **/
+	getCommentsById : function(id){
+		return this.getStreamById(id).comments;
+	},
+		
+	/* returns all tags related to the whole video collection **/
+	getTagList : function(){
+		var tags = [];
+		$.each(this.json_data, function(val){
+			$.each(this.tags, function(val){
+				tags.push({first_level: this.tagname});
+			});
+		});
+		return this.removeDuplicates(tags).sort();
+	},
+	
+	/* returns ordered list of all tags */
+	getTagTaxonomie : function(){ 
+		var tax = [];
+		$.each(this.json_data._taxonomy, function(i, stream){
+			tax.push({first_level: this.id, second_level: this.sub});	
+		});
+		return tax;
+	},
+	
+	/* -- */ 
+	getStreamsWithSameTag : function(id){
+		var _this = this;
+		var streams = [];
+		var tags = this.getStreamById(id).tags; 
+		$.each(tags, function(i, the_tag_name){	
+			$.each(_this.json_data, function(j, stream){  
+				$.each(stream.tags, function(k, tag){ 
+					if(this.tagname == the_tag_name.tagname){ 
+					 streams.push(stream.id); //$('#debug').val($('#debug').val() +' '+ stream.id);
+					}
+				});
+			});			
+		});
+		return streams;
+	},
+	
+	
+
+	/* LINKS */
+	
+		/* -- */
+	getLinkTargetsById : function(id){
+		var links = []; 
+		$.each(	this.getStreamById(id).links, function(val){ 
+			links.push(this.target);  //$('#debug').val($('#debug').val() + this.target);
+		});
+		return	links;
+	},
+	
+	/* -- */
+	getLinkSourcesById : function(id){
+		var links = [];	
+		$.each(this.json_data, function(i, stream){
+			$.each(stream.links, function(i, link){
+				if(this.target == id){
+				 links.push(stream.id); //$('#debug').val($('#debug').val() +' '+ stream.id);
+				}
+			});
+		});			
+		return links;	
+	},
+	
+	/* -- */ 	
+	getLinksById : function(id){
+		return this.getStreamById(id).links; 
+	},
+	
+	/* -- */ 	
+	getAssessmentById : function(id){ 
+		return this.getStreamById(id).assessment; 
+	},
+	
+	
+	/* returns table of content of the requested video */
+	getTocById : function(id){ 
+		return this.getStreamById(id).toc
+	},
+	
+	
+	/** 
+	*	@param {String} Video id
+	*	@returns {Object} JSON object with temporal annotation of images/slides of video with the given id.
+	*/ 	  
+	getSlidesById : function(id){
+		var slides = {}; 
+		$.each(this.json_slide_data._slides, function(i, val){ 
+			if (this.id == id){  
+				slides = this.slides;
+			}
+		}); 
+		return slides;
+	}, 
+	
+	
+	/**
+	
+	*/
+	getUserById : function(id){
+		var user = {}; 
+		$.each(this.json_user_data, function(i, val){ 
+			if (this.id == id){  
+				user = this;
+			}
+		}); 
+		return user;
+	}, 
+		
+		
+	/**
+	
+	*/
+	getGroupById : function(id){
+		var group = {}; 
+		$.each(this.json_group_data, function(i, val){ 
+			if (this.id == id){  
+				group = this;
+			}
+		}); 
+		return group;
+	},
+	
+	/* --- **/
+	getUserByGroupId : function(group, pos){ //alert(group+'  '+pos)
+		var u = [];
+		$.each(this.json_user_data, function(i, val){ 
+			if (this.groups[pos] == group){  
+				u.push(this);
+			}
+		});
+		
+		return u;
+	}, 
+				
+	
+
+
+
+
+
+
+	
+
+	
+
+
+
+	
+
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+/* TO CLEAN UP */	
+
+	//
+	getVideoById : function(id){ 
+		var video = $('<div></div>')
+			.attr('type',"video")
+			.attr('starttime',0)
+			.attr('duration',7)
+			.attr('id', "myvideo")
+			.text(this.getStreamById(id).video);  
+		return video;
+	}
+	
+	/* returns stream by its title  // xxx remove rendering code
+	getStreamsByTitle : function(title_name){
+		var _this = this;
+		var template = $("#item_template").val();
+		
+		$(_this.content_selector)
+			.empty()
+			.trigger('clear');
+			//.append($('<h2></h2>').text('Lectures in category: '+title_name));
+
+		$.each(this.json_data.stream, function(i, stream){
+				if(stream.metadata[0].title == title_name){
+					var item =$('<div></div>')
+						.addClass('content-item')
+						.setTemplate(template)
+						.processTemplate(stream)
+						.appendTo($(_this.content_selector));
+				}
+		});
+		//$('.text').hidetext();
+		// reset drop downs
+		$('.getStreamsByTag').val(-1);
+		$('.getStreamsByCategory').val(-1);
+	},
+	*/
+	
+	
+	
+	}); // end class DataBase	
+/* 	PARSER
+		author: niels.seidel@nise81.com
+
+	- separate widget-code 
+	- show code box
+	- inherit sub parser from Parser
+	- write complex testing function
+	- apply standard TTML: http://www.w3.org/TR/2010/REC-ttaf1-dfxp-20101118/#example
+*/
+
+
+
+var Parser = $.inherit(/** @lends Parser# */
+	{
+			/** 
+			*		@constructs 
+			*		@param {Selector} selector Indicates the DOM selector that contains markup code to be parsed
+			*		@param {String} type Defines which markup, 'wiki' or 'html', is going to be parsed
+			
+			*/
+  		__constructor : function(selector, type) {
+  			this.selector = selector;
+  			this.type = type;
+  			//this.run();
+  		},
+  		
+			vid_arr : [],
+			selector : '',
+			
+			/* ... */
+			run : function(){
+				switch(this.type){
+					case 'wiki' :
+						return this.parseWiki();
+					case 'html' :
+						return this.parseHtml();
+				}
+			},	
+			
+			/* ... */
+			parseWiki : function(){ 
+				var _this = this;
+			  var v_id = -1;
+			  // dirty hack for mediawiki xxx
+			  $(this.selector).val($(this.selector).val().replace(/\<p\>/, ''));
+				// go through markup lines
+  			$($(this.selector+' > p').text().split(/\n/)).each(function(i, val){ 
+  				if(val.substr(0,8) == "[[Video:" || val.substr(0,8) == "[[video:"){ 
+						// parse videos to sequence
+						v_id++; 	  				  		
+  					_this.vid_arr[v_id] = _this.parseWikiVideo(val);
+	  				}else if(val.substr(0,2) == "[["){
+	  				// parse hyperlinks related to the latter video 
+  					_this.vid_arr[v_id]['annotation'].push(_this.parseWikiHyperlink(val)); //alert('ok_'+val);  					
+  				}else{
+  					//alert('bug_'+val);
+  				}
+  			}); 			
+				return this.vid_arr;  			
+			},
+			
+			/* ... */
+			parseHtml : function(){ 
+				var _this = this;
+			  var v_id = -1;
+			  var arr = [];
+			  var obj = {};
+  			$('div'+this.selector+' div').each(function(i, val){ 
+  				if($(this).attr('type') == "video"){ 
+  					// video
+  					arr = [];
+  					arr['id'] = $(this).attr('id'); 
+  					arr['url'] = $(this).text();
+  					arr['seek'] = $(this).attr('starttime') == undefined ? 0 : $(this).attr('starttime');
+  					arr['duration'] = $(this).attr('duration') == undefined ? 0 : $(this).attr('duration');
+  					arr['annotation'] = [];
+						v_id++; 
+  					_this.vid_arr[v_id] = arr; 
+  					
+  				}else if($(this).attr('type') == "xlink"){ 
+  					// standard and external links
+  					obj = {};
+						obj.title = $(this).attr('id');
+						obj.target = $(this).text();
+						obj.linktype = 'standard';
+						obj.type = 'xlink';
+						obj.x = $(this).attr('posx');
+						obj.y = $(this).attr('posy');
+						obj.t1 = $(this).attr('starttime') == undefined ? 0 : $(this).attr('starttime');
+						obj.t2 = $(this).attr('duration') == undefined ? 0 : $(this).attr('duration');
+						obj.seek = $(this).attr('seek')
+						obj.duration = $(this).attr('duration2')
+  				
+						// distinguish link types
+						if(obj.target.match(/(^http:)/)){ obj.linktype = 'external'; } // external link
+  					
+  					
+  					_this.vid_arr[v_id]['annotation'].push(obj);
+  					
+  				}else if($(this).attr('type') == "cycle"){ 
+  					// 
+  					obj = {};
+						obj.title = $(this).attr('id');
+						obj.target = $(this).text();
+						obj.linktype = 'cycle';
+						obj.type = 'xlink';
+						obj.x = $(this).attr('posx');
+						obj.y = $(this).attr('posy');
+						obj.t1 = $(this).attr('starttime') == undefined ? 0 : $(this).attr('starttime');
+						obj.t2 = $(this).attr('duration') == undefined ? 0 : $(this).attr('duration'); 
+						obj.seek = $(this).attr('seek')
+						obj.duration = $(this).attr('duration2')
+  					_this.vid_arr[v_id]['annotation'].push(obj);
+  					
+  					 			
+  				}else if($(this).attr('type') == "syncMedia"){
+  					// sequential media such as pictures
+  					obj = {};
+						obj.title = '';
+						obj.target = $(this).text();
+						obj.linktype = '';
+						obj.type = 'syncMedia';
+						obj.x = 0;
+						obj.y = 0;
+						obj.t1 = $(this).attr('starttime') == undefined ? 0 : $(this).attr('starttime');
+						obj.t2 = $(this).attr('duration') == undefined ? 0 : $(this).attr('duration');
+  					_this.vid_arr[v_id]['annotation'].push(obj);
+  					
+					}else if($(this).attr('type') == "map"){
+  					// sequential media such as pictures
+  					obj = {};
+						obj.title = '';
+						obj.target = $(this).text();
+						obj.linktype = '';
+						obj.type = 'map';
+						obj.x = 0;
+						obj.y = 0;
+						obj.t1 = $(this).attr('starttime') == undefined ? 0 : $(this).attr('starttime');
+						obj.t2 = $(this).attr('duration') == undefined ? 0 : $(this).attr('duration');
+  					_this.vid_arr[v_id]['annotation'].push(obj);
+  			
+					}else if($(this).attr('type') == "toc"){
+						// table of content references
+						obj = {};
+						obj.title = $(this).text();
+						obj.target = $(this).attr('starttime') == undefined ? 0 : $(this).attr('starttime');
+						obj.linktype = '';
+						obj.type = 'toc';
+						obj.x = 0;
+						obj.y = 0;
+						obj.t1 = $(this).attr('starttime') == undefined ? 0 : $(this).attr('starttime');
+						obj.t2 = 1;// default // $(this).attr('duration') == undefined ? 1 : $(this).attr('duration');
+  					_this.vid_arr[v_id]['annotation'].push(obj);
+  					
+					}else if($(this).attr('type') == "tags"){
+						// temporal tags
+						obj = {};
+						obj.title = $(this).text();
+						obj.target = $(this).attr('starttime') == undefined ? 0 : $(this).attr('starttime');
+						obj.linktype = '';
+						obj.type = 'tags';
+						obj.x = 0;
+						obj.y = 0;
+						obj.t1 = $(this).attr('starttime') == undefined ? 0 : $(this).attr('starttime');
+						obj.t2 = 1;// default // $(this).attr('duration') == undefined ? 1 : $(this).attr('duration');
+  					_this.vid_arr[v_id]['annotation'].push(obj);
+	
+					}else if($(this).attr('type') == "comments"){ 
+						// comments
+						obj = {};
+						obj.title = $(this).text();
+						obj.author = $(this).attr('author');
+						obj.date = $(this).attr('date');
+						obj.target = $(this).attr('starttime') == undefined ? 0 : $(this).attr('starttime');
+						obj.linktype = '';
+						obj.type = 'comment';
+						obj.x = 0;
+						obj.y = 0;
+						obj.t1 = $(this).attr('starttime') == undefined ? 0 : $(this).attr('starttime');
+						obj.t2 = 1;// default // $(this).attr('duration') == undefined ? 1 : $(this).attr('duration');
+  					_this.vid_arr[v_id]['annotation'].push(obj);
+  					
+					}else if($(this).attr('type') == "assessment"){ 
+						// assessment
+						obj = {};
+						obj.title = encodeURIComponent( $(this).text() );
+						obj.author = $(this).attr('author');
+						obj.date = $(this).attr('date');
+						obj.target = $(this).attr('starttime') == undefined ? 0 : $(this).attr('starttime');
+						obj.linktype = '';
+						obj.type = 'assessment';
+						obj.x = 0;
+						obj.y = 0; 
+						obj.t1 = $(this).attr('starttime') == undefined ? 0 : $(this).attr('starttime'); 
+						obj.t2 = 1;// default // $(this).attr('duration') == undefined ? 1 : $(this).attr('duration');
+  					_this.vid_arr[v_id]['annotation'].push(obj);
+					}
+  			});  		
+				return this.vid_arr; 	
+			},
+  		
+  		/* ... */ // all of that is quick & dirty and needs further testing / testing procedures
+  		parseWikiVideo : function(str){
+
+					var arr = [];
+					var url, start, duration, id = '_';
+  				str = str
+  					.replace(/^\[\[Video:/, '') // start delimiter
+  					.replace(/\]\]/, '') // end delimiter
+  					.replace(/\# /, ' #') // start-time
+  					.replace(/\| /, ' |') // duration
+  					.replace(/  /, ' '); // double spaces
+  				var a = str.split(/ /);
+  				$.each(a, function(i, val){
+  					if(val.substr(0,1) == '#'){ start = val.substr(1,val.length); }
+  					else if(val.substr(0,1) == '|'){ duration = val.substr(1,val.length); }
+  					else if(val.match(/(?=.ogg)/)){ url = val; }
+  					else if(val.length > 0){ id = val; }
+  				})
+  				//alert('   url:'+url +' start:'+ start +'  duration:'+ duration +'  id:'+ id);
+  				// build arr
+  				arr['id'] = id;
+  				arr['url'] = url;
+  				arr['seek'] = start == undefined ? 0 : start;
+  				arr['duration'] = duration == undefined ? 0 : duration;
+  				arr['annotation'] = [];
+  			return arr;
+  		},
+  		
+  		/* ... */
+  		parseWikiHyperlink : function(str){ 
+  				var _this = this;
+  				var re = "";
+  				var tmp = '';
+  				var obj = {};
+  				obj.type = 'xlink';
+  				obj.linktype = 'standard';
+  	
+  				// link types // ?=.ogg | ?=.ogv | 
+  				re = new RegExp(/^\[\[http:\/\//);
+					if(str.match(re)){ 
+						// external link
+  					re = new RegExp(/\[\[http:\/\/[a-z A-Z 0-9 \#\ \_\/:.-]+/);
+  					tmp = (new String(re.exec(str))).split(" ");
+						obj.target = tmp[0].replace(/^\[\[/,'');
+						obj.title = tmp.length >= 2 ? tmp.slice(1) : tmp[0].replace(/^[\[\[http:\/\/]/, '');
+						obj.title = (new String(obj.title)).replace(/,/g,' ');
+  					//alert(obj.target+' - '+obj.title);
+						obj.linktype = 'external'; 
+					}else{
+						// standard links
+  					re = new RegExp(/\[\[[a-z A-Z 0-9 \# \ \_\/\|:.-]+/);
+  					tmp = (new String(re.exec(str))).split(/\|/);
+						obj.target = tmp[0].replace(/^\[\[/,'');
+						obj.title = tmp.length >= 2 ? tmp[1] : tmp[0].replace(/^\[\[/,'');
+  					//alert(obj.target+' - '+obj.title);
+					}
+					//alert(obj.target +'  '+ obj.linktype);						
+  				//alert(tmp.length+'  '+obj.title);
+  		
+					// strip start time and duration
+					var str2 = str.split(/\]/);
+					re = new RegExp(/[\ ]\#[0-9]+/);  				
+  				obj.t1 = str.match(re) ? (new String(re.exec(str2[1]))).replace(/[\#]/, '') : 0; // .replace(/|\ /,'')
+					re = new RegExp(/[\ ]\|[0-9]+/);  				
+  				obj.t2 = str.match(re) ? (new String(re.exec(str2[1]))).replace(/[\|]/, '') : 1000;
+//					alert(obj.t1+' - '+obj.t2);
+					
+					// relative width/height: 50% 20%
+					re = new RegExp(/[\ ]+[0-9]{2}(?=\%)/g);
+					tmp = str.match(re) ? new String(str.match(re)).split(/,/) : [50,50];
+					obj.x = tmp[0] ? tmp[0] : 50;
+					obj.y = tmp[1] ? tmp[1] : 50;			
+					//alert(''+obj.x+' - '+obj.y+'   time: '+obj.t1+' - '+obj.t2);
+					
+					 return obj;
+  		}
+
+  });
+	
+/*	VideoPlayer
+ 		author: niels.seidel@nise81.com
+
+ - remove flash vars / falback code
+ - simultanous playback of two clips
+ - cache mangement for videos: http://www.misfitgeek.com/2012/10/html5-off-line-storing-and-retrieving-videos-with-indexeddb/
+ - refine cycle including event bindings
+ - change all 'bind's inside loadUI into extra functions
+ - visualize loaded bytes
+ - audio only?
+ - manage to play parts of a video: http://www.xiph.org/oggz/doc/group__seek__api.html
+- options: supported codecs / mime types
+ - ui control for playbackrate
+ - further: API calls: http://code.google.com/apis/youtube/js_api_reference.html
+ - good fullscreen example: http://demo.paranoidr.de/jVideo/
+ - loading video 2 times seems strange, look at main :: 
+ - media fragment URI ..parser ..:: http://tomayac.com/mediafragments/mediafragments.html
+ \begin{lstlisting}
+
+\\ normal playback time
+Schema: t=npt:<start-in-seconds>,<end-in-seconds>
+Beispiel: t=npt:10,20 
+.
+t=120s,121.5s
+Shema: t=npt:<m>,<s>.<ms>:<h>:<m>.<ms>
+Beispiel: t=npt:120,0:02:01.5
+
+// SMPTE timecode standard ... wie bei DVDs
+Schema: t=smpte-<frame-rate>:<h>:<m>:<s>,<h>:<m>:<s>.<ms>
+t=smpte-30:0:02:00,0:02:01:15
+t=smpte-25:0:02:00:00,0:02:01:12.1
+
+
+t=npt:10,20 			# => results in the time interval [10,20[
+t=,20 						# => results in the time interval [0,20[
+t=smpte:0:02:00, 	# => results in the time interval [120,end[
+
+
+// Räumliche Dimension
+Schema: #xywh=<einheit>:<x>:<y>:<width>:<height>
+Beispiel: #xywh=pixel:10,10,30,30
+
+
+track=1&track=2 track=video
+track=Kids%20Video
+# => results in only extracting track ’1’ and ’2’
+# => results in only extracting track ’video’
+# => results in only extracting track
+
+xywh=160,120,320,240
+# => results in a 320x240 box at x=160 and y=120
+xywh=pixel:160,120,320,240 # => results in a 320x240 box at x=160 and y=120
+xywh=percent:25,25,50,50 # => results in a 50%x50% box at x=25% and y=25%
+
+// Named dimension
+id=1 # => results in only extracting the section called ’1’
+id=chapter-1 # => results in only extracting the section called ’chapter-1’
+id=My%20Kids # => results in only extracting the section called ’My Kids’
+
+\end{lstlisting}
+
+-- ZEITLEISTE in extra Klasse auslagern
+Alternative Zeitleiste: http://propublica.github.com/timeline-setter/doc/twitter-demo.html
+- cluster / zoom
+- diagramm
+- filter
+- multi tracks
+--- Vergleiche Darstellung von sehr vielen Markern bei Google Maps ...
+
+ */
+
+
+var Video = $.inherit(/** @lends VideoPlayer# */
+{
+	/** 
+	* 	@constructs 
+	*		@param {object} options An object containing the parameters
+	*		@param {Observer} observer Observer of VI-TWO
+	*/
+  __constructor: function(options, observer) { 
+		this.options = $.extend(this.options, options);
+		this.observer = observer;
+		this.spinner = new Spinner(this.spinner_options); //this.stopSpinning();
+  	this.loadVideo('./', 0); // load nil video to build player interface
+  	this.loadUI();
+  	
+  },
+
+	name: 'video player',
+	// defaults
+	options: {observer: null, selector: '#video1', width: 500, height: 375, wrapControls: '', childtheme: '', thumbnail:'img/placeholder.jpg', embed:true},
+	video: null,
+	observer: null,
+	url: '',
+	video_controls: null,
+	video_volume: 0.5,
+  video_container: null,
+	video_wrap: null,
+	play_btn: $(''),
+	add_btn: $(''),
+	video_seek: null,
+	video_progress: null,
+	video_timer: null,
+	volume: null,
+	muted: false,
+	volume_btn: null,
+	seeksliding: null,
+	interval: 0,
+	isSequence: false,
+	seqList: [],
+	seqNum: null,
+	seqLoop: false,
+	percentLoaded:0,
+	spinner : false,
+	spinner_options : {
+  	lines: 6, // The number of lines to draw
+  	length: 0, // The length of each line
+  	width: 20, // The line thickness
+  	radius: 20, // The radius of the inner circle
+  	color: '#003366', // #rgb or #rrggbb
+  	speed: 1, // Rounds per second
+  	trail: 89, // Afterglow percentage
+  	shadow: false, // Whether to render a shadow
+  	hwaccel: false, // Whether to use hardware acceleration
+  	className: 'spinner', // The CSS class to assign to the spinner
+  	zIndex: 29, // The z-index (defaults to 2000000000)
+  	top: 'auto', // Top position relative to parent in px
+  	left: 'auto' // Left position relative to parent in px
+	},
+	buffclick: 0,
+
+	/* load video */
+	// param: url= url of video; seek = time seek within video in seconds
+	loadVideo: function(url, seek) {
+		vi2.observer.log('loadvideo:'+url); 
+		this.startSpinning(); 
+		if (seek == undefined){ this.seek = 0;} else{ this.seek = seek;}
+		var supportedCodec = this.detectVideoSupport();
+				
+		var _this = this;
+		this.url = url;
+	  this.video = document.getElementsByTagName('video')[0];
+	  this.video.pause();
+		this.video = $.extend(this.video, {
+			loop: false,
+	  	preload: 'metadata', // 'metadata' | true ??
+	  	autoplay: true,
+	  	controls: false,
+	  	poster: 'img/placeholder.jpg',
+	  	width: this.options.width,
+	  //	height: this.options.height,
+	  	onerror: function(e) { _this.errorHandling(e); }
+		});
+
+		// event binding: on can play
+		this.video.addEventListener('readystate', function(e) { _this.readyStateHandler(e); });
+
+		// event binding: on can play
+		this.video.addEventListener('loadedmetadata', function(e) {});
+
+		// event binding: on can play
+		this.video.addEventListener('canplay', function(e) { _this.canPlayHandler(e); });
+
+		// event binding: on duration change; trigger when duration is known
+		this.video.addEventListener('durationchange', function(e) {  _this.currentTime(_this.seek); _this.durationChangeHandler(e, _this.seek); });
+
+		// event binding: on time update
+		this.video.addEventListener('timeupdate', function(e) { 
+			_this.timeUpdateHandler(e); 
+			_this.setProgressRail(e);
+			//_this.setCurrentRail(e);
+		});
+		
+		
+		// loading
+		this.video.addEventListener('progress', function (e) {
+			//_this.setProgressRail(e);
+			
+			var
+				target = _this.video;//(e != undefined) ? e.target : _this.video,
+				percent = null;			
+
+			if (target && target.buffered && target.buffered.length > 0 && target.buffered.end && target.duration) {
+				percent = target.buffered.end(0) / target.duration;
+			} else if (target && target.bytesTotal != undefined && target.bytesTotal > 0 && target.bufferedBytes != undefined) {
+				percent = target.bufferedBytes / target.bytesTotal; 
+			} else if (e && e.lengthComputable && e.total != 0) {
+				percent = e.loaded/e.total;
+			}
+
+			if (percent !== null) {
+				_this.percentLoaded = percent;
+				percent = Math.min(1, Math.max(0, percent));
+				
+				if (_this.video_progress && _this.video_seek) {
+					_this.video_progress.width(_this.video_seek.width() * percent);
+				}
+			}
+			
+		}, false);
+
+			
+
+		// event binding: on ended
+		$(this.video).bind('ended', function(e) { _this.endedHandler(e); }, false);
+
+		/*
+		if(Number(seek) > 0){
+			this.video.addEventListener("timeupdate", function() { //alert(_this.video.seekable.end(_this.buffclick));
+		}, false);
+		*/
+
+	 	// get sources and load video
+		$(this.video).html(this.createSource(url, supportedCodec), this.video.firstChild);
+		this.video.load(); // not needed ?!
+		
+		//this.buildSEO();
+	},
+
+
+	/* HTML5 playback detection */
+	// 		returns: mime type of supported video or empty string if there is no support
+	//		called-by: loadVideo()
+	// 		toDo: check support for video element
+	detectVideoSupport: function() {
+		var canPlay = '';
+		var dummy_video = document.createElement('video');
+
+		// prefer webm even if ogv or mp4 is available
+		if (dummy_video.canPlayType('video/webm; codecs="vp8, vorbis"') != '') {
+			canPlay = 'video/webm'; 
+		}else	 if (dummy_video.canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"') != '') {
+			canPlay = 'video/mp4'; 		
+		}/*else if(dummy_video.canPlayType('video/ogg; codecs="theora, vorbis"') != ''){
+			canPlay = 'video/ogv';
+		}*/
+		
+		//
+		if (canPlay == '') {
+			$('#content').html('<h3>We appologize that IWRM-education is currently not supported by your browser.</h3>The provided video material can be played on Mozilla Firefox, Google Chrome and Opera. If you prefer Internet Explorer 9 you need to install a <a href="https://tools.google.com/dlpage/webmmf">webm video extension</a> provided by Google. In the near future we are going to server further video formats which will be supported by all major browsers.<br /><br /> Thank you for your understanding.');
+		}
+
+		return canPlay;
+	},
+
+	/* load sequence */
+	loadSequence: function(sources, num) {
+		this.seqList = sources;
+		this.isSequence = true;
+		if (num == null) {
+			this.seqNum = 0;
+		}else {
+			this.seqNum = num % this.seqList.length;
+		} 
+		
+		this.loadVideo(this.seqList[this.seqNum]['url'], 0);
+
+	},
+
+	/* build video source element
+			param: src = video url; mime_type = mime_type of video
+			returns: video source element including src and type attribute
+	*/
+	createSource: function(src, mime_type) {
+  	var source = document.createElement('source'); 
+  	// extract file type out of mime type
+  	source.src = src;//src.replace('.webm', '') + '.' + mime_type.replace('video/', '');
+  	//"php/download.php?video="+src.replace('videos/', '').replace('.webm', '.' + mime_type.replace('video/', ''))+'&mime='+mime_type;
+  	// set mime type
+  	source.type = mime_type;
+  	return source;
+	},
+
+/* SEO ********************/
+	buildSEO : function(){ alert(1); return;  //alert(vi2.name)
+		var meta = vi2.db.getMetadataById(vi2.observer.current_stream);
+		$('head meta').each(function(i,val){ this.remove()});
+		
+		$('head')
+			.prepend('<meta itemprop="duration" content="'+meta.length+'" />')
+			.prepend('<meta itemprop="height" content="158" />')
+			.prepend('<meta itemprop="width" content="280" />')
+			.prepend('<meta itemprop="uploadDate" content="'+meta.date+'" />')
+			.prepend('<meta itemprop="thumbnailUrl" content="'+vi2.page_url+'img/thumbnails/iwrm_'+vi2.observer.current_stream+'.jpg" />')
+			.prepend('<meta itemprop="contentURL" content="'+vi2.page_url+'videos/iwrm_'+vi2.observer.current_stream+'.mp4" />')
+			.prepend('<meta itemprop="embedURL" content="'+vi2.page_url+'#!'+vi2.observer.current_stream+'" />')
+		; 
+	},
+
+
+/* UI ******************************************/
+
+
+	/* load UI */
+	loadUI: function() { 
+		var _this = this;
+		var options = {theme: this.options.theme, childtheme: this.options.childtheme};
+		var video_wrap = $('<div></div>').addClass('vi2-video-player').addClass(options.theme).addClass(options.childtheme);
+		this.video_controls = $('<div class="vi2-video-controls"><a class="vi2-video-play" title="Play/Pause"></a><div class="timelines"><div class="vi2-video-seeklink"></div><div class="vi2-video-seek"></div><div class="vi2-video-progress"></div></div><div class="vi2-video-timer"></div><div class="vi2-btn-box"></div><div class="vi2-volume-box"><div class="vi2-volume-slider"></div><a class="vi2-volume-button" title="Mute/Unmute"></a></div></div>');
+ 		
+ 		//$('vi2-video-player').r
+ 		if($(this.options.wrapControls).parents().is('.vi2-video-player')){
+ 			$(this.options.wrapControls).unwrap();
+ 			$('.vi2-video-controls').remove();
+ 		}
+		$(this.options.wrapControls) // #container
+			.wrap(video_wrap)
+			.after(this.video_controls);
+		this.video_container = $(this.options.wrapControls).parent('.vi2-video-player');
+
+		this.play_btn = $('.vi2-video-play', this.video_container);
+		this.video_seek = $('.vi2-video-seek', this.video_container);
+		this.video_progress = $('.vi2-video-progress', this.video_container);
+		this.video_timer = $('.vi2-video-timer', this.video_container);
+		this.volume = $('.vi2-volume-slider', this.video_container);
+		this.volume_btn = $('.vi2-volume-button', this.video_container);
+		this.add_btn = $('.vi2-btn-box', this.video_container);
+
+
+		// keep the native HTML5 controls hidden
+		$(this.video).removeAttr('controls');
+
+		//
+		$(this.volume).slider({
+			value: _this.video_volume,
+			orientation: 'vertical',
+			range: 'min',
+			max: 1,
+			step: 0.05,
+			animate: true,
+			slide: function(e,ui) {
+				_this.muted = false;
+				$('video').attr('volume', ui.value);
+				_this.video_volume = ui.value;
+			}
+		});
+
+		// event bindings
+//		$(this.video).parent().bind('mouseover', function(e) { _this.video_controls.show();	});
+//		$(this.video).parent().bind('mouseout', function(e) { _this.video_controls.hide();	});
+
+
+		this.play_btn.bind('click', function() {
+			_this.play();
+		});
+
+		$(this.video).bind('play', function(e) {
+			_this.play_btn.addClass('vi2-paused-button');
+			vi2.observer.play();
+			$('.screen').remove();
+		});
+
+		$(this.video).bind('pause', function(e) {
+			_this.play_btn.removeClass('vi2-paused-button');
+			vi2.observer.pause();
+		});
+
+
+		// keyboard / space bar for play/pause
+		$('body').unbind('keydown').bind('keydown', function(e) {
+			if (e.which == 32) {
+				//_this.play(); // 
+			}
+		});
+
+
+		this.volume_btn.bind('click', function(e) {
+			_this.muteVolume();
+		});
+
+		//this.add_btn.text('add tag').click(function(e){  _this.observer.widget_list['tags'].addTags(); });
+		// hide moving picture in order limit visual cognition channel to one
+		// xxx: #screen should be replaced by an option
+		var o = new Image(); 
+		$(o).attr('src', this.options.thumbnail).addClass('toggle-pair').prependTo('#screen').hide();//.attr('src', 'img/thumbnails/iwrm_'++'.jpg')
+		$(this.video).addClass('toggle-pair');
+		var hidden = true;
+		var btn = $('<span></span>')
+			.addClass('toggle-moving-picture')
+			.text('hide video')
+			.prependTo('#screen')
+			.click(function(){
+				$(this).text(hidden ? 'show video' : 'hide video');
+				hidden = ! hidden; 
+				$('#screen').find('.toggle-pair').toggle();
+			});
+			
+			
+		//	
+		if(this.options.embed){
+			$('<a></a>')
+				.addClass('player-share-btn')
+				.text('</>')
+				.click(function(){
+					$('.player-share')
+						.appendTo('body')
+						.toggle()
+						.css('top', $('.player-share-btn').offset().top + 20)
+						.css('left', $('.player-share-btn').offset().left - 250);
+						 
+					var url = window.location.href.slice(window.location.href.indexOf('#') + 1);
+					$('.player-share-embed').val('<iframe src="http://www.iwrm-education.org/embed.html#'+url+'" width="935" height="610"></iframe>')
+						.bind("focus",function(e){ $(this).select(); })
+						.bind("mouseup",function(e){ return false; });
+					
+					$('.player-share-popup').val('<iframe src="http://www.iwrm-education.org/popup.html?id='+url+'" width="100" height="20"></iframe>') //also: title=bim&lecturer=sam
+						.bind("focus",function(e){ $(this).select(); })
+						.bind("mouseup",function(e){ return false; });	
+
+					$('.player-share-link').val('http://www.iwrm-education.org/embed.html#'+url)
+						.bind("focus",function(e){
+								$(this).select();
+						})
+						.bind("mouseup",function(e){
+								return false;
+						});
+				})
+				.appendTo('.vi2-btn-box');
+				//
+				$('.player-share-close').button().click(function(){
+					$('.player-share').hide();
+				})
+		}	
+
+	},
+
+
+
+	/* create seek slider */
+	createSeek: function() {
+		var _this = this;
+		if (this.video.readyState) {
+			clearInterval(this.interval);
+			clearInterval(this.interval);
+
+			var video_duration = $(this.options.selector).attr('duration');
+
+			this.video_seek.slider({
+				value: 0,
+				step: 0.01,
+				orientation: 'horizontal',
+				range: 'min',
+				max: video_duration,
+				animate: false,
+				slide: function(event, ui) {
+						_this.seeksliding = true;
+				},
+				start: function(event, ui) {
+					vi2.observer.log(_this.url+' seek_start: '+_this.currentTime()+'   '+ui.value);
+					_this.buffclick++;
+					_this.seeksliding = true;
+				},
+				stop: function(e,ui) {
+					vi2.observer.log(_this.url+' seek_end: '+ui.value);
+					_this.seeksliding = false;
+					$(_this.video).trigger('play');
+					//if(_this.percentLoaded > (ui.value / _this.duration())){
+						$(_this.options.selector).attr('currentTime', Math.ceil(ui.value)); // XXX bugy / webkit fix
+					//}else{
+					 //alert(33); // bugy xxx
+					//}	
+				}
+			});
+			this.video_controls.show();
+		} else {
+			// try reinitiate the slider as long the
+			this.interval = setInterval(function() { _this.createSeek(); }, 150);
+		}
+	},
+
+
+
+
+
+/* EVENT HANDLER *************************/
+
+		
+		/* -- */
+		setProgressRail: function(e) {
+
+		},
+		
+		/* -- 
+		setCurrentRail: function() {
+
+			var t = this;
+		
+			if (t.media.currentTime != undefined && t.media.duration) {
+
+				// update bar and handle
+				if (t.total && t.handle) {
+					var 
+						newWidth = t.total.width() * t.media.currentTime / t.media.duration,
+						handlePos = newWidth - (t.handle.outerWidth(true) / 2);
+
+					t.current.width(newWidth);
+					t.handle.css('left', handlePos);
+				}
+			}
+
+		}	*/
+
+
+
+
+
+	/* updates after seeking */
+	seekUpdate: function() {
+		var currenttime = $(this.options.selector).attr('currentTime');
+		//$('#debug').append(currenttime+'\n');
+		if (!this.seeksliding) {
+			this.video_seek.slider('value', currenttime);
+		}
+		this.timeUpdate();
+		
+	},
+
+	/* time update */
+	timeUpdate: function() {
+		this.video_timer.text(this.timeFormat($(this.options.selector).attr('currentTime')) + ' / ' + this.timeFormat($(this.options.selector).attr('duration')));
+	},
+
+	/* mute volume */
+	muteVolume: function() {
+		if (this.muted) {
+			this.volume.slider('value', this.video_volume);
+			this.volume_btn.removeClass('vi2-volume-mute');
+		} else {
+			this.volume.slider('value', 0);
+			this.volume_btn.addClass('vi2-volume-mute');
+		}
+		$('video').attr('volume', this.video_volume);
+		this.muted = ! this.muted;
+	},
+
+
+	// event handler: on can play
+	readyStateHandler: function(e) {
+		// notify observer about new video
+		vi2.observer.updateVideo(this.seqList[this.seqNum]['id'], this.seqNum);
+	},
+
+
+	// event handler: on can play
+	canPlayHandler: function(e) {
+		// play_btn playpause.disabled = false;
+		//	vi2.observer.updateVideo(_this.seqList[_this.seqNum]['id'], _this.seqNum);
+	},
+
+
+	// event handler: on duration change; trigger when duration is known
+	durationChangeHandler: function(e, seek) { //alert('should seek '+e.data.seek)
+		this.createSeek();
+		//$('#debug').append('seek  '+this.timeFormat(this.video.seekable.start(0))+' - '+this.timeFormat(this.video.seekable.end(0))+'\n');
+		if (Number(seek) > 0) { 
+			if(this.percentLoaded > (seek / this.duration())){
+				this.currentTime(seek); // bugy in production use or on remote sites
+			}
+		}
+		$(vi2.observer).trigger('player.ready', [this.seqList[this.seqNum]['id'], this.seqNum]);
+	},
+
+
+	// event handler: on time update
+	timeUpdateHandler: function(e) {
+		this.seekUpdate();
+			
+		//var lastBuffered = this.video.buffered.end(this.video.buffered.length-1);
+		if (this.video.readyState == 2) {
+			// load spinner
+			this.startSpinning(); 
+			//$('#debug').html('loading');
+		}else if (this.video.readyState == 4) {
+			this.stopSpinning();
+			//vi2.observer.log('videoruns:'+this.url+' '+this.currentTime());
+			//$('#debug').html('');
+		}
+/*
+		return;
+				$('#debug').html(this.video.readyState+' seekabel '+this.video.seekable.end(0)+'    -  start:'+this.video.buffered.start(this.buffclick)+' end: '+this.video.buffered.end(this.buffclick)+'\n');
+				if (seek < this.video.seekable.end(this.buffclick) && seek > 0 ) {
+						this.currentTime(seek);
+				}
+				*/
+	},
+
+
+	// event handler: on ended
+	endedHandler: function(e) { 
+		vi2.observer.log('videoended:'+this.url);
+		vi2.observer.ended();
+		this.video.removeEventListener('ended', arguments.callee, false);
+		this.play_btn.removeClass('vi2-paused-button');
+		// load next video clip if its a sequence
+		if (this.isSequence && ((this.seqNum + 1) < this.seqList.length || this.seqLoop)) {
+			this.seqNum = (this.seqNum + 1) % this.seqList.length;
+			this.loadVideo(this.seqList[this.seqNum]['url']);
+		}else { 
+			$(vi2.observer.player).trigger('video.end', null);
+		}
+	},
+
+
+
+
+
+
+/* UTILS *************************/
+
+	/* formate second to decimal view*/
+	timeFormat: function(seconds) {
+		d = Number(seconds);
+		var h = Math.floor(d / 3600);
+		var m = Math.floor(d % 3600 / 60);
+		var s = Math.floor(d % 3600 % 60);
+		return ((h > 0 ? h + ":" : "") + (m > 0 ? (h > 0 && m < 10 ? "0" : "") + m + ":" : "00:") + (s < 10 ? "0" : "") + s); 
+	},
+	
+	// starts spinner, called if video data is loading
+	startSpinning : function(){
+		this.spinner.spin(document.getElementById('overlay'));
+		$('.spinner').css('top','200px'); // xxx hardcoded repositioning of spinner element
+	},
+	
+	// stops spinne
+	stopSpinning : function(){
+		this.spinner.stop();
+	},
+
+	/* prints errors xxx bugy */
+	errorHandling: function(e) {
+	  //$('#debug').append('Error - Media Source not supported: ' + this.video.error.code == this.video.error.MEDIA_ERR_SRC_NOT_SUPPORTED); // true
+	 	//$('#debug').append('Error - Network No Source: ' + this.video.networkState == this.video.NETWORK_NO_SOURCE); // true
+	},
+
+
+
+
+
+
+	/* INTERFACES *************************/
+
+	/* just play */
+	play: function() { 
+		if ($(this.options.selector).attr('paused') == false) {
+			this.video.pause(); 
+			vi2.observer.log('videopaused:'+this.url);
+			$(this.observer.player).trigger('player.pause');
+		} else {
+			this.video.play();
+			vi2.observer.log('videoplayed:'+this.url);
+			$(this.observer.player).trigger('player.play');
+		}
+	},
+
+	/* just pause */
+	pause: function() {
+		this.video.pause();
+		$(this.observer.player).bind('player.pause');
+	},
+
+	/* returns duration of video */
+	duration: function() {
+		return $(this.options.selector).attr('duration');
+	},
+
+	/* return current playback time or set the time */
+	currentTime: function(x) {
+		if (x == undefined) {
+			return $(this.options.selector).attr('currentTime');
+		}else {
+			$(this.video).trigger('play');
+			//if(this.percentLoaded > ($(this.options.selector).attr('currentTime') / this.duration())){  // xxx bugy
+				$(this.options.selector).attr('currentTime', x);
+			//}	
+		}
+	},
+
+	/* sets or returns video width */
+	width: function(x) {
+		if (x == null) {
+			return this.video.width;
+		}else {
+			this.video.width = x;
+		}
+	},
+
+	/* sets or return video width */
+	height: function(x) {
+		if (x == null) {
+			return this.video.height;
+		}else {
+			this.video.height = x;
+		}
+	},
+
+	/* sets or returns playback rate */
+	playbackRate: function(x) {
+		if (x == null) {
+			return this.video.playbackRate;
+		}else {
+			this.video.playbackRate = x;
+		}
+	}
+
+}); // end video class
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+	playorpause : function() {
+		if(this.video.ended || this.video.paused) {
+			this.video.play();
+		} else {
+			this.video.pause();
+		}
+	},
+*/
+
+
+
+
+
+// Fallback & Media format detection
+
+
+/*
+https://developer.mozilla.org/en/Configuring_servers_for_Ogg_media
+#1 determine duration
+$ oggz-info /g/media/bruce_vs_ironman.ogv
+
+#2 hard code duration for apache2 in the .htaccess-file of the media folder
+<Files "elephant.ogv">
+Header set X-Content-Duration "653.791"
+</Files>
+
+
+http://dev.opera.com/articles/view/everything-you-need-to-know-about-html5-video-and-audio/
+*/
+
+
+
+
+	/*
+	- dirty hack without considering custom events
+	- without seeking yet
+	- !! such a automatisation is only need if you want to force the user to return to the source video
+
+	loadCycleVideo : function(url, seek, duration, return_seek){
+
+		stop/freez orig. video
+		load new video in window/frame
+		attach annotation to terminate after time is over
+		reload orig. video
+		seek to previouse temporal position
+		play
+
+		var _this = this;
+		this.cycledata = {url: this.main.parseSelector, return_seek: return_seek};
+
+		this.main.vid_arr = []; 		this.main.vid_arr[0] = []; this.main.vid_arr[0]['annotations'] = [];
+		this.main.vid_arr[0]['annotations'].push({title:'', target:this.url, linktype:'cycle', type:'xlink', x:0, y:0, t1:seek, t2:duration});
+		 $(this).bind('annotation.begin.cycle', function(e, a, b){ _this.begin(e, a, b);});
+		 $(this).bind('annotation.end.cycle', function(e, a, b){ _this.end(e, a);});
+
+		//this.main.updateVideo(0,0);
+
+		this.loadVideo(url, seek);
+		setTimeout(function(){ $(_this).trigger('annotation.end.cycle'); return '';}, 1000);
+
+	},
+
+		cycledata : {},
+	begin : function(e, a, b){},
+	end : function(e, a){ this.main.parse(this.cycledata.url, 'html');//loadVideo(this.cycledata.url, this.cycledata.return_seek);
+	},
+
+
+	terminateCycleVideo : function(){
+		$(this.options.selector).parent().find('#subvideo').remove();
+	},
+
+
+	*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Clock 
+	author: niels.seidel@nise81.com
+	 	- implement checkAnnotation in order to trigger certain events at the listenning instances
+ 	- use timeUpdate insteate of setTimeOut or setIntervall: http://blog.gingertech.net/2009/08/19/jumping-to-time-offsets-in-videos/
+*/
+	
+
+	/* class Clock */ 
+	var Clock = $.inherit(/** @lends Clock# */
+	{
+			/** 
+			*		@constructs 
+			*		@param {Videoplayer} player Related video player 
+			*		@param {Number} clockInterval Interval of clock granularity in milliseconds
+			*/
+  		__constructor : function(player, clockInterval) {
+  			this.player = player;
+  			this.clockInterval = clockInterval;  		
+  		},
+  		
+		
+		name : 'clock',
+		player : null,
+		clockInterval : 500, // = default
+		isRunning : false,
+		timelineSelector : 'div.vi2-video-seek',
+		interval : -1,	
+		annotations : [],
+		hooks : [],
+		
+		/* ... */
+  	isHook : function(type){
+  		return this.hooks[type] != null;	
+  	},
+  	
+  	/* ... */
+  	addHook : function(type, fn){
+  		this.hooks[type] = fn;
+  		return true;
+  	},
+	
+		/* push annotation on their stack by mapping the parser object to the specific annotation object structure */
+		addAnnotation : function(obj){ 					
+			if(this.isHook(obj.type)){   
+				this.annotations.push({
+						active:false,
+						author: obj.author, 
+						content: {
+								title: obj.title, 
+								target:obj.target
+							}, 
+						linktype:obj.linktype, 
+						type: obj.type, 
+						displayPosition: {
+								x: obj.x, 
+								y: obj.y, 
+								t1: obj.t1, 
+								t2: obj.t2
+							},
+							seek : obj.seek,
+							duration : obj.duration
+						});
+		 	}	
+		},
+	
+		/* Trivial */
+		checkAnnotation : 	function() {
+			var iTime = this.parseTime( this.player.currentTime() );
+
+			for (var i=0; i < this.annotations.length;i++){
+				var oAnn = this.annotations[i];
+				if(iTime >= oAnn.displayPosition.t1 && iTime < (new Number(oAnn.displayPosition.t1) + new Number(oAnn.displayPosition.t2))) {
+					if(!oAnn.active){
+						oAnn.active = true; 
+	  				$(this.player).trigger('annotation.begin.'+oAnn.type, [i, oAnn]); 
+					}
+				}else {
+					oAnn.active = false;
+	  			$(this.player).trigger('annotation.end.'+oAnn.type, [i]);
+				}
+			}
+		},
+		
+	/* Optimized algorithm, making advantage of indexing the time of appearance */
+		/* to do: 
+		-generate test data, 
+		-try different approaches to generate the index, 
+		-measure time, 
+		-calculate complexity in landau notation
+		*/
+		prepAnno : [],
+		
+		buildAnnotationIndex : function(){
+			var prepAnno = [];
+			for (var i = 0; i < 1000; i++){ prepAnno[i] = [];} 
+			$.each(this.annotations, function(i, val){
+				var index = val.displayPosition.t1 < 1 ? 0 : Math.ceil(val.displayPosition.t1 / 100);
+				prepAnno[index].push(val);
+			});
+			this.prepAnno = prepAnno;
+		},
+		
+		checkAnnotation_new : 	function() {
+			var _this = this;
+			var iTime = this.parseTime( this.player.currentTime() ); // returns time in decimal 
+			var x = this.player.currentTime() < 1 ? 0 : Math.ceil(iTime / 100); 
+			$('#debug').val(_this.prepAnno[x].length);	
+			$.each(_this.prepAnno[x], function(i, oAnn){
+				
+				if(iTime >= oAnn.displayPosition.t1 && iTime < (new Number(oAnn.displayPosition.t1) + new Number(oAnn.displayPosition.t2))) {
+					if(!oAnn.active){
+						oAnn.active = true; 
+	  				$(_this.player).trigger('annotation.begin.'+oAnn.type, [i, oAnn]); 
+					}
+				}else {
+					oAnn.active = false;
+	  			$(_this.player).trigger('annotation.end.'+oAnn.type, [i]);
+				}
+			});
+		},
+							
+		/* ... */
+		startClock : function(){  
+			//this.buildAnnotationIndex();
+			if(this.isRunning){ return;}
+			var _this = this;
+			this.isRunning = true;
+			this.interval = setInterval(function() { _this.checkAnnotation();  }, this.clockInterval);		
+		},
+		
+		/* ... */
+		stopClock : function(){
+			clearInterval(this.interval);
+			clearInterval(this.interval);
+			this.isRunning = false;
+		},
+
+		/* ... */		
+		reset : function(){
+			$('#overlay').html('');
+			this.annotations = [];
+		},
+	
+		/* ... */
+		parseTime : function (strTime) { 
+			return strTime;
+			var aTime = strTime.toString().split(":");
+			return parseInt(aTime[0],10) * 60 + parseInt(aTime[1],10) * 1;// + parseFloat(aTime[2]);
+		},
+	
+		/* ... */
+		getCurrentTime : function(){
+			return this.player.currentTime();
+		}
+	
+}); // end class Clock 
+	
+
+/*	Utils
+		author: niels.seidel@nise81.com
+
+*/
+
+
+////////////////////////////////
+/* Defines custom drop out box  (style: #div.klappe)*/
+		jQuery.fn.dropdown = function(obj) {
+				var head = $(this).find('h4');
+				var all = $(this).html();
+				$(this).toggle(
+					function(){
+						$(this).html(head.wrapInner('<h4></h4>').html());
+					},
+					function(){
+						$(this).html(all).find('h4').attr('style','background-image:url(images/arrow_d.png); display:inline;');
+					}
+				).click();
+			};
+
+////////////////////////////////
+/* ...*/
+		jQuery.fn.hidetext = function(obj) {
+			var text = $(this).text();
+			var el = $(this).text(text.substr(0, 250)+' ').append($('<span>more</span>')); //.button()
+			return el;
+			};
+			
+			
+////////////////////////////////			
+		jQuery.fn.round = function(dec) {	
+	    if (!dec) { dec = 0; }
+    	return Math.round(this*Math.pow(10,dec))/Math.pow(10,dec);
+  	};
+
+//////////////////////////////
+function delegate(obj, func){
+	var f = function() {
+		var target = arguments.callee.target;
+		var func = arguments.callee.func;
+		return func.apply(target, arguments);
+	}; 
+	f.target = obj;
+	f.func = func; 
+	return f;
+}
+
+//////////////////////////////
+function removeDuplicates (cat){
+	cat = cat.sort();
+  for(var i = 1; i < cat.length; ){
+  	if(cat[i-1] == cat[i]){ cat.splice(i, 1); } 
+  	else { i++; }
+  }
+  return cat;     
+}
+
+/////////////////////////////
+function deci2seconds(s){
+	if(Number(s) < 0 || s == null){ return 0; }
+	var arr = s.split(':');
+	return Number(arr[0])*3600+Number(arr[1])*60+Number(arr[2]);
+}
+
+/////////////////////////////
+Object.size = function(obj) {
+    var size = 0, key;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) size++;
+    }
+    return size;
+};
+
+
+//function void
+
+	/* Log
+	author: niels.seidel@nise81.com
+	 
+	 
+
+	
+	** standardisazion:
+	* https://sites.google.com/site/camschema/home
+	* http://sourceforge.net/p/role-project/svn/HEAD/tree/trunk/gadgets/cam_sjtu/CamInstance.js
+	* http://sourceforge.net/p/role-project/svn/HEAD/tree/trunk/gadgets/html5Video/videoGadget.xml
+	
+
+	 
+	*/
+
+	var Log = $.inherit(/** @lends Log# */{
+
+		/** 
+		*	Input:
+		* 	client IP Adress via PHP
+		* 	client browser, operating system, 
+		* 	time in ms since 1970	
+		* 	clicks: tags, category, startpage, lecture 
+		* 	search terms
+		* 	video: seek on timeline, link clicks, seek2link, toc clicks
+		* 
+		* Output options:
+		* 	dom #debug
+		* 	log.txt via PHP
+		* 	console.log (default)
+		*
+		*		@constructs 
+		*		@param {object} options An object containing the parameters
+		*		@param {String} options.output Output channel that could be a 'logfile' or a 'debug' panel
+		*		@param {Selector} options.debug_selector If options.output is set to debug at following DOM selector will used to output log data
+		*		@param {String} options.logfile If options.output is set to logfile that option indicates the filename of the logfile
+		*		@param {String} options.parameter Its a comma separated list of data parameters that should be logged. Possible values are: time, ip, msg, user
+		*		@param {object} options.logger_path Relative path to a remote script that writes text messages to options.file
+		*/
+  	__constructor : function(options) { 
+  			var _this = this;
+  			this.options = $.extend(this.options, options); 
+  			// get client IP
+  			$.ajax({
+  				url: this.options.logger_path,
+   				success: function(res){ 
+						_this.ip = res.ip;
+					},
+  				dataType: 'json'
+				});			
+				// clear
+				$('#debug').html('');
+		},
+		
+		name : 'log',
+		options : {output: 'logfile', debug_selector: '#debug', prefix: '', logfile:'log.txt', parameter: 'time,ip,msg,user', logger_path: '../php/ip.php'}, // output: debug/logfile
+		bucket : '',
+		ip : '',
+	
+		/* ... */
+		init : function(){},		
+		
+		/* -- */
+		add : function(msg){
+			//var logEntry = this.getLogTime()+', '+this.options.prefix+', '+this.getIP()+', '+msg+', '+this.getUser()+'\n';
+			var logEntry = this.getLogTime()+', '+vi2.currentVideo+', '+', '+vi2.currentGroup+', '+vi2.userData.id+'.'+msg+', '+this.getUser()+'\n';
+			this.writeLog(logEntry);
+			
+			return;
+			/*
+			// handle output
+			switch(this.options.output){
+				case 'debug' :
+					$(this.options.debug_selector).append(logEntry);
+					break;
+				case 'logfile' :
+					this.writeLog(logEntry);
+					break;
+				default :
+					console.log(logEntry);	
+			}
+			
+			// fill bucket for internal usage	
+			this.bucket += logEntry;
+			*/
+		},
+		
+		/* -- */
+		getLogs : function(){
+			return this.bucket;
+		},
+		
+		/* -- */
+		getLogTime : function(){
+			var date = new Date();
+			var s = date.getSeconds();
+			var mi =date.getMinutes();
+			var h = date.getHours();
+			var d = date.getDate();
+    	var m = date.getMonth()+1;
+    	var y = date.getFullYear();
+    	return date.getTime()+', ' + y +'-'+ (m<=9?'0'+m:m) +'-'+ (d<=9?'0'+d:d)+', '+(h<=9?'0'+h:h)+':'+(mi<=9?'0'+mi:mi)+':'+(s<=9?'0'+s:s)+':'+date.getMilliseconds();
+			//return date.getTime();
+		},
+		
+		/* -- */
+		getIP : function(){
+			return this.ip;
+		},
+						
+		/* -- */
+		getUser : function(){
+		 var ua = $.browser; 
+  		return	navigator.userAgent;
+		},
+		
+		/* -- */
+		writeLog : function (entry){ 
+			//$.post('php/log.php', { entry:entry }); 
+			$.post(this.options.logger_path, { data:entry }); 
+		}					
+				
+	
+		
+	}); // end class Log
+/* class API
+author: niels.seidel@nise81.com
+
+Ziel könnte sein, mittels eines Learning Analytic-Frameworks die Annotationsdaten abzufragen, um sie in Echtezeit auswerten zu können.
+
+Beipiel:
+http://www.example.com/api.html?linksOfCategory=Tools&titleOf=video23
+
+XML: http://stackoverflow.com/questions/5581592/render-xml-document-obtained-through-ajax-call-to-a-new-window
+
+Planed extensions:
+	*- inputAPI: Methode vi2.data("../data.json"), um die Metadaten der Videokollektion hinzufügen zu können. 
+	*- output formats:
+	*-- google sitemaps
+	*-- linked data
+	*-- RSS
+	*-- IMS Content Package export ... generate imsmanifest.xml generieren und mit dateien zippen: http://stuk.github.io/jszip/
+	*-- wiki markup
+	*-- html markup / smil
+
+
+*/ 
+var Vi2_API = $.inherit(/** @lends API# */{
+	/**
+	* The Data API is implemented as an flexible interface between vi2.db.js and the address bar of the browser. More useful are api call via node.js. 
+	* Combinations of functions can be requested, each with multiple parameter. The output is presented as is. No further calculations or joins of the data are not part of the API. Sofar it is an output API only. Input to the database can not be handled. The default output format is JSON. Other formats are still under construction. 	
+	* 
+	* 	@constructs 
+	*/
+  __constructor : function() { 
+  	this.url = purl();
+  },
+  
+  url : '',
+  format : 'json',
+  func_list : ['getStreamById', 'getCategoryTaxonomie'],
+  
+  /** ... */
+  get : function(url){
+	  var _this = this;
+  	// determine output format
+  	this.format = this.url.fparam('format') != '' ? this.url.fparam('format') : this.format;
+  	//
+  	this.funcs = this.getRequestedFunctions();
+  	
+  	// cycle through all requested functions and collect results
+  	$.each(this.funcs, function(i, func){ 
+ 			// get parameter
+  		this.params = _this.url.fparam(func.name).split(',');
+  		if(this.params.length == 0){
+  			func.results['void'] = vi2.db[func.name]();
+			}else{
+				// cycle through param
+				$.each(this.params, function(j, param){ 
+					// call function and store results
+					func.results[param] = vi2.db[func.name](param); 
+				});
+  		}
+  		
+  	});  	
+  	this.render(this.funcs);
+  },
+  
+  /** ... */
+  getRequestedFunctions : function(){
+  	var _this = this;
+  	var functions = new Object();
+  	$.each(this.func_list, function(i, func){
+  		if(_this.url.fparam(func)){
+  			functions[func] = {name: func, params: '', results: {}}; 
+  		}
+  	});
+  	return functions;
+  },
+  
+  /** 
+  * @description Passes data with data URI scheme
+  * @parameter {json} data
+   */
+  render : function(data){
+  	switch(this.format){
+  		case 'xml':
+  			
+  			break;
+  		default:	// json
+  			//return data;
+  				window.location.href = 'data:application/json;charset=utf-8,' + encodeURIComponent( JSON.stringify(data) );
+  			//$('body').empty().text(JSON.stringify(data));
+  	}
+  	
+  }
+  
+  	
+
+	}); // end class API  	
+	/* Annotation
+	author: niels.seidel@nise81.com
+	
+	abstract class
+	*/
+
+ 
+	var Annotation = $.inherit(/** @lends Annotation# */{
+
+		/** 
+		* 	@constructs 
+		*		@param {object} options An object containing the parameters
+		*/
+  	__constructor : function(options) {
+  		this.options = options;  
+		},
+		
+		name : 'annotation',
+		type : 'annotation',
+		options : {},
+
+		/* ... */
+		init : function(ann){},	
+		
+		/* -- */
+		appendToDOM : function(id){},						
+				
+		/* ... */
+		begin : function(e, id, obj){},
+	
+		/* ... */
+		end : function(e, id){},
+		
+		
+		/* ... */		
+		formatTime : function(secs){
+			var seconds = Math.round(secs);
+    	var minutes = Math.floor(seconds / 60);
+    	minutes = (minutes >= 10) ? minutes : "0" + minutes;
+    	seconds = Math.floor(seconds % 60);
+    	seconds = (seconds >= 10) ? seconds : "0" + seconds;
+    	return minutes + "" + seconds;
+		}
+		
+	}); // end class Annotation
+/* SyncMedia  pdf3JPG:$ convert -resize 800 -quality 93 xxx.pdf slide.jpg
+	author: niels.seidel@nise81.com
+	
+	nth:
+	- viz on timeline by showing current slide
+	- on/off controls .. sync, skip/browse slides
+	- differ media types
+
+	*/
+
+
+	/* class SyncMedia **/ 
+	var Vi2_SyncMedia = $.inherit(Annotation, /** @lends SyncMedia# */{
+
+		/** @constructs 
+		*		@extends Annotation 
+		*		@param {object} options An object containing the parameters
+		*/
+  	__constructor : function(options) {
+  			this.options = $.extend(this.options, options);
+  			
+  	},
+  	
+  	init : function(){		 
+  		$(this.options.selector).html(new Image()).addClass(this.options.childtheme);;
+  		this.currImgId = -1;
+  		var e = {}; e.tags = {}; e.tags.occ = [];
+				//  		this.showTimelineSeq(e);	
+
+				// place holder
+				var o = new Image(); 
+				$(o)
+					.attr('src', this.options.placeholder)
+					.addClass('slide')
+					.unbind('click')
+					.appendTo(this.options.selector);
+		},
+		
+		name : 'syncMedia',
+		type : 'annotation',
+		// defaults
+		options : {selector: '#seq', vizOnTimeline: true, controls: true, path: '', childTheme:'', placeholder:'img/placeholder_slides.jpg'},
+		player : null,
+		currImgId : -1,
+		timelineSelector : 'div.vi2-video-seek',
+		width : 0,
+		height : 0, 
+		o : null,				
+		
+		/* -- */
+		// <div type="syncMedia" starttime=1344 duration=165 id=hello>hydro_graefe-11.jpg</div>
+		appendToDOM : function(id){ 
+			$(vi2.dom).find('[type="syncMedia"]').each(function(i,val){ $(this).remove(); });
+			$.each(	vi2.db.getSlidesById(id), function(i, val){ 
+				var slides = $('<div></div>')
+				.attr('type',"syncMedia")
+				.attr('starttime', this.starttime)
+				.attr('duration', this.duration)
+				.attr('seek', this.seek != null ? deci2seconds(this.seek) : 0)
+				.attr('duration2', this.duration2 != null ? this.duration2 : 0)
+				.attr('id', this.id)
+				.text(id+'/'+this.img)
+				.appendTo( vi2.dom );
+			}); 
+			
+		},
+
+		/* -- */
+		begin : function(e, id, obj){ 
+			if(this.currImgId == obj.content.target){
+				return false;
+			}else{  
+				var _this = this;
+				this.currImgId = obj.content.target; 
+				var o = new Image(); 
+				
+				// animate transition	if image is loaded				
+				$(o)
+					.attr('src', this.options.path+''+obj.content.target)
+					.addClass('slide')// ov-'+id);
+					.unbind('load')
+					.bind('load', function(){ 
+							$(_this.options.selector).html(o);
+					});
+					//$('#debug').html(obj.content.target +'  ');				
+			}
+		},
+
+	
+		/*
+		begin : function(e, id, obj){ 
+			if(this.currImgId == obj.content.target){
+				return false;
+			}else{
+				this.currImgId = obj.content.target;
+				var _this = this; 
+				var o = new Image();
+				o.src = this.options.path+''+obj.content.target; 
+				$(o).addClass('slide');// ov-'+id);
+							
+  	  	$(this.options.selector+' img').fadeOut(20, function(){ 
+  	  	  $(_this.options.selector).html(o);
+  	  		$(o).fadeIn(500);
+  	  	});
+			}
+		},
+		*/
+		
+		
+		/* ... */
+		end : function(e, id){
+			$(this.options.selector+' .ov-'+id).remove();
+		},
+		
+		/* ... */
+		showTimelineSeq : function(e){ return;
+			var _this= this; 
+			if(e.tags.occ.length === 1){
+				// jump to temporal position 
+				this.player.currentTime(e.tags[0].start);
+			}else{
+				// display tag occurence on timeline to motivate further selection
+				var f = function(_left, _name){
+					return $('<span></span>')
+						.addClass('timetag ttoc')
+						.attr('style','left:'+_left+'px;');
+						/*.bind('mouseover', function(){
+							...tooltip  _name
+						});*/
+				};
+				/*
+				var position = $(_this.timelineSelector).position(); 
+        var sliderWidth = $(_this.timelineSelector).width();
+        var minX = position.left;
+        var maxX = minX + sliderWidth;
+        tickSize = sliderWidth / observer.player.duration();
+        
+				$(_this.timelineSelector).bind('mousemove', function(e){ 
+					if (e.pageX >= minX && e.pageX <= maxX) {
+        	  var val = (e.pageX - minX) / tickSize;
+//            alert(tickSize);
+
+        	}
+
+				});
+				*/
+				//				
+				$.each(e.tags.occ, function(){ 
+					var progress = this / _this.player.duration();
+					progress = ((progress) * $(_this.timelineSelector).width());
+  	    	if (isNaN(progress) || progress > $(_this.timelineSelector).width()) { return;}
+	 				$(_this.timelineSelector).append(f(progress, e.tags.name));
+ 				});
+			}
+		},
+		
+		/* ... */
+		relativePos : function(obj){
+			return {x: Math.floor((obj.x/100)*this.player.width()), y: Math.floor((obj.y/100)*this.player.height())};
+		},
+		
+		/* ... */
+  loadVideo : function(url, seek){
+	  	this.player.loadVideo(url, seek);  			
+  },
+  
+  width : function(){ return this.width; },
+  height : function(){ return this.height; }
+  	
+  	
+	}); // end class SyncMedia
+
+
+/* TEMPORAL TAGS
+	author: niels.seidel@nise81.com
+	inherits form Annotation
+	
+	
+server side:
+	- save entered tags and 
+	- append tags to the cloud (update after entering)
+	- idee: - semantische topic maps via db.pedia .. linked data browsing
+	*/
+	
+
+	/* class TemporalTagging */ 
+	var TemporalTagging = $.inherit(Annotation, /** @lends TemporalTagging# */{
+			
+		/** @constructs
+		*		@extends Annotation  
+		*		@param {object} options An object containing the parameters
+		*/
+  	__constructor : function(options, tag_obj) {
+			this.options = $.extend(this.options, options); 
+			this.tag_obj = tag_obj;
+			
+			// display tags
+			//this.displayTagcloud();
+		},
+		
+		name : 'tags',
+		type : 'annotation',
+		options : {selector: '#tags', vizOnTimeline: true, max: 20, sort: 'alpha', order: 'asc'},
+		player : null,
+		tag_obj : {},
+		tag_list : [],
+		timelineSelector : 'div.vi2-video-seek',
+		
+		// dummy function for clock event bindings
+		begin : function(e){},
+		end : function(e){},
+		
+		/** -- */
+		init : function(ann){ 
+			var _this = this;
+			_this.tag_obj = [];
+			$.each(ann, function(i, val){ 
+				if(val.type == 'tags'){ 
+					var ii = _this.get_tag_by_name(val.title);
+					if( ii == -1){
+						_this.tag_obj.push({tagname: val.title, occ: [val.t1]});
+					}	else {
+					_this.tag_obj[ii].occ.push(val.t1);
+					}
+				}
+ 			}); 
+			this.displayTagcloud(); 
+		},
+		
+		/* -- **/
+		//<div type="toc" starttime=83 duration=1 id="">Objectives of the lecture</div>
+		//{"tagname":"La Nina","occ":[0]},
+		appendToDOM : function(id){
+			var _this = this;
+			$(vi2.dom).find('[type="tags"]').each(function(i,val){ $(this).remove(); }); 
+			
+			$.each(	vi2.db.getTagsById(id), function( i, val ){   //alert(val.starttime)
+				$.each(val.occ, function(j, time){		
+					var toc = $('<div></div>')
+						.attr('type',"tags")
+						.attr('starttime', time)
+						.attr('duration', 10)
+						.attr('id', "tag-"+j)
+						.text(decodeURIComponent(val.tagname))
+						.appendTo( vi2.dom )
+						;
+				});			
+			});
+		},
+		
+		/** -- */
+		get_tag_by_name : function(name){
+			var out = -1;
+			$.each(this.tag_obj, function(i, val){
+				if(val.tagname == name){
+					out = i;
+				} 
+			});
+			return out;
+		},
+		
+		/** ... */
+		displayTagcloud : function(){  
+			$(this.options.selector).empty();
+			var _this = this;
+			// template for displaying tags
+			var ln = function(_name, _freq, _tags){ 
+				return $('<li></li>').addClass('list-item').attr('id', _name.replace(' ', '--')).append($('<a></a>').attr('freq', _freq).addClass('id-'+_name.replace(' ', '--'))
+					//.append($('<span></span>')//
+					//.attr('href', '#!tag:'+_name.replace(' ', '_')) // IWRM
+					.text(_name+', ')//+'('+_freq+') ')
+					.css("font-size", (_freq / 10 < 1) ? _freq / 10 + 1 + "em": (_freq / 10 > 2) ? "2em" : _freq / 10 + "em")
+					.bind('click', {tags:_tags}, function(e){ 
+						vi2.observer.log('clicktagfromlist:'+_name);
+						_this.showTimelineTag(e.data);
+					})
+					);	
+			};
+			
+			// prepare list and append existing tags
+			var ul = $("<ul></ul>").addClass("tagslist").appendTo(this.options.selector);   
+			$.each(this.tag_obj, function(i, val){
+				ul.append(ln(val.tagname, val.occ.length, val));
+			});
+			// sort by occurence or alphabeticly, sort order desc / asc
+			var sortAttr = {};
+			sortAttr.attr = this.options.sort == 'freq' ? 'freq' : '';
+			sortAttr.order = this.options.order == 'desc' ? "desc" : "asc";
+			ul.find('a').tsort(sortAttr); 
+			// cut off elements above max and render them
+			$(ul).find('li:gt('+(this.options.max-1)+') > a').hide();
+			
+		},		
+		
+		/* ... */
+		showTimelineTag : function(e){ 
+			var _this= this;
+			if(e.tags.occ.length === 1 && e.tags.occ[0] >= 0){
+				// jump to temporal position 
+				this.player.currentTime(e.tags.occ[0]);
+			}else{
+				// display tag occurence on timeline to motivate further selection
+				var f = function(_left, _name, _time){
+					return $('<span></span>')
+						.addClass('timetag ttag')
+						.attr('style','left:'+_left+'px;')
+						.tooltip({delay: 2, showURL: false, bodyHandler: function() { return $('<span></span>').text(''+_name);} })				
+						.bind('click', function(){
+							_this.player.currentTime(_time);
+						})
+						;
+						/*.bind('mouseover', function(){
+							...tooltip  _name
+						});*/
+				};
+				//				
+				$(_this.timelineSelector+' .ttag').remove();
+				$.each(e.tags.occ, function(){
+					var progress = this / _this.player.duration();
+					progress = ((progress) * $(_this.timelineSelector).width());
+  	    	if (isNaN(progress)) { progress = 0; }
+	 				$(_this.timelineSelector).append(f(progress, e.tags.tagname, this));
+ 				});
+			}
+		},
+		
+		/* ... */
+		addTags : function(){
+			var _this = this;
+			var sc = vi2.observer.openScreen();
+			sc.html('<h4>Add tags @ '+this.player.currentTime().toString().substr(0,4)+'s</h4>').append($('<form class="myform"></form>').keyup(function(e) { if (e.which == 27) { _this.saveTags(); } }).append('<ul id="mytags"></ul>'));
+			$('#mytags').show();
+			var close = $('<h3>x</h3>')
+				.addClass('close-btn')
+				//.button()
+				.width(20)
+				.bind('click', function(){ _this.saveTags(); })
+				;
+			sc.append(close);
+			// bug ..its not called twice
+			$("#mytags").tagit({
+				availableTags: ["c++", "java", "php", "coldfusion", "javascript", "asp", "ruby", "python", "c", "scala", "groovy", "haskell", "perl"]
+			});
+		},
+		
+		/* ... */
+		saveTags : function(){
+			var _this = this;
+			var arr = [];
+			$.each($('ul#mytags > li'), function(i, val){
+				if($(val).find('input[type=hidden]').val() != undefined)
+					$('#debug').append("Tag: "+$(val).find('input[type=hidden]').val()+" @ "+_this.player.currentTime()+"s");
+				//$('#debug').append("{tagname:'"+$(val).find('input[type=hidden]').val()+"', occ:["+_this.player.currentTime()+"]}");
+				//arr.push($(val).find('input[type=hidden]').val()); 
+				//alert($(val).find('input[type=hidden]').val());
+			});
+			vi2.observer.closeScreen();
+			// save to couchdb
+			// display updated tag-list by dbload or appendance
+			
+		},
+	
+		get_tags_by_name : function(){}
+		
+	}); // end class
+
+		
+	/* TOC
+	author: niels.seidel@nise81.com
+	
+	- highlight on skip ... this.player.video.addEventListener('timeupdat
+	- timeLineSelector
+	- clip übergreifende sprünge
+	*/
+
+
+	/* class TOC **/ 
+	var TOC = $.inherit(Annotation, /** @lends TableOfContents# */{ // 
+
+		/** @constructs
+		*		@extends Annotation
+		*		@param {object} options An object containing the parameters
+		*/
+  	__constructor : function(options) {
+  			this.options = $.extend(this.options, options);  
+		},
+		
+		name : 'toc',
+		type : 'annotation',
+		options : {selector: '#toc', vizOnTimeline: true, path:'/'},
+		player : null,
+		timelineSelector : 'div.vi2-video-seek',
+
+		/* ... */
+		init : function(ann){ 
+			var _this = this;
+			var toc = $('<ul></ul>').addClass('toclist'); 
+			var li = function(author, title, target, time){ 
+				var a = $('<a></a>')
+					.text(title)
+					.addClass('id-'+time)
+					.attr('href', '#!' + vi2.current_stream) // former: main.options.id
+					.click(function(){
+						vi2.observer.log('clicktocfromlist:'+title +' '+author+' '+time); 
+						_this.player.currentTime(time);
+					});				
+				return $('<li></li>')
+					.addClass('list-item')
+					.attr('id', ''+target)
+					.css('list-style-image',  "url('"+_this.options.path+"user-"+author+".png')")
+					.html(a);
+			};
+			var e = {}; e.tags = []; e.tags.occ = [];
+			$.each(ann, function(i, val){
+				if(val.type == 'toc'){
+					toc.append(li(val.author, val.title /* +' ('+_this.formatTime(val.t1).replace(/-/, ':')+')'*/, val.t1, val.t1));
+					e.tags.push({name: val.title, occ:[val.t1]});
+				}
+			});
+
+			this.showTimelineTOC(e);
+			// sort list entries by time and append them
+			toc.find('li').tsort({attr:"id"});  // tsort is error prune under chromium
+			$(_this.options.selector).html(toc);		
+					
+			// update toc highlight on time update
+			this.player.video.addEventListener('timeupdate', function(e) { 
+				// reset highlight
+		//		$(_this.options.selector+' li').each(function(i, val){ $(this).removeClass('hightoc');})
+				// highlight toc entry
+		//		$(_this.options.selector+ ' li#t'+this.formatTime(obj.content.target)).addClass('hightoc');
+			});
+			
+		},		
+		
+		
+		/* -- **/
+		//<div type="toc" starttime=83 duration=1 id="">Objectives of the lecture</div>
+		appendToDOM : function(id){ 
+			var _this = this;
+			$(vi2.dom).find('[type="toc"]').each(function(i,val){ $(this).remove(); });
+			$.each(	vi2.db.getTocById(id), function( i, val ){   
+				var toc = $('<div></div>')
+					.attr('type',"toc")
+					.attr('starttime', val.start)
+					.attr('duration', 10)
+					.attr('id', "")
+					.text(decodeURIComponent(val.label))
+					.appendTo( vi2.dom )
+					;
+			});
+		},					
+				
+		/* ... */
+		begin : function(e, id, obj){ 
+
+				// reset highlight
+				$(this.options.selector+' li').each(function(i, val){ $(this).removeClass('hightoc');})
+				// highlight toc entry
+				$(this.options.selector+ ' li#t'+this.formatTime(obj.content.target)).addClass('hightoc');
+			
+		},
+	
+		/* ... */
+		end : function(e, id){ },
+		
+		/* ... */
+		showTimelineTOC : function(e){ 
+			var _this= this; 
+				// display tag occurence on timeline to motivate further selection
+				var f = function(_left, _name){
+					return sp = $('<span></span>')					
+						.addClass('timetag ttoc').attr('style','left:'+_left+'px;')
+						.tooltip({delay: 0, showURL: false, bodyHandler: function() { return $('<span></span>').text(_name);} });
+				};
+								
+				$.each(e.tags, function(){ 
+					var progress = this.occ[0] / _this.player.duration();
+					progress = ((progress) * $(_this.timelineSelector).width());
+  	    	if (isNaN(progress) || progress > $(_this.timelineSelector).width()) { return;}
+	 				$(_this.timelineSelector).append(f(progress, this.name));
+ 				});
+		},
+		
+		
+		/* ... */		
+		formatTime : function(secs){
+			var seconds = Math.round(secs);
+    	var minutes = Math.floor(seconds / 60);
+    	minutes = (minutes >= 10) ? minutes : "0" + minutes;
+    	seconds = Math.floor(seconds % 60);
+    	seconds = (seconds >= 10) ? seconds : "0" + seconds;
+    	return minutes + "" + seconds;
+		}
+		
+	}); // end class TOC
+/* XLink
+	author: niels.seidel@nise81.com
+		
+	- timeLineSelector
+	- nice defaults: var defaults = {animLen: 350}; 
+	- bug: offset @ o.css({left: pos.x   ... nicht im MediaWiki, aber in den showcases
+	
+	nth
+	- viz on timeline
+	- apply minimum link duration
+	- delay removeOverlay on mouseover/shift-press etc.
+	
+	*/
+
+
+	/* class XLink **/ 
+	var XLink = $.inherit(/** @lends XLink# */{
+
+		/** @constructs
+		*		@extends Annotation
+		*		@param {object} options An object containing the parameters
+    *		@param {string} options.target_selector A required setting.
+    *		@param {string} options.selector An optional setting.
+		*/
+  	__constructor : function(options) {
+  		this.options = $.extend(this.options, options); 
+		},
+				
+		name : 'xlink',
+		type : 'annotation',
+		
+		options : {target_selector:'#seq' ,selector: '#overlay', vizOnTimeline: true, minDuration: 5},
+		player : null,
+		timelineSelector : 'div.vi2-video-seek', 
+		link_list : {},
+		currLinkId :-1,
+
+		/* ... */
+		init : function(ann){
+			var _this = this;
+			this.clear();
+			this.link_list = this.buildLinkList(ann);	
+			this.showTimelineXlink(this.link_list);
+		},		
+		
+		/* Translated database entry of link into a dom element that the parser will read later on */
+		// // <div type="xlink" starttime=297 duration=14 posx=32 posy=90 id="Using existing Videos" >bonk1</div>
+		appendToDOM : function(id){
+			var _this = this;
+			$(vi2.dom).find('[type="xlink"]').each(function(i,val){ $(this).remove(); });
+			$(vi2.dom).find('[type="cycle"]').each(function(i,val){ $(this).remove(); });
+			$.each(	vi2.db.getLinksById(id), function(val){ 
+				var links = $('<div></div>')
+				.attr('type', this.type) // former default: "xlink"
+				.attr('starttime', deci2seconds(this.start))
+				.attr('duration', this.duration)
+				.attr('posx', this.x)
+				.attr('posy', this.y)
+				.attr('seek', deci2seconds(this.seek))
+				.attr('duration2', deci2seconds(this.duration2))
+				.attr('id', this.id)
+				.text('#!'+this.target)
+				.appendTo( vi2.dom )
+				;
+			});
+		},				
+		
+		
+		/* ... */
+		buildLinkList : function(ann){
+			var e = {}; e.tags = []; e.tags.occ = [];
+			$.each(ann, function(i, val){
+				if(val.linktype == 'cycle' || val.linktype == 'standard' || val.linktype == 'xlink'){ 
+					e.tags.push({name: val.title, occ:[val.t1], target:val.target});
+				}
+			});
+			return e;
+		},
+
+		
+		/** Begin of XLink annotation. Typically the link anchor will apeare on screen. There are three different link types: standard (target within video collection), external (target elsewhere in the WWW) and cycle (like standard link but with the option to return to the link source).
+				@param {Object} e
+				@param {String} id
+				@param {Object} obj		
+		*/
+		begin : function(e, id, obj){ 
+				this.currLinkId = id;
+				var _this = this;
+				var pos = this.relativePos(obj.displayPosition); 
+				var o = $('<a></a>')
+					.text(obj.content.title)
+					//.attr('href', obj.content.target)
+					.attr('id', 'ov'+id)
+					.addClass('overlay ov-'+id)
+					.addClass('hyperlink-'+obj.linktype)
+	 				.bind('click', {}, function(data){
+	 					// distinguish link types
+	 					switch(obj.linktype){
+	 						case 'standard' : 	// called xlink
+	 							var new_stream = obj.content.target.replace(/\#!/,'');
+								vi2.observer.setCurrentStream(new_stream);
+								break;
+							case 'external' :
+								return true;
+							case 'cycle' : 
+								var new_stream = obj.content.target.replace(/\#!/,'');
+								vi2.observer.setCurrentStream(new_stream);
+								// make new object for return link
+								var return_obj = {
+									title : 'return to: '+obj.content.title,
+									target : String(_this.player.url).replace(/.webm/,'').replace(/videos\/iwrm\_/,''), // dirty IWAS hack
+									linktype : 'standard',
+									type : 'xlink',
+									x : 2, //obj.displayPosition.x,
+									y : 93, // obj.displayPosition.y,
+									t1 : obj.seek,
+									t2 : obj.duration,
+									seek : obj.displayPosition.t1,
+									duration : 0
+								};	
+								// append that object
+								vi2.observer.vid_arr[0]['annotation'].push(return_obj); 
+								//	_this.loadCycleVideo(obj.content.target, 10, 15, obj.displayPosition.t1); // url, seek time, duration, return_seek
+								break;
+							case 'x':
+								break;	
+						}
+						// load Video
+						_this.loadVideo(vi2.observer.vid_arr[0]['url'], obj.seek);
+						// log something
+						vi2.observer.log(_this.player.url+' link_click: '+obj.content.target+', seek_to: '+obj.displayPosition.t1);
+						// remove link ancshor after click 
+						$(this).remove();
+					});
+				$(this.options.selector).append(o);
+				// positioning object AFTER appending it to its parent // buggy
+				// ($(this.options.selector).offset()).left+
+				//alert($(this.options.selector).offset().left+'  '+pos.x);
+				o.css({left: pos.x, top: pos.y, position:'absolute'});		
+		//	}	
+		},
+	
+		/* End of annotion time. The link anchor will disapear from screen. */
+		end : function(e, id){ 	 //alert('end link')
+			$(this.options.selector+' .ov-'+id).hide();
+		},
+		
+		/* Visualizes link representations on the timeline */
+		showTimelineXlink : function(e){
+				var _this= this; 
+				$(_this.timelineSelector+' .timetag').remove();
+				// display tag occurence on timeline to motivate further selection
+				var f = function(_left, _name, start){
+					var sp = $('<span></span>');					
+					sp.addClass('timetag tlink').attr('style','left:'+_left+'px;')
+						.tooltip({delay: 0, showURL: false, bodyHandler: function() { return $('<span></span>').text('Link to: '+_name);} })
+						.bind('click', function(event){
+							_this.player.currentTime(start);
+							vi2.observer.log(_this.player.url+' timeline_link_seek: '+start);
+						});
+					return sp;
+				};
+				//				
+				$.each(e.tags, function(){ 					
+					var progress = this.occ[0] / _this.player.duration();
+					progress = ((progress) * $(_this.timelineSelector).width()); 
+  	    	if (isNaN(progress) || progress > $(_this.timelineSelector).width()) { return;}
+	 				$(_this.timelineSelector+'link').append(f(progress, this.name, this.occ[0]));
+ 				});
+		},
+		
+
+		
+		// ?
+		clear : function(){
+			$(this.options.selector).html('');
+			// xxx static, stands in relative with template of videoplayer
+			$('.vi2-video-seeklink').html('');
+			
+		},
+		
+		// ?
+		vizOnTimeline : function(){},
+		
+		
+		/** Returns position of link anchores relativ to the dedicated representation area 
+		* 		@param {Object} obj Contains an annotation object including its spatial elements.
+		* 		@returns {Object} 
+		*/
+		relativePos : function(obj){ 
+			//var pplayer = observer.widget_list['seq']; // IWRM only fix xxx // bugy
+			//return {x: Math.floor((obj.x/100)*pplayer.width()), y: Math.floor((obj.y/100)*pplayer.height())};
+			return {x: Math.floor((obj.x/100)*615), y: Math.floor((obj.y/100)*450)};
+		},
+		
+		/** 	@description Loads video from url and seeks to a dedicated position in time. 
+		*		@param {String} url 
+		* 	@param {Number} seek 
+		*/
+  	loadVideo : function(url, seek){
+	  	this.player.loadVideo(url, seek);  			
+  	},
+  	
+  	/** ... */
+  	loadCycleVideo : function(url, seek, duration, return_seek){
+	  	this.player.loadCycleVideo(url, seek, duration, return_seek);  			
+  	}
+  	
+	}); // end class XLink
+
+
+/* Comments
+	author: niels.seidel@nise81.com
+	
+	- highlight on skip
+	- timeLineSelector
+	- clip übergreifende sprünge
+	 - nice defaults: var defaults = {animLen: 350}; options = $.extend(defaults, settings); 
+	*/
+
+
+	/* class Comments **/ 
+	var Comments = $.inherit(Annotation, /** @lends Comments# */{
+
+		/** 
+		*		@constructs 
+		*		@param {object} options An object containing the parameters
+		*/
+  	__constructor : function(options) {
+  			this.options = $.extend(this.options, options); 
+		},
+		
+		name : 'comments',
+		type : 'annotation',
+		options : {selector: '#comments', vizOnTimeline: true, path: '/'},
+		player : null,
+		timelineSelector : 'div.vi2-video-seek',
+
+		/* ... */
+		init : function(ann){ 
+			var _this = this;
+			var comments = $('<ul></ul>').addClass('commentslist');
+			$(this.options.selector).html(comments); 
+			var li = function(author, title, target, time){
+				var a = $('<a></a>')
+					.text(title)
+					.addClass('id-'+time)
+					//.attr('href', '#'+vi2.options.id)
+					.click(function(){
+						vi2.observer.log('clickcommentfromlist:'+title +' '+author+' '+time);
+						_this.player.currentTime(time);
+					});	
+				var user = vi2.db.getUserById(author);				
+				return $('<li></li>')
+					.addClass('list-item')
+					.attr('author', author)
+					.attr('id', 't'+target)
+					.tooltip({delay: 2, showURL: false, bodyHandler: function() { return $('<span></span>').text('Kommentar von '+user.firstname+' '+user.name);} })
+					.css('list-style-image',  "url('"+_this.options.path+"user-"+author+".png')")
+					.html(a);
+			}; 
+			var e = {}; e.tags = []; e.tags.occ = [];
+			$.each(ann, function(i, val){
+				if(val.type == 'comment'){  
+					comments.append(li(val.author, val.title, _this.formatTime(val.t1), val.t1));
+					e.tags.push({name: val.title, occ:[val.t1]}); 
+				}
+			});
+
+			this.showCommentsOnTimeline(e);
+			// sort list entries by time and append them
+			comments.find('li').tsort({attr:"id"}); 			
+		},	
+		
+					/* -- */
+		//<div type="toc" starttime=83 duration=1 id="">Objectives of the lecture</div>
+		//
+		appendToDOM : function(id){ 
+			var _this = this;
+			$(vi2.dom).find('[type="comments"]').each(function(i,val){ $(this).remove(); });
+			$.each(	vi2.db.getCommentsById(id), function( i, val ){ 
+				var comm = $('<div></div>')
+					.attr('type',"comments")
+					.attr('starttime', val.start)
+					.attr('duration', 10)
+					.attr('author', val.author)
+					.attr('date', val.date)
+					.attr('id', "")
+					.text(decodeURIComponent(val.comment))
+					.appendTo( vi2.dom )
+					;  
+			});
+		},						
+				
+		/* ... */
+		begin : function(e, id, obj){ 
+
+			if(this.currImgId == obj.content.target){
+				return false;
+			}else{
+				// reset highlight
+				$(this.options.selector+' li').each(function(i){ $(this).removeClass('highcomment');})
+				// highlight comment entry
+				$(this.options.selector+' li#t'+this.formatTime(obj.content.target)).addClass('highcomments');
+			}
+		},
+	
+		/* ... */
+		end : function(e, id){ },
+		
+		/* ... */
+		showCommentsOnTimeline : function(e){
+			if(! this.options.vizOnTimeline ){ return; }
+			var _this= this; 
+				// display tag occurence on timeline to motivate further selection
+				var f = function(_left, _name){
+					var sp = $('<span></span>');					
+					sp.addClass('timetag ttoc').attr('style','left:'+_left+'px;')
+						//.bind('mouseover', function(e){
+						.tooltip({delay: 0, showURL: false, bodyHandler: function() { return $('<span></span>').text("hall");} });
+						//});
+					return sp;
+				};
+				//				
+				$.each(e.tags, function(i, val){ 
+					var progress = this.occ[0] / _this.player.duration();
+					progress = ((progress) * $(_this.timelineSelector).width());
+  	    	if (isNaN(progress) || progress > $(_this.timelineSelector).width()) { return;}
+	 				$(_this.timelineSelector).append(f(progress, val.title));
+ 				});
+		},
+		
+		
+		/* ... */		
+		formatTime : function(secs){
+			var seconds = Math.round(secs);
+    	var minutes = Math.floor(seconds / 60);
+    	minutes = (minutes >= 10) ? minutes : "0" + minutes;
+    	seconds = Math.floor(seconds % 60);
+    	seconds = (seconds >= 10) ? seconds : "0" + seconds;
+    	return minutes + "-" + seconds;
+		}
+		
+	}); // end class Comments
+	/* Comments
+	author: niels.seidel@nise81.com
+	
+	further options:
+	- zeitliche trennung von frage und antwort
+	- wiederholung der frage erlauben
+	- ...
+	*/
+
+
+	/* class Comments **/ 
+	var Assessment = $.inherit(Annotation, /** @lends Assessment# */{
+
+		/** 
+		*		@constructs 
+		*		@param {object} options An object containing the parameters	
+		*/
+  	__constructor : function(options) {
+  			this.options = $.extend(this.options, options); 
+		},
+		
+		name : 'assessment',
+		type : 'annotation',
+		options : {selector: '#overlay', vizOnTimeline: true, path: '/'},
+		timelineSelector : 'div.vi2-video-seek',
+
+		/* ... */
+		init : function(ann){  
+			var _this = this;
+			
+			var comments = $('<ul></ul>').addClass('assessmentlist'); 
+			var li = function(author, title, target, time, id){ 
+				var userIcon = new Image();
+				$(userIcon)
+					.attr('src', _this.options.path+'icon.png')
+					.addClass('user-icon');
+				var a = $('<a></a>')
+					//.append(userIcon)
+					.append(title)
+					.attr('author', author)
+					//.attr('href', '#'+vi2.observer.options.id)
+					.addClass('id-'+time)
+					.click(function(){
+						vi2.observer.log('clickassessmentfromlist:'+title +' '+author+' '+time+' '+id);
+						vi2.observer.player.currentTime(time);
+					});			
+				var user = vi2.db.getUserById(author);	
+				return $('<li></li>')
+					.attr('id', 't'+time)
+					.attr('author', author)
+					.tooltip({delay: 2, showURL: false, bodyHandler: function() { return $('<span></span>').text('Frage von '+user.firstname+' '+user.name);} })
+					.addClass('user-icon list-item')
+					.css('list-style-image',  "url('"+_this.options.path+"user-"+author+".png')")
+					.html(a);
+			};
+			var e = {}; e.tags = []; e.tags.occ = [];
+			$.each(ann, function(i, val){ 
+				if(val.type == 'assessment'){ 
+					var obj = JSON.parse( decodeURIComponent( val.title ) ); 
+					var x = li(val.author, obj.question, obj.target, this.t1, this.t1, val.date)
+					comments.append(x);
+					//alert($(x).html())
+					e.tags.push({name: obj.question, occ:val.t1}); 
+				}
+			});
+			
+			this.showQuestionsOnTimeline(e);
+			
+			// sort list entries by time and append them
+			comments.find('li').tsort({attr:"id"}); 
+			$('#assessment').html(comments);		
+			
+						
+		},							
+		
+		appendToDOM : function(id){ 
+			var _this = this;
+			$(vi2.dom).find('[type="assessment"]').each(function(i,val){ $(this).remove(); });
+			$.each(	vi2.db.getAssessmentById(id), function( i, val ){   
+				var toc = $('<div></div>')
+					.attr('type',"assessment")
+					.attr('starttime', val.start)
+					//.attr('data', val.start)
+					.attr('duration', 10)
+					.attr('author', val.author)
+					.attr('date', val.date)
+					.attr('id', "assessment-"+i)
+					.text(decodeURIComponent(val.title))
+					.appendTo( vi2.dom )
+					;
+			});
+		},
+				
+		/* ... */
+		begin : function(e, id, obj){ 
+			obj = JSON.parse( decodeURIComponent( obj.content.title ) );  
+			var _this = this;
+			var question_selector = 'vi2assessment'+id;
+			vi2.observer.player.pause();
+			vi2.observer.log('assessmentdisplaybegin');
+			//{"question":"bimel","answ":[{"id":"answ0","answ":"hier"},{"id":"answ1","answ":"we"},{"id":"answ2","answ":"go"}],"correct":"answ2"}
+			var o = $('<div></div>')
+				.attr('id', 'vi2assessment')
+				.addClass(question_selector)
+				.html('')
+				.show();
+				
+			var quest = $('<h2></h2>')
+				.addClass('assessment-question')
+				.text(''+obj.question);	
+			var answ = $('<div></div>')
+				.addClass('assessment-answers');
+			
+			// fill in answers box
+			if(obj.answ.length == 1 && obj.answ[0].questiontype == 'fill-in'){ 
+				var answer = $('<div></div>')
+					.attr('id', 'answ0')
+  				.addClass('assessment-answer')
+  				.append('<textarea name="quest"></textarea>')
+  				.append('<br/>')
+  				.appendTo(answ);
+			}else{ // mc answer options
+				$.each(obj.answ, function(i, val){ 
+					var answer = $('<div></div>')
+						.attr('id', val.id)
+						.addClass('assessment-answer')
+						.append('<input type="checkbox" name="quest" value="1" />')
+						.append(val.answ)
+						.click(function(){ $(this).find('input[type="checkbox"]').attr('checked',true) })
+						.append('<br/>')
+						.appendTo(answ);
+				});
+			}	
+			
+			var solve = $('<div></div>')
+				.addClass('assessment-btn')
+				.text('abschicken')
+				.button()
+				.click(function(){
+					$('.assessment-btn').hide();
+					vi2.observer.log('submitassessmenttask:'+id);
+					_this.evaluateAnswer('.'+question_selector, obj)
+				});
+				
+			$(o).append(quest).append(answ).append(solve); 
+			$(this.options.selector).append(o);
+	
+			/*
+			if(this.currImgId == obj.content.target){
+				return false;
+			}else{
+				// reset highlight
+				$(this.options.selector+' li').each(function(i){ $(this).removeClass('highcomment');})
+				// highlight comment entry
+				$(this.options.selector+' li#t'+this.formatTime(obj.content.target)).addClass('highcomment');
+			}
+			*/
+		},
+	
+		/* ... */
+		end : function(e, id){ 
+			$('.vi2assessment'+id).remove();
+		},
+		
+		
+		/* ... */
+		evaluateAnswer : function(question_selector, obj){
+			if(obj.answ[0].questiontype == 'fill-in'){
+				$(question_selector).append($('<p>Vielen Dank für die Bearbeitung der Frage.</p>').addClass('assessment-msg-correct'));
+			}else{ 
+				var one_checked = false, correct = true;
+				obj.checked = [];
+				$('.assessment-msg-warning').hide();
+				$('.assessment-answers').find('div.assessment-answer').each(function(i, val){
+					if($(this).find("input[name='quest']:checked").val() == 1){
+						obj.checked.push($(this).text())
+						one_checked = true;
+						$.each(obj.correct, function(j, corr){ 
+							if(corr == $(val).attr('id')){	
+								obj.correct[j] = true; 
+							}
+						});
+					}
+				});
+			
+				// VALIDATION
+				if( ! one_checked ){
+					//vi2.observer.log('[call:run_assessment, result:empty_selection]'); 
+					//alert('pls select one');
+					$(question_selector).append($('<p>Bitte wählen Sie eine Antwortoption</p>').addClass('assessment-msg-warning'));
+					$('.assessment-btn').show();
+					return false;
+				}
+			
+				// CORRECT?
+				$.each(obj.correct, function(i, val){ 
+					if( val != true ) {
+						vi2.observer.log('assessmentwrong');
+						correct = false;
+					}
+				});
+				if(correct == true){
+					vi2.observer.log('assessmentcorrect');
+					$(question_selector).append($('<p>Ihre Antwort ist richtig.</p>').addClass('assessment-msg-correct'));
+					//vi2.observer.log('[call:run_assessment, result:correct]');
+				}else{ // wrong
+					//vi2.observer.log('[call:run_assessment, result:wrong]');
+					 
+					$(question_selector).append($('<p>Ihre Antwort ist leider falsch.</p>').addClass('assessment-msg-wrong'));
+				}
+			}
+			// save result to node
+			obj.type = obj.answ[0].questiontype;
+			var result = {
+				correct: correct,
+				question : encodeURIComponent(obj.question),
+				answ : obj.answ,
+				res : obj.type == 'mc' ? encodeURIComponent(obj.checked) : encodeURIComponent($('.assessment-answers').find('textarea').val()),
+				videoid : vi2.currentVideo
+			}; 
+			var question_result = {
+		  	from : vi2.wp_user, // the user that answered the question
+		  	to : obj.author, // the author of the question
+		  	date : (new Date()).getTime(),
+		  	type : 'test-result',
+		  	read : false, 
+		  	replied: false,
+		  	title : 'Result: '+encodeURIComponent(obj.question),
+		  	content : result 
+    	};
+			$.post('/messages', {"data":question_result}, function(res){ 
+        //alert('Has been saved: '+ JSON.stringify(res)); 
+    	});
+		
+			// proceed	
+			$(question_selector).append($('<div></div>').addClass('assessment-btn-proceed').text('proceed playback').button().click(function(){
+				$(question_selector).remove();
+				vi2.observer.log('[call:finish_assessment]');
+				vi2.observer.player.play();
+			}))
+		},
+		
+		getLogTime : function(){
+			var date = new Date();
+			var s = date.getSeconds();
+			var mi =date.getMinutes();
+			var h = date.getHours();
+			var d = date.getDate();
+    	var m = date.getMonth()+1;
+    	var y = date.getFullYear();
+    	return date.getTime()+', ' + y +'-'+ (m<=9?'0'+m:m) +'-'+ (d<=9?'0'+d:d)+', '+(h<=9?'0'+h:h)+':'+(mi<=9?'0'+mi:mi)+':'+(s<=9?'0'+s:s)+':'+date.getMilliseconds();
+			//return date.getTime();
+		},
+		
+		
+		/** 
+		*	Displays questions on timeline
+		*/
+		showQuestionsOnTimeline : function(e){
+			if(! this.options.vizOnTimeline ){ return; }
+			var _this= this; 
+				// display tag occurence on timeline to motivate further selection
+				var f = function(_left, _name){
+					var sp = $('<span></span>');					
+					sp.addClass('timetag taccessment').attr('style','left:'+(_left-3)+'px;')
+						.tooltip({delay: 0, showURL: false, bodyHandler: function() { return $('<span></span>').text(_name);} });
+						
+					return sp;
+				};
+				//				
+				$.each(e.tags, function(i, val){
+					var progress = this.occ / vi2.observer.player.duration();
+					progress = ((progress) * $(_this.timelineSelector).width()); 
+  	    	if (isNaN(progress) || progress > $(_this.timelineSelector).width()) { return;}
+	 				$(_this.timelineSelector).append(f(progress, val.name));
+ 				});
+		},
+		
+		
+		/**
+		* Util function to convert seconds into decimal notation. XXX hours missing 
+		*	@param {Number} Time in seconds
+		*	@returns {String} Time as decimal notation  
+		*/		
+		formatTime : function(secs){
+			var seconds = Math.round(secs);
+    	var minutes = Math.floor(seconds / 60);
+    	minutes = (minutes >= 10) ? minutes : "0" + minutes;
+    	seconds = Math.floor(seconds % 60);
+    	seconds = (seconds >= 10) ? seconds : "0" + seconds;
+    	return minutes + "-" + seconds;
+		}
+		
+	}); // end class Comments
+/* Metadata
+	
+	- integrate it as a widget
+	*/
+var Metadata = $.inherit(/** @lends Metadata# */
+	{
+			/** 
+			*		@constructs 
+			*		@param {object} options An object containing the parameters
+			*/
+  		__constructor : function(options) {
+  			if(options){
+	  			this.options = $.extend(this.options, options);
+  			}
+  			this.render();
+  		},
+  		
+  		// defaults
+  		options : {selector:'#metadata', author: 'Niels Seidel', institution: '', title: 'An Interactive Video', category: 'Prototype', date: '2011/06/01', rating: 5, titleselector:'.header'},
+  		labels : {author: 'Author:', title: 'Title:', category: 'Category:', date: 'Date:', rating: 'Rating:'},
+  		
+  		/* ... */
+  		render : function(){
+  			var _this = this;
+  			var data = $('<div></div>')
+  			$.each(this.labels, function(i, val){
+  				data.append('<strong>'+val+'</strong> '+_this.options[i]+'</br>');
+  			});	
+  			$('.meta-title').html(this.options.title);
+  			$('.meta-desc').html(this.options.author+' ('+this.options.institution+')');
+
+  			
+  			//$(this.options.selector).html(data);
+  			//$(this.options.selector).append(this.options.author);
+  		}
+
+});
+
+/* Search within annotated video contents
+author: niels.seidel@nise81.com
+
+- parametrisierung, insb. gewichtung der ergebnisse, sortierung, suchparameter
+- pagination
+
+*/
+
+
+var Vi_Search = $.inherit(/** @lends Search# */{
+
+	/** 
+	*		@constructs 
+	*		
+	*/
+	__constructor : function() {// options
+			//this.options = $.extend(this.options, options);  
+			 
+	},
+	
+	name : 'search',
+	options : {selector: '#null'},
+	content_selector : '#content',
+	total : 0,
+
+
+	/* handle search */
+	find : function(string){
+		
+		if(ocr == undefined){ //alert(22);
+			window.setTimeout("vi2.observer.widget_list['search'].getStreamsBySearch('"+string+"')", 1000); // bug!!
+			return;
+		}else{
+			var t1 = 0, t2 = 0;
+			var t = new Date(); t1 = t.getTime();
+			var _this = this;
+			var result = [];
+			var maxResult = 1;
+		
+	/*		var t1 = 0; var t2 = 0;
+			$.ajax({type: "POST", dataType: "json", url: './ocr.json', 
+				beforeSend : function(){ 
+					var t = new Date(); t1 = t.getTime(); 
+				},
+				success: function(res){  
+					var t = new Date(); t2 = t.getTime();
+					_this.ocr = res;
+		*/			
+				// split search string into words ==> buggy
+				$.each(string.split(" "), function(i, str){ 
+						var expp = new RegExp(str, "gi");
+						// parse json completly 
+						$.each(vi2.db.json_data.stream, function(i, stream){ 
+								// add stream as potential result
+								stream.id = String(stream.id);
+								if(result[i] == null){ 
+									result[i] = {}; 
+								} 
+								result[i].id = stream.id;
+								result[i].title = stream.metadata[0].title;
+								result[i].author = stream.metadata[0].author;
+								if(result[i]['abstract'] == undefined){ result[i]['abstract'] = 0; }
+								if(result[i].tags == undefined){ result[i].tags = 0; }
+								if(result[i].auth == undefined){ result[i].auth = 0; }
+								if(result[i].fulltext == undefined){ result[i].fulltext = 0; }
+							
+								// increment title-count in case it matches
+								if(stream.metadata[0].title.search(expp) != -1 ){
+									result[i].ti = 1;
+								}else{
+									result[i].ti = 0;
+								}		
+								// increment author-count in case it matches
+								if(stream.metadata[0].author.search(expp) != -1 ){
+									result[i].auth = 1;
+								}else{
+									result[i].auth = 0;
+								}		
+								// increment abstract-count in case it matches
+								if(stream.metadata[0]['abstract'].search(expp) != -1 ){
+									result[i]['abstract'] += stream.metadata[0]['abstract'].match(expp).length;
+								}
+								// increment tag-count in case one or more are matching
+								var t = '';
+
+								$.each(stream.tags, function(i,val){ 
+									t += this.tagname+' '; 
+								});	
+					
+								if(t.search(expp) != -1 ){
+									result[i].tags += t.match(expp).length;
+									//alert(stream.id+' '+ result[stream.id].tags);
+								}
+							
+								// full text search inside slides 
+								//var slides = '';
+								$.each(ocr, function(index, val){ 
+									if(val.id == stream.id){ 
+										$.each(val.slides, function(index2, vall){ 
+											if((vall.text).search(expp) != -1){ 
+												result[i].fulltext++;
+												//slides = slides + ',' + vall.source;
+											}
+										});
+									}	
+								});
+							
+								// weight results 
+								result[i]['total'] = result[i].ti * 12 + result[i].auth * 10 + result[i]['abstract'] * 2 + result[i].tags * 10 + result[i].fulltext * 2;
+				
+								if (result[i].total > maxResult) { 
+									maxResult = result[i].total; 
+								}
+						});
+					});
+					// normalize result
+					$.each(result, function(i, val){ if(this.total > 0) this.total = Math.ceil((100*this.total) / maxResult);});
+					var t = new Date(); t2 = t.getTime(); 
+					// render results, header and template
+					$(_this.content_selector).trigger('clear').empty().append($('<h2></h2>').text('Search results for "'+string+'"')).append('<span class="des">(search time: '+(t2-t1)+' ms)</span>');
+						var item =$('<div></div>')
+							.setTemplate($("#search-template").val())
+							.processTemplate({results:result}) // vi2.db.json_data.stream.stream
+							.appendTo($(_this.content_selector));
+
+					// sort results
+					$('div.search-results > div').tsort('.res', {order:"desc"});
+
+		
+		}
+		
+	}
+	
+}); // end class
+	
+/* Playlist
+author: niels.seidel@nise81.com
+
+
+*/
+
+
+var Vi2_Playlist = $.inherit(/** @lends Playlist# */{
+
+	/** 
+	*		@constructs 
+	*		@param {object} options An object containing the parameters
+	*/
+	__constructor : function(options) {
+		this.options = $.extend(this.options, options);	 
+	},
+	
+	name : 'playlist',
+	options : {selector: '#null'},
+	content_selector : '#content',
+	playlist : [],
+	
+	
+	/* adds item to playlist */
+	add : function(id){
+		this.playlist.push(id);
+	},
+	
+	
+	/* removes item from playlist */
+	remove : function(id){
+		var _this = this;
+		$(this.playlist).each(function(i, val){
+			if(val == id){
+				_this.playlist.splice(i, 1);		
+			}
+		});
+	},
+	
+	
+	/* Renders playlist items regarding presentation template */
+	showPlaylist : function(){
+		var _this = this;
+		
+		// handle empty playlist
+		if(_this.playlist.length == 0){
+				$(_this.content_selector).append('(Playlist is empty)')
+		}
+		// remove duplicates
+		this.playlist = removeDuplicates(_this.playlist);
+				
+		$.each(this.playlist, function(i, list_item){ 
+			var stream = vi2.db.getStreamById(list_item)
+			var item =$('<div></div>')
+				.addClass('content-item')
+				.setTemplate($("#item_template").val())
+				.processTemplate(stream);
+			$(_this.content_selector).append(item);
+		});				
+	}
+	
+	
+	
+}); // end class	
+	/* RelatedVideos
+	author: niels.seidel@nise81.com
+	
+	to-do
+	- destructor: man möchte ja nicht nur im eigenen Saft schwimmen (filter bubble), sondern auch auf andere Themen stoßen ... statt optimal match
+	- (server side) 	- users that have seen this video also took a look at ...
+
+	*/
+
+
+	 
+	var Vi2_RelatedVideos = $.inherit(/** @lends RelatedVideos# */{
+
+		/** 
+		*		@constructs 
+		*		@param {object} options An object containing the parameters
+		*/
+  	__constructor : function(options) { 
+  		this.options = $.extend(this.options, options); 
+  		this.showRelatedVideos('huppert1');
+		},
+				
+		name : 'related-videos',
+		options : {target_selector:'#seq', modes:'incomming-links+outgoing-links'},
+		player : null,
+		
+		/* ... */
+		init : function(ann){
+			var _this = this;
+			this.link_list = this.buildLinkList(ann);	
+		},	
+		
+		
+		/* -- */
+		getRelativesByOutgoingLinks : function(id){
+			return vi2.db.getLinkTargetsById(id);	
+		},
+		
+		
+		/* -- */
+		getRelativesByIncommingLinks : function(id){
+			return vi2.db.getLinkSourcesById(id);	
+		},
+		
+		
+		/* -- */		
+		getRelativesByTagRelation : function(id, number){
+			return vi2.db.getStreamsWithSameTag(id);
+		},
+		
+		
+		/* -- */		
+		getRelativesOfSameAuthor : function(id){
+			return vi2.db.getStreamsOfSameAuthor(id);
+		},
+
+		
+		/* -- */
+		determineRelatedLinks : function(id){
+			var _this = this;
+			var streams = []; //alert(this.options.modes.split("+")[0])
+			$.each(this.options.modes.split("+"), function(i, mode){ 
+				switch(mode){
+					case "incomming-links" :
+						streams.push(_this.getRelativesByIncommingLinks(id));
+						break;
+					case "outgoing-links" :
+						streams.push(_this.getRelativesByOutgoingLinks(id));
+						break;
+				}
+			}); 
+			return streams;
+			// sort by occurance
+			for(var i = 0; i < streams.length; i++){
+				s[streams[i]]++;
+  		}	
+  		s.sort(); 
+  		return s;
+		},
+
+		
+		/* -- */
+		showRelatedVideos : function(id){
+			$.each(this.determineRelatedLinks(id), function(i,val){
+				//$('#debug').val($('#debug').val() +' '+ i +'('+val+')');
+			});
+		},
+
+
+		/* unused !!! */
+		showLinkSummary : function(e){ return;
+		 var _this = this;
+			var screen = observer.openScreen(this.options.target_selector);
+			// prepare link list (remove doubles)
+			var ex = [];
+			$.each(_this.link_list.tags, function(i, val){
+				if(ex.indexOf(val.target) == -1){
+					val.name = vi2.db.getMetadataById(val.target.replace(/\#!/, '')).title; 
+					ex.push(val.target);
+				}else{ 
+					val.name = 0; val.target = '';
+				}
+				
+			});
+			// use template
+			screen.setTemplate('<div><h3>Related Lectures:</h3><ul>{#foreach $T.tags as link}{#if $T.link.name == 0}{#else}<li><a href="{$T.link.target}">{$T.link.name}</a></li>{#/if}{#/foreach}</ul></div>');
+			screen.processTemplate(_this.link_list);
+			
+		}
+		
+		
+	}); // end class RelatedVideos		
+/* VideoManager
+author: niels.seidel@nise81.com
+
+description: 
+
+- list streams by category / tag / author / date / ...
+- offers different rendering styles: 
+Karussell, Liste, Card-Deck, Matrix, Stack, Video-Wall, Slide-Row, Slide-Matrix, ...
+
+
+*/
+
+
+
+var Vi2_VideoManager = $.inherit(/** @lends VideoManager# */{ // 
+
+	/** 
+	*		@constructs 
+	*		@param {object} options An object containing the parameters
+	*/
+	__constructor : function(options) {
+			this.options = $.extend(this.options, options);  
+	},
+	
+	name : 'video-manager',
+	type : 'collection',
+	content_selector : '#content',
+	options : {},
+	
+	
+	
+	/* -- */
+	listByTag : function(tag_name){
+		var _this = this;
+		var tags = tag_name.split('+');
+		if(tag_name.split('+') == 0){ tags = []; tags[0] = tag_name; }
+	
+		var template = $("#item_template").val();
+		$(_this.content_selector)
+			.empty()
+			.trigger('clear')
+			.append($('<h2></h2>').text('Lectures with keyword: '+tags[0]));
+		var j = 0;
+		var all_streams = [];
+	
+		$.each(tags, function(i, the_tag_name){	
+			$.each(vi2.db.json_data.stream, function(i, stream){
+				$.each(stream.tags, function(i, tag){
+					if(this.tagname == the_tag_name){
+					 all_streams.push(stream.id);
+					}
+				});
+			});			
+		});
+	
+		all_streams = removeDuplicates(all_streams.sort());
+	
+		// render
+		$.each(all_streams, function(i, val){
+			var item =$('<div></div>')
+						.addClass('content-item')
+						.setTemplate(template)
+						.processTemplate(vi2.db.getStreamById(val))
+						.appendTo($(_this.content_selector));
+					if(j % 2 == 1){ item.css('margin-right', '0');}	
+					j++;
+		});
+	
+		// enable card toggle
+		$('.toggle-card').click(function(e){ if($(this).text() == 'view abstract'){ $(this).text('view metadata');}else{ $(this).text('view abstract');} $(this).parent().find('.show').toggle(); });
+	
+		// enable playlist // dirty call xxx
+		vi2.appendPlaylist();//observer.widget_list['playlist'].handlePlaylist();
+	
+		// reset drop downs
+		$('.getStreamsByTitle').val(-1);
+		$('.getStreamsByCategory').val(-1);
+	},
+	
+	
+	
+	/* -- */
+	// 
+	listByCategory : function(cat_name){
+		var _this = this; 
+			var z = []; 
+			z['Technical measures'] = [1, "This cluster deals with technical measures that are important for IWRM. It covers issues from the field of urban water management (centralized and decentralized wastewater treatment) as well as important reservoir management topics. Furthermore, flood protection measures as an integral part of flood management are shown."];
+			z['Economic instruments'] = [2, "In this part of the module, economic instruments regulating the water demand are explained and illustrated as well as their interaction with hydrologic models. Furthermore, economic problems in multilateral cooperation on shared watercourses as well as the issue of water pricing are successively explained."];
+			z['Water governance'] = [3, "Issues of governance prove to be of utmost importance for sustainable water resources management. Following an illustrated introduction into the topic of water governance, fundamentals in water law, gender issues, options for participation as well as prevailing spatial and sectoral challenges in river basin management are addressed. Particular emphasis is given to capacity development."];
+			z['Tools'] = [4, "Tools for understanding the natural and societal systems that facilitate decision-making processes are becoming increasingly important. A wide range of tools and methods is shown, e.g. modelling, model coupling, Geographic Information Systems (GIS) and consequently their usage within decision-support-systems (DSS). The cluster further addresses issues related to vulnerability and uncertainty in decision-making, e.g. showing tools such as scenario planning."];
+			z['Water and the physical environment'] = [5, "This cluster discusses the components and processes within the hydrologic cycle and resulting management options. It includes different methods to quantify soil erosion, water balance, sediment and contaminant transport. Issues are covered that are related to groundwater quantity and quality, surface water quality, climate change and hydrological extremes."];
+			z['IWRM implementation and case studies'] = [6, "The implementation of Integrated Water Resources Management (IWRM) is still in its infancy. Thus, case studies from different hydrologically sensitive regions of the world are shown in order to discuss challenges that often occur when one tries to practically implement IWRM. Topics include important issues such as transboundary water management as well as the implementation of IWRM in Europe and in the development cooperation."];
+			var i = z[cat_name];	
+			
+			
+		$(_this.content_selector)
+			.empty()
+			.trigger('clear')
+			.setTemplate($("#cat_header").val())
+			.processTemplate({title:cat_name, desc: vi2.db.getCategory(cat_name).desc, style: 'background: no-repeat url(img/cat_s'+i[0]+'.png) white 0px 10px;'});
+				
+		$.each(vi2.db.json_data.stream, function(i, stream){
+				if(stream.metadata[0].category == cat_name){			
+					var item =$('<div></div>')
+						.addClass('content-item')
+						.setTemplate($("#item_template").val())
+						.processTemplate(stream);
+					$(_this.content_selector).append(item);
+				}
+		});
+		
+		$(_this.content_selector+' > .content-item')
+			// sort by weight (expression of didactical order)
+			.tsort('.weight', {order:"asc"})
+			// fix two column layout
+			.each(function(i, val){ 
+				if(i % 2 == 1){ $(this).css('margin-right', '0');}	 
+			});
+		
+		// enable card toggle
+		$('.toggle-card').click(function(e){ if($(this).text() == 'view abstract'){ $(this).text('view metadata');}else{ $(this).text('view abstract');} $(this).parent().find('.show').toggle(); });
+		
+		// enable playlist
+		vi2.appendPlaylist();//observer.widget_list['playlist'].handlePlaylist();
+				
+		// reset drop downs
+		$('.getStreamsByTitle').val(-1);
+		$('.getStreamsByTag').val(-1);
+	},
+	
+	
+	
+	/* buggy ... */
+	listAllItems : function(){
+			var template = $("#item_template").val();
+			
+		// list items of all categories		
+		$.each(this.getCategoryTaxonomie(), function(i, cat_name){
+			// cat name
+			$(_this.content_selector).append($("<h2></h2>").addClass('cat'+i).text(cat_name)).append('<br>');
+			$.each(_this.json_data.stream, function(i, stream){
+				if(stream.metadata[0].category == cat_name){
+					var item =$('<div></div>')
+						.setTemplate(template)
+						.processTemplate(stream)
+						.appendTo($(_this.content_selector));
+						//$('div.hyphenate').hyphenate({remoteloading:true,});//.css('color','red');
+						//$('.text').hidetext();						
+				}
+			});		
+		});
+	
+	}
+	
+	
+	
+}); // end class VideoManager		
+/*
+
+to do:
+- vi-two core integrieren
+- gruppe : video : user
+- speichern von eingaben
+- json-api entfernen
+
+
+
+---------------------------------------------
+- commentar: antwort
+- ass: punkte zählen/ stats => via stats?
+- ass: zu nahe fragen funktionieren nicht
+- ass: editieren der Zeit via 'edit'
+- ass: MC-Fragen
+- vereinheitlichung der widget in vi-two settings
+
+- toc edit / delete / verschieben
+- add Hyperlink
+
+
+- convertierung von popcorn auf IWRM-ähnliche seite 
+--- automatische Verlinkung via tags
+
+- Definition eines WP-templates statt der umständlichen theme-Anpassungen
+
+
+NiceToHave
+- editieren der toc?
+- popcorn plugin für assessment.
+- screencast, tagesschau-beispiel...
+- aquire widget-names from vi2.main
+- popcorn-plugin en-/disable via Widget Editor (??? Wie soll das gehen)
+- add links > IWRM
+
+-- placholder @ videoplayer in css einbinden
+
+
+Admin:
+- Metadaten in popcorn einpflegen >> IWRM
+- define selector for flexible theme adoption
+- video upload via firefogg? 
+
+
+
+*/
+
+var $ = jQuery;
+
+
+/** class Vi-Lab **/ 
+var ViLab = $.inherit({ 
+
+  __constructor : function(server_url) { 
+  		var _this = this;
+  		this.server_url = server_url;
+  		$.get(this.server_url+'/logedin', function(data){  alert(99)
+				_this.wp_user = data.id;
+	 			_this.dom = _this.source_selector;
+	 			_this.loadedWidgets = [];
+				_this.init('startApp', data.videoid);
+				//
+				_this.socket = io.connect(this.server_url); 
+				// refresh database if broadcast message comes i
+				_this.socket.on('broadcast', function(io_data){ 
+					_this.init('updateApp', data.videoid);
+				});
+  		});
+  },
+  
+  
+  json : '',
+  viLog : '',
+  socket : '',
+  wp_user : '',
+ 	author : '...',
+ 	title : '...',
+  source_selector : '#vi2',
+  video_source : '',
+  server_url : '',
+  wp_user : '',
+  plugin_dir : '',//'wp-content/plugins/vi-lab/',
+  // static hack, information should be aquired from vi2.main // xxx
+	widgets : { 
+		test:'bam', 
+		widgets: [
+			{name:'tags'}, 
+			{name:'toc'},
+			{name: 'xlink'},
+			{name: 'comments'},
+			{name: 'slides'},
+			{name: 'assessment'}
+		]
+	},
+	ajaxurl : '',
+	userData : {},
+	observer : '',
+	videoData : {},
+	currentVideo : '',
+	currentGroupVideoNum : 1,
+	phase : {grouplevel:0},
+	videoJSON : {},
+	db: {},
+	
+
+  	/**
+  	* Loads user-, group- and video metadata
+  	*/
+  	init : function(fn, video_id){
+  		this.currentVideo = video_id; //alert(video_id)
+			this.db = new DataBase({path: this.server_url}, this, fn, video_id); //this.server_url+this.plugin_dir
+  	},
+  	
+  	/* Shortcut function to trigger a log entry */
+		log : function(msg){
+			$(this).trigger('log', [msg]);
+		},
+  	viLog : {},
+  	
+  	
+  	/**
+  	*
+  	*/
+  	startApp : function(){ 
+	  	var _this = this;
+  		$(this.source_selector).empty(); 
+  		$('#seq').empty();
+			$('#screen').empty();
+			$('.vi2-video-controls').empty();
+			$('#accordion').empty(); 
+		 	this.userData = this.db.getUserById( this.wp_user );
+		 	  
+		 	if(this.userData.trace == 1){
+		 		$('input#tracing').attr('checked','checked');
+		 	}else{
+		 		$('#tracing').removeAttr('checked');
+		 	}
+		 	$('#tracing').click(function() {
+				if ($(this).is(':checked')) { 
+					_this.userData.trace=1;   
+				} else {
+					_this.userData.trace=0;
+				}
+				$.post('/update-users/'+_this.userData._id, {"data":_this.userData.trace}, function(res2){ 
+       		//alert('Has been saved: '+ JSON.stringify(res2));
+   		 	});
+			});  
+			
+		 	this.currentGroup = this.userData.groups[this.phase.grouplevel];  
+		 	this.groupData = this.db.getGroupById( this.currentGroup ); //alert('group:'+this.currentGroup)
+		 //	this.currentVideo = this.groupData.videos[this.currentGroupVideoNum]; //alert('group-video-index::'+this.currentGroupVideoNum)
+		 	this.videoData = this.db.getStreamById( this.currentVideo );
+		 	this.socket.emit('registered user', { user_id: this.userData.id, group_id: this.currentGroup });
+		 	 
+		 	//alert(JSON.stringify(this.groupData.videos[this.currentGroupVideoNum]))
+		 	//alert(this.videoData.video)
+		 	var video = $('<div></div>')
+				.attr('type',"video")
+				.attr('starttime',0)
+				.attr('duration',7)
+				.attr('id', "myvideo")
+				.text(this.videoData.video)
+				.appendTo(_this.source_selector); 
+
+			// define user area				
+			var logout = $('<a></a>')
+				.attr('href', '/logout')
+				.text(' logout')
+				;
+			var the_user = $('<a></a>')
+				.attr('href', '/account')
+				.addClass('account-data-name')
+				.css('background-image', "url('img/user-icons/user-"+this.userData.id+".png')")
+				.text( this.userData.username);
+			
+			$('.account-data')
+				.empty()
+				.append(the_user)
+				.append(' | ')
+				.append(logout);
+			
+			// build video player	
+			this.loadedWidgets = [];
+			$("#accordion").accordion('destroy').empty();
+			$("#overlay").empty();
+			$('body').find('.ui-dialog').each(function(i,val){ $(this).remove(); });
+			$('body').find('.some-dialog').each(function(i,val){ $(this).remove(); }); 
+			this.viLog = new Log({logger_path:this.server_url+'/log'}); 
+  		$(this).bind('log', function(e, msg){ _this.viLog.add(msg); }); 
+			
+			
+			this.setupVideo( 0 );
+			
+   		//var t = $('#container').html();
+   		//$('#container').parent().remove();
+   		//$('.header').after(t);
+  	},
+
+
+  	/* **/
+  	updateApp : function(){
+			var _this = this; 
+			$.each(this.loadedWidgets, function(i, val){ 
+				_this.loadedWidgets[i]='';
+				_this.enableWidget(val, {accordion: false});
+			});
+			//alert(JSON.stringify(this.db.getTagsById(this.currentVideo)))		
+			this.observer.setAnnotations();
+		},
+
+  script : {},
+  
+  /* setup video*/ // todo: simplify!
+  setupVideo : function(has_parallel_media){ 
+  	var _this = this; 
+		// get scripts settings from backend
+		$.get(this.server_url+'/script', function(res) {  
+		  _this.script = res; 
+			var options = {
+				id : _this.currentVideo,
+				embed:false,
+				selector :  !((res[0].slides == 1)  && has_parallel_media) ? '#seq' : '#screen',
+				videoWidth: (res[0].slides == 1) && has_parallel_media ? 280 : 580,  // video größe hängt nicht von den angeschalteten widgets, sondern von den anotierten ressourcen ab
+				videoHeight: (res[0].slides == 1)  && has_parallel_media ? 158 : 450, 
+				markupType:'html',  	
+				theme:'simpledark', 
+				childtheme:'iwasbasicwhite'
+			};
+			$('#overlay').css('width', options.videoWidth - 35);
+			
+			_this.observer = new Observer(options); 
+		 	_this.observer.init();	 
+			
+  		//_this.viLog = new Log({path: _this.server_url+_this.plugin_dir+'/ip.php', prefix:'[wp_site:'+site_name+', wp_post:'+_this.post_id+', user:'+_this.wp_user+']'}); 
+  		//$(_this).bind('log', function(e, msg){ _this.viLog.add(msg); });
+			 
+			metadataa = new Metadata(_this.db.getMetadataById(_this.currentVideo));  
+			_this.addEdit_btn();  
+			_this.observer.addWidget(_this.viLog); 	
+			$('#screen').empty();
+			this.current_phase = _this.userData.experimental === "" ? 4 : res[0]['current_phase'];
+			
+			$.each(res[0]['phases'][this.current_phase]['widgets'], function(i, widget){ 
+					options = {};
+					options.accordion = widget['accordion'];
+					options.slides = ! ((res[0]['slides'] == 1)  && has_parallel_media ); 
+					
+					// prepare annotation dialogs	
+					if(widget['annotate']){
+						options.annotate = true; 
+						switch(widget['name']){ 
+							// args: type, dialog label, short icon name
+							case 'comments' : _this.prepareDialog('comments', 'Kommentar hinzufügen', '+ Kommentar');  break;
+							case 'tags' : _this.prepareDialog('tags', 'Schlüsselwort (tag) hinzufügen', '+ Tag'); break;
+							case 'toc' : _this.prepareDialog('toc', 'Kapitelmarke für das Inhaltsverzeichnis hinzufügen', '+ Kapitel'); break;
+							case 'assessment' : _this.prepareDialog('assessment', 'Frage hinzufügen', '+ Frage'); break;
+						}
+					}else{
+						options.annotate = false;
+					}
+					_this.enableWidget(widget['name'], options);
+			});
+			_this.observer.parse(_this.source_selector, 'html');
+				
+		
+			// set instruction menu
+			$('.instructions').empty();
+			var tab = $('<ul></ul>');//
+			var tab_content = $('<div></div>')
+				.attr('id', 'instructions-tabs')
+				.prependTo('.instructions')
+				;
+			tab_content
+				.append($('<div></div>').addClass('ui-tabs-label').text('.'))
+				.append(tab);
+				
+			var ii = 1;
+			var current = -1; //alert('__'+JSON.stringify(res[0]['phases'][2]))
+			$.each(res[0]['phases'], function(i, ins){
+				if(i < 4){
+					tab.append('<li><a href="#instab'+ii+'">'+ii+'</a></li>');
+					if(_this.userData.experimental === ""){  // kontrollgruppe
+						tab_content.append($('<div></div>').attr('id', 'instab'+ii).html('<strong>'+ins.title_k+':</strong> '+ins.instruction_k)); // 
+					}else{ // experimentalgruppe
+						tab_content.append($('<div></div>').attr('id', 'instab'+ii).html('<strong>'+ins.title+':</strong> '+ins.instruction));
+					}
+					ii++;
+				}	
+			});		
+			tab_content.tabs();
+			tab_content.tabs('select', _this.userData.experimental === "" ? 0 : this.current_phase);
+		
+			
+			
+			// misc configurations	
+  		$('#accordion').accordion({
+  			autoHeight: true, 
+  			collapsible: false, 
+  			fillSpace: true, 
+  			change: function( event, ui ) { 
+  				_this.enableEditing($('#accordion').find('.ui-accordion-content-active').attr('id'));
+  				//$.each(_this.loadedWidgets, function(i, val){ _this.enableEditing(val); });
+  			} 
+  		});
+  		
+  		
+		});
+		
+		//
+		var m = $('.messages').empty();//.appendTo('ui-tabs-nav');.addClass('')
+		var users_online = $('<span></span>')
+				
+				.addClass('users-online-nav')
+				.prependTo('.account-data')
+				;
+		this.socket.on('broadcast-user-online', function(data){
+			users_online.empty();
+			$.each(_this.db.getUserByGroupId(data.group_id, _this.current_phase), function(i, val){
+				if(val.id != _this.userData.id){
+				var hs = val.hs == 'n' ? 'FH Nordhausen' : 'TUD / IHI Zittau';
+				var ol = data.user_id == val.id ? 'on' : 'op';
+				var the_user = $('<a></a>')
+					.addClass('users-online '+ol)
+					.css('background-image', "url('img/user-icons/user-"+this.id+".png')")
+					.appendTo(users_online)
+					.tooltip({delay: 2, showURL: false, bodyHandler: function() { return $('<span></span>').text(val.firstname+' '+val.name+' ('+hs+')'); } })
+					.text('');
+				}
+			});
+			
+		});
+		
+		//	
+		var msg_button = $('<span></span>')
+			.text('Messages')
+			.addClass('ui-button message-nav')
+			.appendTo(m)
+			.click(function() {
+      	$( ".msg-container" ).empty().toggle( ); // 'blind', {}, 500 
+      	$.get('/messages', function(data){
+					$.each(data, function(i, msg){
+						if(msg.type == 'test-result' && msg.content.videoid == _this.currentVideo){	
+							var user = _this.db.getUserById(msg.from);
+							var date = '';//new Date(msg.date*1000);
+							//date = date.getDay()+'.'+date.getMonth()+'.'+date.getFullYear()+', '+date.getHours()+':'+date.getMinutes()+':'+date.getSeconds();
+							var title = $('<div></div>')
+								.addClass('msg-title ui-button '+msg.type)
+								.css('background-image',  "url('img/user-icons/user-"+msg.from+".png')")
+								.click(function(e){
+									$(this).parent().find('.msg-content').toggle();
+								})
+								.append(user.firstname+' '+user.name)
+								.append($('<span></span>').text(' '+date).addClass('msg-note'));
+						
+							var content = $('<div></div>')
+								.addClass('msg-content')
+								.hide()
+								.append($('<div></div>').html('<b>Frage:</b> '+decodeURIComponent(msg.content.question)))
+								.append($('<div></div>').html('<b>Antwort:</b> '+decodeURIComponent(msg.content.res)));	
+							
+							var feedback = $('<div></div>')
+								.appendTo(content)
+								.append('<b>Feedback:</b> ');
+							$.get('/messages', function(data){
+								$.each(data, function(i, fb){ 
+									if(fb.type == 'feedback' && fb.replyto == msg._id){ 
+										var user = _this.db.getUserById(fb.from);
+										feedback.append($('<div></div>')
+											.addClass('msg-feedback')
+											.css('background-image',  "url('img/user-icons/user-"+fb.from+".png')")
+											.tooltip({delay: 2, showURL: false, bodyHandler: function() { return $('<span></span>').text('Feedback von '+user.firstname+' '+user.name);} })
+											.append(decodeURIComponent(fb.content))
+										);
+									}
+								});
+							});
+							
+							var reply = $('<span></span>')
+								.appendTo(content)
+								.addClass('msg-feedback-reply')
+								.append('<b>Feedback geben:</b> ')
+								.append('<textarea></textarea>')
+								.append($('<span></span>').text('send').addClass('msg-reply ui-button').click(function(){
+										var the_feedback = {
+											from : _this.wp_user, // the user that answered the question
+											to : msg.from, // the author of the question
+											date : new Date(),
+											replyto: msg._id,
+											type : 'feedback',
+											read : false, 
+											replied: false,
+											title : 'Result: ',//+encodeURIComponent(obj.question),
+											content : encodeURIComponent($(this).parent().find('textarea').val()) 
+										};
+										$.post('/messages', {"data":the_feedback}, function(res){ 
+											//alert('Has been saved: '+ JSON.stringify(res));
+											feedback.append($('<div></div>')
+												.addClass('msg-feedback')
+												.css('background-image',  "url('img/user-icons/user-"+the_feedback.from+".png')")
+												.append(decodeURIComponent(the_feedback.content))); 
+										});
+									})// end click
+								);
+												
+							var n = $('<div></div>')
+								.addClass('msg-item')
+								.append(title)
+								.append(content)
+								.appendTo('.msg-container');
+						}
+					});
+				});
+      	return false;
+    	});
+		var msg_container = $('<div></div>')
+			.addClass('msg-container')
+			.text('hello')
+			.appendTo(m)
+			.hide();
+			
+ 
+    // set effect from select menu value
+    
+		/*m.append('Messages').addClass('ui-button').click(function(){
+			
+		});*/
+		
+		// build menu with other accessible videos
+		// needs to be implemented with the vi2-widget
+		$('.sitepanel-right').html('<strong>Related Videos</strong>');
+		var list = $('<div></div>')
+				.addClass('ui-menu related-video-list')
+				.appendTo('.sitepanel-right');
+			
+		$.get('/related-videos/'+_this.groupData.videos.join(","),function(data){ 
+			$.each(data, function(i, video){
+				if(this.id != _this.currentVideo){	
+					//var video = _this.db.getStreamById(this);
+					var el = $('<div></div>')
+						.addClass('related-video')
+						.css('background-image', "url("+video.thumbnail+")")	
+						.appendTo(list);
+					var link = $('<a></a>')
+						.addClass('ui-button')
+						.click(function(){ 
+							_this.currentGroupVideoNum = i;
+							_this.init('startApp', video.id); //_this.parsePopcorn(video.popcorn)
+						})
+						.html(video.metadata[0].title+' ')
+					//.tooltip({delay: 0, showURL: false, bodyHandler: function() { return $('<span></span>').text('Bearbeitet durch: '+video.title);} });
+						.appendTo(el);
+					var info = $('<div></div>').addClass('related-video-info').text(video.metadata[0]["abstract"]+' ').appendTo(el)
+				}
+			});	
+		});
+		
+		
+		// editing progress
+		var status = 0; 
+		var length = this.videoData.metadata[0].length;
+		status =+ (length * 3.5) / (this.videoData.toc.length * 10);
+		status =+ (length * 3.5) / (this.videoData.tags.length * 10);
+		status =+ (length * 3.5) / (this.videoData.assessment.length * 10);
+//		status += (this.videoData.links.length / length ) * 0;
+//		status += (this.videoData.comments.length / length ) * 0;
+		//alert(status);
+		
+  },
+  
+ 
+  
+  loadedWidgets : [],
+  	
+	/* build player dialog by widget definitions **/
+	enableWidget : function(widget_name, options){  
+		var widget = '';
+		var title = widget_name; 
+		if(this.loadedWidgets.indexOf(widget_name) != -1){ 
+			return;
+		} 
+		// invoke widgets
+		switch(widget_name){
+			case "slides" : 
+				//widget = new Vi2_SyncMedia({selector: widget_name, vizOnTimeline: false, controls: false, path : ''});//, placeholder: 'slides/'+stream+'/'+stream+'_00001.jpg'}); 
+				break;
+			case "tags" :  
+				widget = new TemporalTagging({vizOnTimeline: true, max:20}, {}); // sort:'freq'
+				this.observer.addWidget(widget); 
+				title = 'Tags';    
+				break;
+			case "toc" : 
+				widget = new TOC({vizOnTimeline: true, path: this.server_url+'/vi-lab/img/user-icons/'}); 
+				this.observer.addWidget(widget); 
+				//widget.init(this.observer.vid_arr[0]['annotation']);
+				title = 'Inhaltsverzeichnis'; 
+				break
+			case "xlink" :		
+				//widget = new XLink({target_selector:'#seq', vizOnTimeline: true, minDuration:'5'});
+				//this.observer.addWidget(widget);
+				break;	
+			case "comments" : 
+				widget = new Comments({path: this.server_url+'/vi-lab/img/user-icons/'});  
+				this.observer.addWidget(widget); 
+				title = 'Kommentare';
+				break;
+			case "assessment" : 
+				widget = new Assessment({path: this.server_url+'/vi-lab/img/user-icons/'});
+				this.observer.addWidget(widget);
+				title = 'Testfragen';			
+				break;	
+			default : return;			
+		}
+		this.loadedWidgets.push(widget_name);	
+			
+		// add accordion elements
+		if(options.accordion){ 
+			var h3 = $('<h3 class="ui-accordion-header ui-corner-all"></h3>')
+				.append('<a class="accordion-title" href="#">' + title + '</a>');
+			if(options.annotate){
+				h3.append('<a class="accordion-btn ui-state-default add-'+widget_name+'" style="padding-left:12px;">+</a>');
+			}	
+			h3.appendTo('#accordion');
+			$('<div id="' + widget_name + '"></div>').appendTo('#accordion');
+		}	 
+	},
+	
+	
+	
+
+  
+  /** 
+  * Saves Popcorn data via PHP to MySQL database
+  */
+  savePopcorn : function(type){ //alert(type)
+  	var _this = this;
+  	// vi-two DOM to popcorn_json
+  	var data = this.vitwo2json(this.source_selector, type); //alert(JSON.stringify(data));
+ 		
+  	$.post('/update-'+type+'/'+this.videoData._id, {"data":data}, function(res2){ // +this.currentVideo
+        //alert('Has been saved: '+ JSON.stringify(res2));
+       _this.observer.setAnnotations();
+       _this.socket.emit('updated video', { videoid: _this.videoData._id });
+			_this.enableEditing(type);
+       //$.each(_this.loadedWidgets, function(i, val){ _this.enableEditing(val); });       
+    });
+    /*$.post(this.server_url + this.plugin_dir + 'setVideo.php', {id: this.currentVideo, user: this.wp_user, popcorn: popcorn_json }, function(res2){
+        ///alert('Has been saved: '+ res2);
+       _this.observer.setAnnotations();
+    });*/
+  },
+  
+  
+  /* -- 
+<div id="my video" type="video" starttime="0" duration="100">http://127.0.0.1/daily/wp-content/uploads/2012/11/Standard-Projekt.webm</div>
+<div id="" type="xlink" starttime="0" duration="70.08888562434417" posx="50%" posy="50%"></div>
+<div id="" type="seq" starttime="132.82974291710389" seek="0" duration="197.8315320041973">http://127.0.0.1/elearning/vi2/_attachments/slides/seidel1/iwrm_seidel1-3.jpg</div>
+<div type="comment" author="nise" date="2013-01-03 12:46:03" starttime="15.32">hello world</div>
+<div type="toc" author="nise" date="2013-01-03 13:01:46" starttime="16.88">tocc</div>
+<div type="tags" author="nise" date="2013-01-03 20:43:26" starttime="0">kex</div>
+  
+  */
+  vitwo2json : function(dom, type){
+  	var r = []; 
+  	switch(type){
+  		case 'tags' : var tags = [];
+				// fetch tags ... {"tagname":"El Nino","occ":[0]},
+				$(dom).find("div[type='tags']").each(function(i, val){
+					var flag = 0;
+					$.each(tags, function(j,vall){
+						if(this.tagname == encodeURIComponent($(val).text())){
+							this.occ.push(Number($(val).attr('starttime')));
+							flag=1;
+						}
+					}); 
+					if(flag == 0){
+						tags.push(JSON.parse('{"tagname":"'+ encodeURIComponent($(val).text())+'", "occ":['+ Number($(val).attr("starttime"))+'] }'));
+					}
+					//track_tags_1 += '{"id":"TrackEvent'+i+'","type":"tag","popcornOptions": {"start":'+$(this).attr('starttime')+',"end":'+(Number($(this).attr('starttime'))+10)+',"tag":"'+encodeURIComponent($(this).text())+'", "date":"'+$(this).attr('date')+'", "author":"'+$(this).attr('author')+'", "target":"Area1"}, "track":"Track_tags_1","name":"Track1327337639'+Math.ceil(Math.random()*1000)+'"},';		
+				}); 
+				r = tags;
+				break;
+				
+			case 'toc' : var toc = [];
+				// fetch toc ... {"label":"2. Objectives","duration":1,"start":"195.960"},
+				$(dom).find("div[type='toc']").each(function(i, val){
+					toc.push(JSON.parse('{"label":"'+ encodeURIComponent($(this).text())+'", "start":"'+$(this).attr('starttime')+'", "author":"'+$(this).attr('author')+'", "date":"'+$(this).attr('date')+'" }'));
+					//track_toc_1 += '{"id":"TrackEvent'+i+'","type":"toc","popcornOptions": {"start":'+$(this).attr('starttime')+',"end":'+(Number($(this).attr('starttime'))+10)+',"toc":"'+encodeURIComponent($(this).text())+'", "date":"'+$(this).attr('date')+'", "author":"'+$(this).attr('author')+'", "target":"Area1"}, "track":"Track_toc_1","name":"Track1327337639'+Math.ceil(Math.random()*1000)+'"},';		
+				});
+				r = toc;
+				break;
+				
+			case 'comments' : var comments = [];
+				// fetch comments .. {"comment":"hallo welt", "start":"65","author":"thum.daniel", "date":"29.09.2013"}
+				$(dom).find("div[type='comments']").each(function(i, val){
+					comments.push(JSON.parse('{"comment":"'+ encodeURIComponent($(this).text()) +'", "start":"'+$(this).attr('starttime')+'", "author":"'+$(this).attr('author')+'", "date":"'+$(this).attr('date')+'"}'));
+					//track_comments_1 += '{"id":"TrackEvent'+i+'","type":"comment","popcornOptions": {"start":'+$(this).attr('starttime')+',"end":'+(Number($(this).attr('starttime'))+10)+', "comment":"'+encodeURIComponent($(this).text())+'", "date":"'+$(this).attr('date')+'", "author":"'+$(this).attr('author')+'", "target":"Area1"}, "track":"Track_comments_1","name":"Track1327337639'+Math.ceil(Math.random()*1000)+'"},';		
+				});
+				r = comments;
+				break;
+				
+			case 'assessment' : var questions = [];
+				// fetch question
+				$(dom).find("div[type='assessment']").each(function(i, val){ 
+					questions.push(JSON.parse('{"title":"'+encodeURIComponent($(this).text())+'","start":"'+$(this).attr('starttime')+'", "author":"'+$(this).attr('author')+'", "date":"'+$(this).attr('date')+'"}'));
+					//track_questions_1 += '{"id":"TrackEvent'+i+'","type":"question","popcornOptions": {"start":'+$(this).attr('starttime')+',"end":'+(Number($(this).attr('starttime'))+10)+', "question":"'+encodeURIComponent($(this).text())+'", "date":"'+$(this).attr('date')+'", "author":"'+$(this).attr('author')+'", "target":"Area1"}, "track":"Track_comments_1","name":"Track1327337639'+Math.ceil(Math.random()*1000)+'"},';			
+				});
+				r = questions;
+				break;
+		}
+		
+		//json = JSON.parse(json);
+		
+
+		return r;
+  },  	
+	
+	
+	
+	
+	
+	
+	
+	
+	/** 
+  * distinguish different input methods beside textarea :: tags, question/answers
+  */
+  prepareDialog : function(type, label, short_name){  
+  	var _this = this;
+  	var selector = $('<div></div>').attr('id','annotation-dialog-'+type).addClass('some-dialog');
+
+		// add "+"-button to accordion panes 	
+		$('.add-'+type).live("click", function(e) { 
+			selector.dialog('open'); 
+		});
+		
+		// Build form as simple textarea for anotation or as complex (MC-)question and answers form
+  	var form = type != 'assessment' ? $('<textarea></textarea>').attr('id', 'annotionContent') : this.buildAssessmentForm(selector)
+  	
+  	// Build dialog window
+  	selector
+			.html(form)
+			.appendTo('#screen')
+			.dialog({
+					autoOpen: false,
+					height: '300', 
+					width: '400', 
+					modal:true, 
+					draggable: false,
+					open : function(){  
+						_this.observer.player.pause();
+					},
+					buttons : {
+						"save" : function(){  
+							if(_this.saveDialog(type, vi2.observer.player.currentTime(), form, undefined, this)){	// dialog, type, time, form		
+								$(this).dialog("close");			
+							}
+						}
+					},
+					closeOnEscape: true,
+					resizable: false,
+					title: label,// + ' to ' + $(this).attr('title'),
+					//position:['100',0], 
+					colseText:'x',
+					zIndex:200000						
+			}); 
+  },
+  
+  
+  /**
+  *
+  */
+  buildAssessmentForm : function(selector){ 
+  		var question = $('<textarea></textarea>').attr('id', 'annotionQuestion');
+  		var answer_box = $('<div></div>');
+  		
+  		// Multiple Choice / Singele Choice
+  		var assessment_types = ['radio','checkbox','fill-in'];
+  		var type = assessment_types[1];
+  		var ii = 0;
+  		var add = $('<div></div>').addClass('add-question mc-question').button().text('Multiple-Choice-Antwort')
+  			.click(function(){
+  				var rm = $('<span></span>').button().text('x')
+						.click(function(){ 
+							$(this).parent().remove(); 
+							if($('.answer').length == 0){
+								$('.fi-question').show();
+							}	
+						});
+					$('.fi-question').hide();
+					var answ = $('<div></div>')
+						.attr('id', 'answ'+Math.ceil(Math.random()*100))
+						.addClass('answer')
+						.append('<input type="'+ type +'" name="quest" value'+ (type == "=radio" ? 1 : "") +' />')
+						.append('<input type="text" value=""/>')
+						.append(rm)
+						.append('<br/>');
+					var height = Number(selector.dialog( "option", "height")); 
+					selector.dialog( "option", "height", (height+25));
+					ii++;
+					answer_box.append(answ);
+			});
+  		 
+  		// fill-in text
+  		var add2 = $('<div></div>').addClass('add-question fi-question').button().text('Freitext-Antwort')
+  			.click(function(){
+					var rm = $('<span></span>').button().text('x').click(function(){ 
+						$(this).parent().remove();
+						$('.add-question').show();
+				});
+  			$('.add-question').hide();
+  			var answ = $('<div></div>')
+  				.attr('id', 'answ'+Math.ceil(Math.random()*100))
+  				.addClass('answer')
+  				.append('<textarea></textarea>')
+  				.append(rm)
+  				.append('<br/>');
+  			var height = Number(selector.dialog( "option", "height")); 
+  			selector.dialog( "option", "height", (height+25));
+  			ii++;
+  			answer_box.append(answ);
+  		});
+  		 
+  		//
+  		return $('<div></div>')
+  			.addClass('questionanswers')
+  			.append(question)
+  			.append(answer_box)
+  			.append(add)
+  			.append(add2);
+  	},
+  
+  
+  /* Assessment Edit Form **/
+  assessmentEditForm : function(json, selector){ 
+		//add question
+		var question = $('<textarea></textarea>').attr('id', 'annotionQuestion').val(json.question);
+		var answer_box = $('<div></div>');
+		
+			var ii = 0;
+			var add = $('<div></div>').button().text('add answer').click(function(){
+				var rm = $('<span></span>').button().text('x').click(function(){ 
+					$(this).parent().remove();
+					if($('.answer').length == 0){
+						$('.fi-question').show();
+					}	
+				});
+				var answ = $('<div></div>')
+					.attr('id', 'answ'+Math.ceil(Math.random()*100))
+					.addClass('answer')
+					.append('<input type="checkbox" name="quest" value="1" />')
+					.append('<input type="text" value=""/>')
+					.append(rm)
+					.append('<br/>');
+				var height = Number(selector.dialog( "option", "height")); 
+				selector.dialog( "option", "height", (height+25));
+				ii++;
+				answer_box.append(answ);
+			});
+			
+			// fill in questions
+			var add2 = $('<div></div>').addClass('add-question fi-question').button().text('Freitext-Antwort')
+  			.click(function(){
+					var rm = $('<span></span>').button().text('x').click(function(){ 
+						$(this).parent().remove();
+						$('.add-question').show();
+					});
+  			$('.add-question').hide();
+  			var answ = $('<div></div>')
+  				.attr('id', 'answ'+Math.ceil(Math.random()*100))
+  				.addClass('answer fi-answer')
+  				.append('<textarea></textarea>')
+  				.append(rm)
+  				.append('<br/>');
+  			var height = Number(selector.dialog( "option", "height")); 
+  			selector.dialog( "option", "height", (height+25));
+  			ii++;
+  			answer_box.append(answ);
+  		});	
+		
+		// handle answers
+		if(json.answ[0].questiontype == 'mc'){
+			// add existing answers
+			$.each(json.answ, function(i, val){ 
+				var rm = $('<span></span>').button().text('x')
+					.click(function(){ 
+						$(this).parent().remove(); 
+						if($('.answer').length == 0){
+							$('.fi-question').show();
+						}
+					});
+				var checkbox = $('<input type="checkbox" name="quest" value="1" />');
+				$.each(json.correct, function(j, el){
+					if(el == val.id){ 
+						checkbox.attr('checked', true);
+					}
+				});
+				var answ = $('<div></div>')
+					.attr('id', val.id)
+					.addClass('answer')
+					.append(checkbox)
+					.append($('<input type="text" />').val(val.answ))
+					.append(rm)
+					.append('<br/>')
+					.appendTo(answer_box);
+				var height = Number(selector.dialog( "option", "height")); 
+				selector.dialog( "option", "height", (height+25));
+			
+			}); 
+		}else if(json.answ[0].questiontype == 'fill-in'){ 
+			var rm = $('<span></span>').button().text('x').click(function(){ 
+					$(this).parent().remove();
+					if($('.answer').length == 0){
+						$('.fi-question').show();
+					}	
+				});
+			var answ = $('<div></div>')
+  				.attr('id', 'answ'+Math.ceil(Math.random()*100))
+  				.addClass('answer fi-answer')
+  				.append($('<textarea></textarea>').val(json.answ[0].answ))
+  				.append(rm)
+  				.append('<br/>')
+  				.appendTo(answer_box);
+  			var height = Number(selector.dialog( "option", "height")); 
+		}
+		
+		
+		return $('<div></div>')
+		.addClass('questionanswers')
+		.append(question)
+		.append(answer_box)
+		.append(add)
+		.append(add2);
+	},
+  
+  
+  /** -- */
+  saveDialog: function(type, time, form, replaceAnnotation, selector){
+  	var _this = this;
+  	if( ! _this.validateForm(selector)){
+  		return false;
+  	}
+  	var data = {};
+		data.time = time;  
+		//				
+		if(type == 'assessment'){  	 
+			var o = {};
+			o.question = $(selector).find('#annotionQuestion').val(); 
+			o.answ = [];
+			o.correct = []; 
+			var qtype = 'mc';
+			$(selector).find('.questionanswers div.answer').each(function(i, val){
+				if($(this).find("input[name='quest']:checked").val() == 1){ 
+					o.correct.push($(this).attr('id'));
+				}
+				var the_answer = $(this).find("input[type='text']").val();
+				if(the_answer == undefined){ 
+					the_answer = $(this).find('textarea').val(); 
+					qtype = 'fill-in';
+				}
+				o.answ.push({id: $(this).attr('id'), answ: the_answer, questiontype: qtype });
+			});
+			data.content = o; //JSON.stringify(o); //alertencodeURIComponent(data.content));
+		}else{
+			data.content = form.val();
+		}
+		// validation					
+		if (data.content != {}){   
+			// update DOM
+			var element = ''; 
+			if(replaceAnnotation != undefined){ //alert('update DOM-'+type+'___'+JSON.stringify(data.content.question)); 
+				if(type == 'tags'){ //alert(replaceAnnotation+'   '+data.content)
+					$(_this.source_selector).find(':contains("'+replaceAnnotation.replace('--',' ')+'")').each(function(i,val){
+						$(this).text(data.content);
+					});
+				}else{
+					$(_this.source_selector).find('[starttime="'+replaceAnnotation+'"]')
+						.attr('author', vi2.wp_user)
+						.attr('date', new Date().getTime())
+						.text(type=='assessment' ? JSON.stringify(data.content) : data.content);
+				}	
+			// add DOM		
+			}else{ //alert('add DOM')//alert(JSON.stringify(data.content)); alert(data.type)
+				element = $('<div></div>')
+    		//.attr('id', el.popcornOptions.text)
+    		.attr('type', type)
+    		.attr('starttime', data.time)
+    		//.attr('duration', 10)
+    		.attr('author', vi2.wp_user)
+    		.attr('date', new Date().getTime()) // time in ms
+    		.html(type=='assessment' ? JSON.stringify(data.content) : data.content )
+    		.appendTo(_this.source_selector);
+    	}	
+			// save to popcorn / WP
+			_this.savePopcorn(type);
+			vi2.observer.log('saveannotation:'+type +' '+time);					
+			// update player
+  		
+			//_this.observer.log('[call:add_annotation, content:'+data.content+', time:'+data.time+']');
+			_this.observer.player.play(); // restart playback
+		
+		}else{
+			//_this.player.play();									
+		}		
+		return true;
+  },
+  
+  /**
+  */
+  validateForm : function(selector){
+  	var textarea_flag = 0, textinput_flag = 0, msg = '', sum_checked = 0, sum_checkbox = 0;
+  	$(selector).find('input[type=text]').each(function(i,val){
+  		if($(val).val() == ''){
+  			$(val).css('border','solid 1px red');
+  			textinput_flag = true;
+  		}else{
+  			$(val).css('border','solid 1px black');
+  		}
+  	});
+  	if(textinput_flag){
+  		msg += "\n Versehen Sie bitte jede Antwortoption mit einem Text.";
+  	}
+  	
+  	$(selector).find('textarea').each(function(i,val){
+  		if(String($(val).val()).length < 2){
+  			$(val).css('border','solid 1px red');
+  			textarea_flag = true;
+  		}else{
+  			$(val).css('border','solid 1px black');
+  		}
+  	});
+  	if(textarea_flag){
+  		msg += "\n Definieren Sie bitte einen Text für diese Frage bzw. Antwort.";
+  	}
+  	
+  	if($(selector).find('input[type=checkbox]').length > 0 && $(selector).find('input:checked').length == 0){ 
+  		msg =+ "\n Mindestens eine Antwortoption sollte als richtig markiert werden.";
+  	}
+  	
+  	if(String(msg).length === 0){ return true; }else{ alert('Validation Error:'+msg); return false;}
+  },
+  
+  current_phase : 0,
+	
+	/* -- **/
+	enableEditing : function(ttype){  
+		var annotate = false;
+		this.current_phase = this.userData.experimental === "" ? 4 : this.script[0]['current_phase'];
+		
+		$.each(this.script[0]['phases'][this.current_phase]['widgets'], function(i, widget){ 
+			if(this.name == ttype){ 
+				annotate = widget.annotate;
+			}
+		});
+		if(! annotate){
+			return;
+		}
+		  
+		var _this = this;
+		// 
+		$('.'+ttype+'list').find('a.accordion-annotation-edit').each(function(i,val){ $(this).remove(); });
+		
+		$('.'+ttype+'list').find('li').each(function(i, val){  
+			if(ttype =='toc' || ttype =='tags' || $(val).attr('author') == _this.wp_user){ 
+				var selector = $('<div></div)').attr('id','annotation-dialog-'+ttype+'-'+i).addClass('some-dialog');
+				var id = $(val).find('a').attr('class').replace('id-', '');
+				var edit_btn = $('<a></a>')
+					.addClass('accordion-annotation-edit tiny-edit-btn ui-button tiny-edit-btn-'+ttype)
+					.click(function(e){ 
+						selector.dialog('open'); // {"question":"bim","answ":[{"id":"answ0","answ":"he"},{"id":"answ1","answ":"ho"}],"correct":"answ0"}
+					});
+				var delete_btn = $('<a></a>')
+					.addClass('accordion-annotation-edit tiny-delete-btn ui-button tiny-delete-btn-'+ttype)
+					.click(function(e){ 
+						//$(this).text('realy?').click(function(){ 
+							//$(this).parent().parent().remove();
+							if(ttype == 'tags'){ 
+								$(_this.source_selector).find(':contains("'+id+'")').each(function(i,val){
+									$(this).remove();
+								});
+							}else{
+								$(_this.source_selector).find('[starttime="'+id+'"]').remove();
+							}	
+							_this.savePopcorn(ttype);
+						//});
+					}); 
+				var palette = $('<span></span>').addClass('icon-bar').append(edit_btn).append(delete_btn)	
+				$(val).find('.icon-bar').each(function(i,val){ $(this).remove(); });
+				$(val).append(palette);
+			
+				var form = '';
+				switch(ttype){
+					case 'assessment':
+						form = _this.assessmentEditForm(JSON.parse(String($('#vi2').find('[starttime="'+id+'"]').text())), selector);
+						break;
+					case 'tags':
+						form = $('<textarea></textarea>').attr('id', 'annotionContent').val(id.replace('--', ' '));
+						break;	
+					default:
+						form = $('<textarea></textarea>').attr('id', 'annotionContent').val($('#vi2').find('[starttime="'+id+'"]').text());
+				} 
+					 	
+				//				
+				selector
+					.html(form)
+					.dialog({
+						autoOpen: false,
+						height: '200', 
+						width: '300', 
+						modal:true, 
+						draggable: false,
+						open : function(){ 
+							//vi2.observer.player.pause();
+						},
+						buttons : {
+							"save" : function(){  
+								if(_this.saveDialog(ttype, id, form, id, this)){	// dialog, type, time, form, replace		
+									$(this).dialog("close");	
+								}
+							},
+							"delete" : function(){
+								$('#vi2').find('[starttime="'+id+'"]').remove();
+								_this.savePopcorn(ttype);					
+								$(this).dialog("close");
+							}
+					},
+					closeOnEscape: true,
+					resizable: false,
+					title: 'Define a Question',// + ' to ' + $(this).attr('title'),
+					//position:['100',0], 
+					colseText:'x',
+					zIndex:200000						
+				}); // end selector	
+			}// end if		
+		}); // end each
+	},
+	
+	
+		
+ 
+  /** 
+  * Call popcorn-maker by pressing an edit button 
+  */
+  addEdit_btn : function(){
+  	var _this = this;
+    var popcorn_url = this.server_url +'/vi-lab/js/popcorn-maker/index.html';
+		var title = $('.entry-title').text();
+		var dialog = $("#dialog");
+		
+    // call popcorn
+    $('<a></a>')
+			.text('edit')
+			.addClass('edit-videolab')
+			.button()
+			.click(function(e){ 
+				vi2.observer.log('[call:open_popcorn]');
+				$("#dialog").empty();
+				var frame = $('<iframe></iframe>')	
+					.attr('src', popcorn_url)// + '?post_id=' + _this.post_id + '&title=' + title)
+					.attr('height', '100%')
+					.attr('width', '100%'); 
+				dialog.append(frame).dialog({height: '650', width: '1000', modal:true, position:['100','40'], zIndex:200000 ,title: title});	
+			})
+		//.appendTo('.meta-desc');
+	},
+	
+	
+	/* ... */
+	getWidgets : function(){
+		
+		return true;
+	}
+	
+
+});// end class VideoLab
+
+
+
+
+
+
+
+
+

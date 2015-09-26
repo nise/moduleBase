@@ -1,0 +1,28 @@
+<% layout('admin-layout') -%>
+
+<script type="text/javascript"> 
+	$.get('/json/etherpad', function(data){ 
+		$.each(data.etherpad, function(i, val){ 
+			var head = $('<h4></h4>').text('Group-ID: '+val.group )
+			var content = $('<div></div>')
+				.append(val.text.html);
+			var feedback = getFeedback();	
+			var item = $('<div></div>')
+				.addClass('null')
+				.append(head)
+				.append(content)
+				.appendTo('.admin-pads');
+		});
+	});
+	
+	function getFeedback(){
+	}
+		
+</script>
+
+<h2>Etherpad contet per Group</h2>
+
+
+<div class="admin-pads"></div>
+
+

@@ -1,0 +1,254 @@
+<% layout( 'layout' ) -%>
+
+<script>
+
+$(document).ready (function () { 
+	
+
+	$.get('/json/images/all', function(data){  
+		$.each(data, function(i, val){
+			  
+			var portal = String(val.portal).replace(/[\ .,\&\/]/g, '-').toLowerCase();
+			
+			if(portal !== undefined && portal.length !== 0){
+				var link = $('<a></a>')
+					.attr('href', val.url )
+					.attr('onclick', 'javascript:openGallery("' + portal + '", "'+ val.portal+' ('+ val.tags+'): '+ val.caption +'")')
+					.attr('width','30%')
+					.addClass('thumbnail')
+					.addClass('gallery' + portal )
+					;
+				
+				var image = new Image(); 
+				$(image)
+					.attr('src', val.url + '?v' + val.updated_at)
+					.attr('alt', val.filename)
+					.attr('title', val.portal+' ('+ val.tags+'): '+ val.caption )
+					.attr('data-toggle', "tooltip")
+					.attr('data-placement',"bottom")
+					.addClass('gallery' + portal )
+					.appendTo(link)
+					;
+			
+				var div = $('<div></div>')
+					.addClass('col-sm-6 col-md-4')
+					.append(link) //alert('#'+String(val.portal).replace(/\ /g, '-')+'.panel-body.row')
+					.appendTo('#'+ portal +' .panel .panel-body .row');
+			}	
+		});
+		$('[data-toggle="tooltip"]').tooltip();
+	});
+	
+	// save comments
+	$("form").submit(function(e) { 
+		  e.preventDefault(); // Prevents the page from refreshing
+		  var $this = $(this); // `this` refers to the current form element
+		  $.post(
+		      $this.attr("action"), // Gets the URL to sent the post to
+		      $this.serialize(), // Serializes form data in standard format
+		      function(data) { alert(data)/** code to handle response **/ },
+		      "json" // The format the response should be in
+		  );
+		  return false;
+	});
+	
+});
+
+
+	function submitComment(id){
+		alert(id);
+	}
+
+	function openGallery(i, caption){
+		jQuery('a.gallery'+i).colorbox({ 
+			opacity:0.9 , 
+			rel:'group'+i, 
+			maxHeight: '90%', 
+			maxWidth:'90%', 
+			fadeout:500, 
+			transition:'none', 
+			scalePhotos:true,
+			title: caption,
+			photo:true
+		});
+	}	/**/	
+</script>
+
+
+  <!-- Main component for a primary marketing message or call to action -->
+<div class="jumbotron">
+	<div class="container">
+  <h2></h2>
+  <h2><%= title %></h2>
+  <p hidden>This example is a quick exercise to illustrate how the default, static and fixed to top navbar work. It includes the responsive CSS and HTML, so it also adapts to your viewport and device.</p>
+ 
+  <p hidden>
+    <a class="btn btn-lg btn-primary" href="../../components/#navbar" role="button">View navbar docs &raquo;</a>
+  </p>
+  </div>
+</div>
+
+
+<div class="container">
+<div class="row">
+<div class="col-md-8">
+<% i = 0 %>
+<% items.forEach( function ( item ){ %>
+<% i++ %>
+
+<div class="portfolio-item 
+<% item.tags.forEach( function ( tag ){ %>
+<%=: tag | replace:/\ /g,'-' %>
+<% }); %>
+" id="<%=: item.name | replace:/[\ .,\&\/]/g,'-' | downcase %>">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h4><%= item.name %> 
+			<a class="button" style="display:inline;float:right;" href="/portals/edit/<%= item._id %>" title="Update this item item"> 				
+				<span class="right glyphicon glyphicon-pencil" aria-hidden="true"></span>
+			</a></h4>
+		</div>	
+		<div class="panel-body">
+			<div class="description mark"><%= item.description %></div>
+			<div hidden class="category">
+				<%= item.category %>
+			</div>
+			<div class="provider">
+				<% j=item.url.length %>
+				<% jj=item.provider.length %> 
+				<% if (j > 5) { %>
+				<strong>Provider/Link:</strong> <a href="<%= item.url %>"><%= item.provider %></a><br>
+				<% }else if(jj == 0) { %>
+				<strong>Provider/Link:</strong> <a href="<%= item.url %>">Link</a><br>
+				<% } else{ %>
+				<strong>Provider/Link:</strong> <%= item.provider %><br>
+				<% } %>
+			</div>
+			<div class="analysis">
+				<strong>Remark:</strong> <%= item.availability %><br>
+				<% if (item.accessible == true) { %>
+				This video environment could be analysed by the author.
+				<%}%><br><br>
+			</div>
+			<div class="tags">
+				<span class="glyphicon glyphicon-tags" aria-hidden="true"></span> 
+				<% item.tags.forEach( function ( tag ){ %>
+					<a href="/portals/tag/<%=: tag | replace:/\ /g,'-' %>"><%=: tag %></a>, 
+					<% if (tag) { %><% }%>
+				<% }); %>
+			</div>
+			<div class="patterns">
+				<strong>Patterns:</strong>
+				<% item.patterns.forEach( function ( pattern ){ %>
+					<a class="label label-primary" href="/portals/patterns/<%=: pattern | replace:' ','-'  %>"><%=: pattern %></a>
+					<% if(pattern.slice(-1) === " "){ %>
+						xxx
+					<% } %>  
+				<% }); %>
+			</div>
+			<div class="row">
+			</div>
+			
+		</div>
+		
+		<div class="panel-footer" hidden>
+		<!-- add comments -->
+		<a class="" data-toggle="collapse" href="#collapse-comments-<%= i  %>" aria-expanded="false" aria-controls="collapseExample">
+			Comments <span class="badge">42</span>
+			</a><br>
+		<div class="collapse" id="collapse-comments-<%= i %>"> 
+			<div class="" hidden>
+				<span hidden class="right glyphicon glyphicon-comment" aria-hidden="true"></span> 
+			</div>
+				<!-- add new comment -->	
+				<form id="<%= item._id %>" action="" method="post" accept-charset="utf-8">
+					<div class="input-group">
+						<input type="text" class="form-control" name="mail" placeholder="Your name or email" aria-describedby="basic-addon2">
+						<textarea class="form-control" placeholder="Your comment about that video application" aria-describedby="basic-addon3"></textarea><br>
+						
+		    	</div>
+		    	<span class="input-group-btn">
+		      		<button class="btn btn-default" type="submit">send</button>
+		    	</span>
+      	</form>
+      </div>
+		</div>
+	</div>
+</div>	
+
+<% }); %>
+</div>
+
+<div class="col-md-4">
+
+		<h4>Filter by application type</h4>
+		<div class="btn-group-xs filter-portals" data-toggle="buttons">
+			<label class="btn btn-primary"><input id="a" type="checkbox" autocomplete="off">Learning Environment</label>
+			<label class="btn btn-primary"><input id="b" type="checkbox" autocomplete="off">Portal</label>
+			<label class="btn btn-primary"><input id="c" type="checkbox" autocomplete="off">Authoring Tool</label>
+			<label class="btn btn-primary"><input id="d" type="checkbox" autocomplete="off">Online App</label>
+			<label class="btn btn-primary"><input id="e" type="checkbox" autocomplete="off">Desktop App</label>
+			<label class="btn btn-primary"><input id="f" type="checkbox" autocomplete="off">Annotation Tool</label>
+			<label class="btn btn-primary"><input id="g" type="checkbox" autocomplete="off">Framework</label>
+			<label class="btn btn-primary"><input id="h" type="checkbox" autocomplete="off">Research Prototype</label>
+			<label class="btn btn-primary"><input id="i" type="checkbox" autocomplete="off">Interactive Film</label>
+			<label class="btn btn-primary"><input id="j" type="checkbox" autocomplete="off">Search Engine</label>
+			<label class="btn btn-primary"><input id="k" type="checkbox" autocomplete="off">Open Source</label>
+			<label class="btn btn-primary"><input id="l" type="checkbox" autocomplete="off">Player</label>
+		</div>
+		<h4>Recent comments</h4>
+		<ul class="recent-comments"></ul>
+		<h4>Recomment a video application</h4>
+</div>
+
+<script>
+
+/*
+Filter all applications by their annotated tag or category
+**/
+$('.filter-portals input').change(function () {
+	var id = $(this).attr('id');
+	var map = {
+		'a': 'Video-Learning-Environment', 
+		'b': 'Video-Portal', 
+		'c': 'Video-Authoring-Environment',
+		'd': 'Online-Environment',
+		'e': 'Desktop-Environment',
+		'f': 'Annotation-Tool',
+		'g': 'Video-Framework',
+		'h': 'Research-Prototype',
+		'i': 'Interactive-Film',
+		'j': 'Search-Engine',
+		'k': 'Open-Source',
+		'l': 'Player',
+	};
+	
+    if ($('input#'+id).is(':checked')) {
+        $('input#'+id).addClass('checked');
+        $('.'+map[ id ]).hide(); 
+    } else {
+        $('input#'+id).removeClass('checked'); 
+        $('.'+map[ id ]).show();
+    }
+});
+
+/*
+Comments
+**/
+	$.get('/json/messages/portal', function(data){ return;
+		$.each(data, function(i, val){
+			// plot 10 recent comments
+			if( i < 10 ){
+				var li = $('<li></li>')
+					.text( val.content )
+					.appendTo('recent-comments');
+			} 
+			
+		});
+	});
+
+</script>
+
+
+</div>	
+</div>

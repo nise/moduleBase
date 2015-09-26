@@ -1,0 +1,46 @@
+<% layout( 'video-layout' ) -%>
+
+<script>
+	var 
+			observer = undefined, 
+			vi2 = undefined, 
+			ocr = undefined;  
+		
+		$('#main').append('<span id="inte">Bitte loggen Sie sich hier ein: <a href="/login">Login</a></span>');  
+			
+			vi2 = new ViLab(server, "<%= items[0]._id %>"); 
+			
+			
+		jQuery(document).ready(function(e) {
+			
+		}); 
+ 
+</script> 	
+	
+	<h2><%= items[0].metadata[0].title %></h2>
+	<div id="main">
+		<div id="dialog" title="Dialog Title" hidden></div>		
+		<div class="header" hidden >
+			<h2 class="meta-title"></h2>
+			<div class="meta-desc"></div>
+		</div>
+		
+		<div id="container">
+			<div id="meta" style=""  >
+				<div id="screen"></div>
+				<div id="accordion" style=""></div>	
+			</div>
+			<div id="seq"></div>
+			<div id="overlay"></div>
+		</div>
+		<div class="sitepanel-right" hidden ></div>
+	</div>
+	
+	
+	
+
+
+
+
+	
+

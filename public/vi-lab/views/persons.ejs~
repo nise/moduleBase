@@ -1,0 +1,82 @@
+
+<script type="text/javascript"> 
+//
+var aAsc = [];
+function sortTable(e) { 
+	$('#xtable').find('tr.bio').each(function(i, val){
+		$(this).hide(); 
+	});
+	var nr = $(e.currentTarget).index(); 
+	aAsc[nr] = aAsc[nr]=='asc'?'desc':'asc';
+	$('#xtable > tbody > tr').tsort('tr["num"], td:eq('+nr+')',{order:aAsc[nr]});
+}
+//$('#xtable').find('thead th:last').siblings().bind('click', sortTable);
+
+//
+var show_bio = function(cl){ 
+	$('#xtable').find('tr.bio').each(function(i, val){
+		$(this).hide(); 
+	});
+	$('tr.'+cl).show();
+	
+}
+alert(markdown.toHTML('# hrllo'));
+$('#mark').html(markdown.toHTML($('#mark').text()));
+</script>
+
+
+<h2>Personen</h2>
+<div id="mark">
+
+
+</div>
+<table id="xtable">
+<thead>
+	<th></th>
+	<th>Nachname</th>
+	<th>Vorname</th>
+	<th>Geburtstag</th>
+	<th>Geburtsort</th>
+	<th>Todestag</th>
+	<th>Todesort</th>
+<!--	<th>Berufsgruppe</th>-->
+	<th>Beruf</th>
+</thead>
+<tbody>
+
+	<% if (items.length) { %>
+	<% i=0 %>	
+		<% items.forEach(function(item){ i++ %>
+			<tr class="meta" num="e<%= i %>">
+				<td><% if (item.images[0]) { %><img width="70" src="/vi-lab/img/persons/<%= item.images[0] %>" /><% } %></td> 
+				<td>
+					<% if (item.bio != "") { %>
+						<a href="javascript:show_bio('bio-<%=: item.shortname | replace:/ /g,'_' %>');" title=""><%= item.surename %></a>
+					<% }else {%>
+						<%= item.surename %>
+					<%}%>
+					</td>
+				<td><%= item.name %><a href="/persons/<%=: item.shortname | replace:/ /g,'_' %>" title=""></a></td>
+				<td><%=: item.birth | replace:/00./g,'' %></td>
+				<td><%= item.birth_place %></td>
+				<td><%=: item.death | replace:/00./g,'' %></td>
+				<td><%= item.death_place %></td>
+				<!--<td><%= item.prof_group %></td>-->
+				<td><%= item.profession %></td>
+		</tr>
+		<tr class="bio bio-<%=: item.shortname | replace:/ /g,'_' %>" hidden num="e<%= i %>">
+				<td class="bio markdown" colspan="9"><%= item.bio %></td>
+		</tr>
+		<!--
+  		<%= item.bio %> 
+	    <% item.images.forEach( function ( image ){ %>
+	    	<img src="<%= image %>" />
+	    <% }); %>
+     	<a class="button" href="/persons/<%=: item.shortname | replace:/ /g,'_' %>" title="Update this person item">bearbeiten</a>
+     	-->
+     <% }) %>
+ 	<% } %>
+      
+  </tbody>
+</table> 
+    

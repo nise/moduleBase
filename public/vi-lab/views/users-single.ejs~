@@ -1,0 +1,17 @@
+<% layout('layout') -%>
+
+<script type="text/javascript"> 
+//$('.markdown').each(function(i, val){ $(this).html( markdown.toHTML($(this).text()) );});
+</script>
+
+
+
+  <h2><img width="40" src="/vi-lab/img/user-icons/user-<%= item.id %>_big.png" /> <%= item.username %></h2>
+  <p>
+    <div class="edit-form">
+  	 	<label>Name:</label> <%= item.firstname %> <%= item.name %><br/>
+  	 	<label>Benutzername:</label> <%= item.username %> <br/>
+			
+    </div>
+  </p>
+

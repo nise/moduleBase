@@ -1,0 +1,117 @@
+
+<script >
+
+$(document).ready (function () { 
+
+	// animated gif as visual summary
+	$('.still-images')
+  	.hover(function () { 
+    		var source = $(this).attr('src');
+        $(this).attr('src', source.replace('.jpg', '.gif'));
+		} ,function () {
+    		var source = $(this).attr('src');
+        $(this).attr('src', source.replace('.gif', '.jpg'));
+	});
+});
+	
+	function openGallery(i){ alert(i)
+		jQuery('a.gallery'+i).colorbox({ 
+			opacity:0.5 , 
+			rel:'group'+i, 
+			maxHeight: '470px', 
+			maxWidth:'800px', 
+			fadeout:500, 
+			transition:'none', 
+			photo:true
+		});
+	}	
+	
+</script>
+
+<!-- 
+<textarea id="text-input" oninput="this.editor.update()"
+              rows="6" cols="60">Type **Markdown** here.</textarea>
+    <div id="preview"> </div>
+
+
+<script src="js/markdown.js"></script>
+
+<script>
+      function Editor(input, preview) { return;
+        this.update = function () {
+          preview.innerHTML = markdown.toHTML(input.value);
+        };
+        input.editor = this;
+        this.update();
+      }
+      var $ = function (id) { return document.getElementById(id); };
+      new Editor($("text-input"), $("preview"));
+</script>
+-->
+
+
+
+<h2>Szenen des Films</h2>
+<% i = 0 %>
+<% items.forEach( function ( item ){ %>
+<% i++ %>
+<div class="scene-view">
+	<h3><%= i %>: <%= item.title %></h3>
+	<div class="bim">
+		<a href="/vi-lab/#!t=npt:<%= item.start %>" onclick="javascript:render('film', true);">
+			<img width="200" class="still-images" src="/vi-lab/img/stills/ani/scene<%= i %>.jpg" />
+		</a>
+	</div>
+	<div class="bam">
+		<div class="metadata">
+				Länge: <%= item.length %> Minuten |
+			 	<% if (item.music != "") { %><lable>Musik:</lable> <%= item.music %> | <% } %>
+			 	<% if (item.locations != "") { %><lable>Ort:</lable> <%= item.locations %> | <% } %>
+		<!--    Quelle: <%= item.source %> <br/>-->
+			  Erhaltungszustand: <%= item.status %>
+		</div>
+		<div class="description">
+			<%= item.description %><br><br>
+		</div>
+		<div class="protagonists">
+			<% j=item.protagonists.length %> 
+			<% if (j > 1) { %> 
+				Berühmte Persönlichkeiten unter den Darstellern:  
+			<% } %>
+			<% item.protagonists.forEach( function ( person ){ %>
+				<a href="/persons/<%=: person | replace:' ','_' %>"><%= person %></a>, 
+			<% }); %>
+		</div><br>
+		<div class="controls">
+			<a href="/vi-lab/#!t=npt:<%= item.start %>" onclick="javascript:render('film', true);">Szene abspielen</a> | 
+			<% ii = 0 %>
+			<% item.images.forEach( function ( image ){ %>
+				<% if (ii == 0) { %> 
+					<a class='gallery<%= i %>' href='<%= image %>'>Einzefotos</a> |
+				<% }else{ %>
+					<a class='gallery<%= i %>' hidden href='<%= image %>'>Photo_1</a>
+				<% } %>
+				<% ii++ %>
+			<% }); %>
+			<a href="#">Zusatzmaterial</a> |
+			<a class="button" href="/scenes/edit/<%= item._id %>" title="Update this item item"> edit</a> |
+			<a class="button" href="/scenes/destroy/<%= item._id %>" title="Delete this item item">Delete</a>
+		</div>
+		<div class="gallery">
+			
+		</div>
+	</div>	
+</div>
+<script>
+$('a.gallery<%= i %>').colorbox({
+	rel:'group<%= i %>',
+	opacity:0.5 , 
+			maxHeight: '470px', 
+			maxWidth:'800px', 
+			fadeout:500, 
+			transition:'none', 
+			photo:true
+	});
+</script>
+<% }); %>
+

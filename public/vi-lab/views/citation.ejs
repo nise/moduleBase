@@ -1,0 +1,68 @@
+<% layout( 'layout' ) -%>
+
+<script>
+$(document).ready (function () { 
+	$("input:text").focus(function() { $(this).select(); } );
+});	
+</script>
+
+
+<div class="jumbotron">
+	<div class="container">
+  <h2></h2>
+  <h2><%= title %></h2>
+  <p hidden>This example is a quick exercise to illustrate how the default, static and fixed to top navbar work. It includes the responsive CSS and HTML, so it also adapts to your viewport and device.</p>
+ 
+  <p hidden>
+    <a class="btn btn-lg btn-primary" href="../../components/#navbar" role="button">View navbar docs &raquo;</a>
+  </p>
+  </div>
+</div>
+
+
+<div class="container">
+  <!-- Main component for a primary marketing message or call to action -->
+  <p>If you would like to refer to this pattern language and application database I recomment the following way of citation.</p>
+  
+  <h4 hidden>Cite design pattern website including the database as a whole</h4>
+  <div class="input-group">
+  <span class="input-group-addon" id="sizing-addon2">APA</span>
+  <input style="cursor:pointer;" readonly type="text" class="form-control" placeholder="" value="Seidel, Niels (2015): Designing Video Interfaces - Design Patterns for Video Learning Environments. http://designing-video-interfaces.com/." aria-describedby="sizing-addon2">
+</div><br>
+<div class="input-group">
+  <span class="input-group-addon" id="sizing-addon2">BibTex</span>
+  <input style="cursor:pointer;" readonly type="text" class="form-control" placeholder="" value="@misc{Seidel2015, author = {Niels Seidel}, title = {{Designing Video Interfaces - Design Patterns for Video Learning Environments}}, url = {http://designing-video-interfaces.com/}, year = {2015}}" aria-describedby="sizing-addon2">
+</div>
+  
+  <!--
+  <h4>Cite a single design pattern</h4>
+   <div class="input-group">
+  <span class="input-group-addon" id="sizing-addon2">HTTP GET</span>
+  <input style="cursor:pointer;" readonly type="text" class="form-control" value="http://designing-video.com/json/portals" aria-describedby="sizing-addon2">
+</div>
+  
+  <h4>Cite a category of design patterns</h4>
+   <div class="input-group">
+  <span class="input-group-addon" id="sizing-addon2">HTTP GET</span>
+  <input style="cursor:pointer;" readonly type="text" class="form-control" value="http://designing-video.com/json/images" aria-describedby="sizing-addon2">
+</div>
+
+
+ <h4>Cite a category of the application</h4>
+   <div class="input-group">
+  <span class="input-group-addon" id="sizing-addon2">HTTP GET</span>
+  <input style="cursor:pointer;" readonly type="text" class="form-control" value="http://designing-video.com/json/images" aria-describedby="sizing-addon2">
+</div>
+ 
+  <p hidden>
+    <a class="btn btn-lg btn-primary" href="../../components/#navbar" role="button">View navbar docs &raquo;</a>
+  </p>
+  
+ -->
+</div>
+  
+  
+</div>
+</div>
+
+
