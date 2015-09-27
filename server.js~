@@ -108,7 +108,7 @@ var conn = mongoose.connect( 'mongodb://localhost/moduleBase' , function(err, db
 		app.get(	'/data/json/modules', m.getJSON );
 		app.get(	'/data/csv/modules', m.getCSV );
 		app.get(	'/modules/list', function ( req, res ){ res.render( 'm_modules', { title : 'Modules' }); });
-		
+		app.get(	'/modules/view/:id', function ( req, res ){ res.render( 'm_modules_single', { title : 'Modules' }); });
 		//var ACL = require('./routes/aclrouts')(db, app, io);
 	}	
 });

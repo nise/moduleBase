@@ -1,8 +1,6 @@
 
 <% layout( 'm_layout' ) -%>
 
-hiii
-
 <div class="container">
 <br><br><br><br>
 
@@ -16,8 +14,28 @@ $('#table1').bootstrapTable({
     showColumns : true,
     checkboxHeader : true,
    // cardView:true, // mobile view
-  //  showExport:true,
-    exportDataType:'all',
+    showExport:true,
+    exportDataType:'selected',
+    exportOptions: {
+    	consoleLog: false,
+			csvEnclosure: '"',
+			csvSeparator: ',',
+			csvUseBOM: true,
+			displayTableName: false,
+			escape: false,
+			excelstyles: [ 'css','properties','to','export','to','excel' ],
+			fileName: 'tableExport',
+			htmlContent: false,
+			ignoreColumn: [],
+			ignoreRow: [],
+			onCellData: null,
+			outputMode: 'file',
+			tbodySelector: 'tr',
+			theadSelector: 'tr',
+			tableName: 'myTableName',
+			type: 'csv',
+			worksheetName: 'xlsWorksheetName'
+    },
     // search
     search: true,
     strictSearch: true,
@@ -31,11 +49,11 @@ $('#table1').bootstrapTable({
 		//onClickRow : function(row, el){ alert(row._id); },
     onClickCell : function(field, value, row, el){ if(field==='modultitel'){ alert(row._id);} },
     columns: [
-    { field: 'modultitel', title: 'Titel', sortable : true, order: 'asc',searchable : true }, 
-    { field: 'modulnr1', title: 'Modulnummer',sortable : true, order: 'asc',searchable : true }, 
+    { field: 'modultitel', title: 'Modulbezeichnung', sortable : true, order: 'asc',searchable : true }, 
+    { field: 'modulnr1', title: 'Modulnummer', visible:false, sortable : true, order: 'asc',searchable : true }, 
     { field: 'modulnr2', title: 'Modulnummer 2', visible:false, sortable : true, order: 'asc',searchable : true }, 
     { field: 'courses', title: 'Studiengang',sortable : true, order: 'asc',searchable : true }, 
-    { field: 'type', title: 'Type',sortable : true, order: 'asc',searchable : true }, 
+    { field: 'type', title: 'BA/MA',sortable : true, order: 'asc',searchable : true }, 
     { field: 'university', title: 'Hochschule',sortable : true, order: 'asc',searchable : true }, 
     { field: 'language', title: 'Sprache',sortable : true, order: 'asc',searchable : true }, 
     { field: 'sws_total', title: 'SWS',sortable : true, order: 'asc',searchable : true }, 
@@ -45,7 +63,7 @@ $('#table1').bootstrapTable({
     { field: 'summer_winter', title: 'Semester',sortable : true, order: 'asc',searchable : true }, 
     { field: 'modulverantwortlicher', title: 'Modulverantwortliche/r',sortable : true, order: 'asc',searchable : true }, 
     { field: 'mail', title: 'E-Mail',sortable : true, visible:false, order: 'asc',searchable : true }, 
-    { field: 'lecturers', title: 'Weitere Dozenten',sortable : true, order: 'asc',searchable : true }, 
+    { field: 'lecturers', title: 'Weitere Dozenten',sortable : true, visible:false, order: 'asc',searchable : true }, 
     { field: 'comments', title: 'Kommentar',sortable : true, order: 'asc',visible:false, searchable : true }, 
     { field: 'updated_at', title: 'Letzte Änderung',sortable : true, visible:false, order: 'asc',searchable : true }, 
     

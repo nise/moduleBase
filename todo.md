@@ -17,4 +17,4 @@ Entwurf Lastenheft: 1h
 Lastenheft: 1h
 Vertragsvorbereitung: 1h
 26.09. : 2h
-27.09. : 1h
+27.09. : 2.5h
