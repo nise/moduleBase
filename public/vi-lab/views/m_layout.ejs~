@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
-<title>Video Patterns</title>
+<title>moduleBase</title>
 <meta name='robots' content='noindex,nofollow' /> 
-<% production=1 %>
+<% production=0 %>
 <% if (production) { %>
 <link rel="stylesheet" href="/vi-lab/css/video-patterns-style.min.css">
 <script src="/vi-lab/js/video-patterns.min.js"></script>
@@ -11,15 +11,16 @@
 <link rel="stylesheet" href="/vi-lab/css/bootstrap.min.css">
 <link rel="stylesheet" href="/vi-lab/css/colorbox.css" >
 <link rel="stylesheet" href="/vi-lab/css/video-patterns.css" >
+<link rel="stylesheet" href="/vi-lab/css/bootstrap-table.min.css">
 <script src='/vi-lab/js/jquery-1.11.2.min.js' type='text/javascript'></script>
 <script src="/vi-lab/js/bootstrap.min.js"></script>
 <script src="/vi-lab/js/bootstrap-switch.min.js"></script>
+<script src="/vi-lab/js/bootstrap-table-all.min.js"></script>
 <script src="/vi-lab/js/markdown.js"></script>
 <script src="/vi-lab/js/jquery.colorbox-min.js"></script>
 <script src="/vi-lab/js/jquery-image-loader.js"></script>
 <script src='/vi-lab/js/db.js'></script>
 <script src='/vi-lab/js/typeahead.bundle.js'></script>
-<script src="/socket.io/socket.io.js" type='text/javascript'></script>
 <% } %>
 <link href='https://fonts.googleapis.com/css?family=Oswald:400,300,700|Roboto|Droid+Sans:400,700' rel='stylesheet' type='text/css'>
 <script src="/vi-lab/js/require.js" data-main="/vi-lab/js/requirejs-conf"></script>
@@ -35,7 +36,7 @@ $(document).ready (function () {
 
 
 /*******************/
-/* INDEXDB*/
+/* INDEXDB
 
 
 	// indexdb via db.js
@@ -59,9 +60,9 @@ $(document).ready (function () {
 	} );
 
 
-/*
-Add pattern to index db
-**/
+
+//Add pattern to index db
+
 function addToFav(pattern){
 	server.pattern.add( {  name: pattern } ).then( function ( item ) {
 		// add to  
@@ -69,9 +70,9 @@ function addToFav(pattern){
 	} );
 }
 
-/*
-Remove pattern from index db
-**/
+
+//Remove pattern from index db
+
 function removeFav(key){
 	server.pattern.remove( 1 ).done( function ( key ) {
       alert('removed '+key)
@@ -79,7 +80,6 @@ function removeFav(key){
 }
 
 
-/**/
 function clear(){ 
 	server.pattern.clear().execute()
     .then(function() { 
@@ -89,10 +89,10 @@ function clear(){
 
 
 
-/*
-Fetch all patterns from index db
+
+//Fetch all patterns from index db
 status: ok
-**/
+
 function fetchAll(){ 
 	server.pattern.query().all()
       .execute()
@@ -116,7 +116,7 @@ function fetchAll(){
         
       });
 }
-
+*/
 
 /*
 The following line need to be changed regarding the underlaying server

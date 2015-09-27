@@ -1,0 +1,67 @@
+
+<% layout( 'm_layout' ) -%>
+
+hiii
+
+<div class="container">
+<br><br><br><br>
+
+<script> 
+$(document).ready (function () { 
+$('#table1').bootstrapTable({
+    url: '/data/json/modules',
+    onLoadError : function(e){ alert(JSON.stringify(e)); },
+    //    onLoadSuccess : function(e){ alert(JSON.stringify(e)); },
+    height:'500',
+    showColumns : true,
+    checkboxHeader : true,
+   // cardView:true, // mobile view
+  //  showExport:true,
+    exportDataType:'all',
+    // search
+    search: true,
+    strictSearch: true,
+    trimOnSearch:true,
+    
+    // details
+    detailView : true,
+    detailFormatter : function(index, row) {
+			return ''+index+'__'+row._id;
+		},
+		//onClickRow : function(row, el){ alert(row._id); },
+    onClickCell : function(field, value, row, el){ if(field==='modultitel'){ alert(row._id);} },
+    columns: [
+    { field: 'modultitel', title: 'Titel', sortable : true, order: 'asc',searchable : true }, 
+    { field: 'modulnr1', title: 'Modulnummer',sortable : true, order: 'asc',searchable : true }, 
+    { field: 'modulnr2', title: 'Modulnummer 2', visible:false, sortable : true, order: 'asc',searchable : true }, 
+    { field: 'courses', title: 'Studiengang',sortable : true, order: 'asc',searchable : true }, 
+    { field: 'type', title: 'Type',sortable : true, order: 'asc',searchable : true }, 
+    { field: 'university', title: 'Hochschule',sortable : true, order: 'asc',searchable : true }, 
+    { field: 'language', title: 'Sprache',sortable : true, order: 'asc',searchable : true }, 
+    { field: 'sws_total', title: 'SWS',sortable : true, order: 'asc',searchable : true }, 
+    { field: 'workload', title: 'Workload',sortable : true, order: 'asc',searchable : true }, 
+    { field: 'workload_self', title: 'Workload Selbst',sortable : true, order: 'asc',searchable : true }, 
+    { field: 'ects', title: 'ECTS',sortable : true, order: 'asc',searchable : true }, 
+    { field: 'summer_winter', title: 'Semester',sortable : true, order: 'asc',searchable : true }, 
+    { field: 'modulverantwortlicher', title: 'Modulverantwortliche/r',sortable : true, order: 'asc',searchable : true }, 
+    { field: 'mail', title: 'E-Mail',sortable : true, visible:false, order: 'asc',searchable : true }, 
+    { field: 'lecturers', title: 'Weitere Dozenten',sortable : true, order: 'asc',searchable : true }, 
+    { field: 'comments', title: 'Kommentar',sortable : true, order: 'asc',visible:false, searchable : true }, 
+    { field: 'updated_at', title: 'Letzte Änderung',sortable : true, visible:false, order: 'asc',searchable : true }, 
+    
+    
+
+    
+    ]
+	});
+});
+
+</script>
+
+<a href="/data/csv/modules">Export all Modules as CSV</a> 
+
+<table id="table1"></table>
+
+
+
+</div>

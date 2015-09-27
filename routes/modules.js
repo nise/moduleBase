@@ -21,106 +21,107 @@ exports.csvImport = function ( req, res ){
 		// get Video dataset in order to extract toc data
 		var tags = [];
 			// destroy dataset first
-			Modules.remove({}, function(err) { console.log('collection removed') });
-			csv().from.string(data, {comment: '#'} )
-				.to.array( function(data){
-					// define Modules for each line
-					for(var i = 2; i < data.length; i++){
-						tags = [];
-						console.log( data[i][0] )
-						if(data[i][10] != false){ 
-							tags.push("Video Learning Environment"); 
+			Modules.remove({}, function(err) { console.log('collection removed') ;
+				csv().from.string(data, {comment: '#'} )
+					.to.array( function(data){
+						var id=1;
+						// define Modules for each line
+						for(var i = 2; i < data.length; i++){
+						
+							var obj = {};
+							obj.id = id; id++;
+							validate(obj, 'modulnr1', 		data[i][0], 'string');
+							validate(obj, 'modulnr2', 		data[i][1], 'string');
+							validate(obj, 'modultitel', 	data[i][2], 'string');
+						
+							var courses = [];
+							for(var j = 3; j < 10; j++){
+								if( typeof data[i][j] === "string" && data[i][j].length > 0){
+									courses.push( data[i][j] ); 
+								}
+							}	
+							obj.courses = courses;
+						
+							validate(obj, 'type', 				data[i][10], 'string', [ 'Master', 'Bachelor', 'Diplom' ]);
+							validate(obj, 'university', 	data[i][11], 'string', [ 'TUD/IHI', 'TUD', 'HSZG' ]);
+							validate(obj, 'language', 		data[i][12], 'string', [ 'Deutsch', 'Englisch', 'Deutsch/Englisch' ]);
+					
+							var sws = {};
+							validate(sws, 'vorlesung', 	data[i][13], 'number');
+							validate(sws, 'ringvorlesung', 	data[i][14], 'number');
+							validate(sws, 'ubung', 	data[i][15], 'number');
+							validate(sws, 'seminar', 	data[i][16], 'number');
+							validate(sws, 'ubung_seminar', 	data[i][17], 'number');
+							validate(sws, 'tutorium', 	data[i][18], 'number');
+							validate(sws, 'praktikum', 	data[i][19], 'number');
+							validate(sws, 'exkursion', 	data[i][20], 'number');
+							validate(sws, 'projekt', 	data[i][21], 'number');
+							validate(sws, 'berufspraktikum', 	data[i][22], 'number');
+							validate(sws, 'sprachkurs', 	data[i][23], 'number');
+							validate(sws, 'elearning', 	data[i][24], 'number');
+							obj.sws = sws;
+						
+							validate(obj, 'sws_total', 	data[i][25], 'number');
+							validate(obj, 'workload', 	data[i][26], 'number');//Arbeitsaufwand [h]		150	150
+							validate(obj, 'workload_self', 	data[i][27], 'number');//Selbststudium [h]		90	60
+							validate(obj, 'ects', 	data[i][28], 'number');
+						
+							var pvl = {};
+							validate(pvl, 'referat', 	data[i][29], 'number');
+							validate(pvl, 'labor', 	data[i][30], 'number');
+							validate(pvl, 'beleg', 	data[i][31], 'number');
+							validate(pvl, 'testat', 	data[i][32], 'number');
+							validate(pvl, 'protokoll', 	data[i][33], 'number');
+							validate(pvl, 'moderation', 	data[i][34], 'number');
+							obj.pvl = pvl;
+						
+							var pl = {};
+							validate(pl, 'klausur', 	data[i][35], 'number');
+							validate(pl, 'mdlpruefung', 	data[i][36], 'number');
+							validate(pl, 'referat', 	data[i][37], 'number');
+							validate(pl, 'praesentation', 	data[i][38], 'number');
+							validate(pl, 'belegarbeit', 	data[i][39], 'number');
+							validate(pl, 'seminararbeit', 	data[i][40], 'number');
+							validate(pl, 'projektarbeit', 	data[i][41], 'number');
+							validate(pl, 'praktikumsprotokoll', 	data[i][42], 'number');
+							validate(pl, 'praktikumsbericht', 	data[i][43], 'number');
+							validate(pl, 'exkursionsbericht', 	data[i][44], 'number');
+							validate(pl, 'laborarbeit', 	data[i][45], 'number');
+							validate(pl, 'forschungsplan', 	data[i][46], 'number');
+							validate(pl, 'elearningtest', 	data[i][47], 'number');
+							obj.pl = pl;
+						
+							obj.summer_winter = data[i][48] === '1' ? 'WS' : 'SS';
+							validate(obj, 'modulverantwortlicher', 	data[i][50], 'string');
+							validate(obj, 'mail', 	data[i][51], 'string');
+							validate(obj, 'lecturer', 	data[i][52], 'string');
+							validate(obj, 'comments', 	data[i][53], 'string');
+							obj.updated_at = Date.now();
+						
+						
+							//console.log(obj);
+							new Modules( obj ).save( function( err, todo, count ){
+								if(err){console.error(String(err))}
+								else{ 
+									//console.log(todo) 
+								}
+								//res.redirect( '/portals' );
+							});	
 						}
-						
-						//new Modules(
-						
-						var obj = {};
-						validate(obj, 'modulnr1', 		data[i][0], 'string');
-						validate(obj, 'modulnr2', 		data[i][1], 'string');
-						validate(obj, 'modultitel', 	data[i][2], 'string');
-						validate(obj, 'course', 	data[i][2], 'string');
-						validate(obj, 'type', 	data[i][2], 'string', [ 'Master', 'Bachelor', 'Diplom' ]);
-						validate(obj, 'university', 	data[i][2], 'string', [ 'TUD/IHI', 'TUD', 'HSZG' ]);
-						validate(obj, 'language', 	data[i][2], 'string', [ 'Deutsch', 'Englisch', 'Deutsch/Englisch' ]);
-						validate(obj, 'modultitel', 	data[i][2], 'string');
-						validate(obj, 'modultitel', 	data[i][2], 'string');
-						validate(obj, 'modultitel', 	data[i][2], 'string');
-						validate(obj, 'modultitel', 	data[i][2], 'string');
-						
-						
-						
-						var t = {
-				
-	/*
-							sws: [{
-								vorlesung: Number, 
-								ringvorlesung: Number, 
-								ubung: Number, 
-								seminar: Number, 
-								ubung_seminar: Number, 
-								tutorium: Number, 
-								praktikum: Number, 
-								exkursion: Number, 
-								projekt: Number, 
-								berufspraktikum: Number, 
-								sprachkurs: Number, 
-								elearning: Number
-							}],	
-							sws_total: Number, 
-							workload: Number, //Arbeitsaufwand [h]		150	150
-							workload_self  : Number, //Selbststudium [h]		90	60
-							ects: Number,
-	
-							pvl: [{
-								referat: Number,
-								labor: Number,
-								beleg: Number,
-								testat: Number,
-								protokoll: Number,
-								moderation: Number
-							}],
-							pl: [	{
-								klausur: Number,
-								mdlpruefung: Number,
-								referat: Number,
-								praesentation: Number,
-								belegarbeit: Number,
-								seminararbeit: Number,
-								projektarbeit: Number,
-								praktikumsprotokoll: Number,
-								praktikumsbericht: Number,
-								exkursionsbericht: Number,
-								laborarbeit: Number,
-								forschungsplan: Number,
-								elearningtest: Number
-							}],	
-	
-							ws: Boolean,
-							ss: Boolean,
-							modulverantwortlicher: String,
-							mail: { type: String, trim: true },
-							lecturers		: String, // weitere Dozenten
-							comments : String,	
-							*/
-							updated_at : Date.now()
-						};
-						
-						
-						console.log(obj);
-						//).save( function( err, todo, count ){
-							//res.redirect( '/portals' );
-						//});	
-					}
-				});// end array()	
-			console.log('Imported modules.csv');
-			console.log('......................')
+					});// end array()	
+				console.log('Imported modules.csv');
+				console.log('......................')
+			});	
 	});// end fs				
 };
 
 
 function validate(obj, entry, val, type, not_null){
-	if( typeof val === "string" && val.length > 0){
+	if( typeof val === "string" && type == "string" && val.length > 0){
 		obj[entry] = val
+	}
+	if( typeof Number(val) === "number" && type == "number" && val !== '0'){
+		obj[entry] = Number(val.replace(',','.'));	
 	}
 }
 
@@ -129,19 +130,29 @@ function validate(obj, entry, val, type, not_null){
 REST API CALL
 **/
 exports.getJSON = function(req, res) {
-	var stream = Modules.find().sort( 'id' ).lean().stream();
+	var stream = Modules.find()
+	//.select('sws ects')
+	.lean()
+	.exec( function ( err, modules ){
+		res.jsonp(modules);
+	});
 	
-	stream
-		.on('data', function (docs) {
-			res.type('application/json');
-			res.jsonp(docs);
-			res.end('done');
-		})
-		.on('error', function (err) {
-			console.log('stream error @ modules.js')
-		});
 };
 
+/*
+CSV Export
+**/
+expressCSV = require('express-csv')
+exports.getCSV = function(req, res) {
+	var stream = Modules.find()
+	//.select('sws ects')
+	.lean()
+	.exec( function ( err, modules ){
+		//res.set('Content-Type', 'application/octet-stream');
+		res.csv(modules);
+	});
+	
+};
 
 
 
