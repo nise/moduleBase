@@ -14,7 +14,7 @@ Import Modules data from csv
 **/
 exports.csvImport = function ( req, res ){ 
 	// load data
-	fs.readFile(__dirname+'/../data/data2.csv', function read(err, data) {
+	fs.readFile(__dirname+'/../data/module_data_clean.csv', function read(err, data) { // test: data2.csv
 		if(err){
 			console.log(err);
 		} 
@@ -26,7 +26,7 @@ exports.csvImport = function ( req, res ){
 					.to.array( function(data){
 						var id=1;
 						// define Modules for each line
-						for(var i = 2; i < data.length; i++){
+						for(var i = 1; i < data.length; i++){
 						
 							var obj = {};
 							obj.id = id; id++;
@@ -244,8 +244,8 @@ exports.edit = function ( req, res ){
   Modules.findOne({_id: String(req.params.id)}, function ( err, item ){
   	if(err){
   		console.log(err);
-  	}
-    res.render( 'modules-edit', {
+  	} console.log(req.params.id)
+    res.render( 'm_modules_edit', {
         item   : item,
         current : req.params.id
     });

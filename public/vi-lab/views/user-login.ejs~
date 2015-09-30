@@ -1,6 +1,6 @@
-<% layout('layout') -%>
+<% layout('m_layout') -%>
 
-<h2>Login oder <a href="/users/register">neu registrieren</a></h2>
+<h2>Login<!-- oder <a href="/users/register">neu registrieren</a>--></h2>
 
 <% if (message) { %>
 <p><%= message %></p>

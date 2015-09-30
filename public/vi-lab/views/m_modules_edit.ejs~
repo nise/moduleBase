@@ -1,10 +1,13 @@
 
 <% layout( 'm_layout' ) -%>
 
+<div class="jumbotron">
+	<div class="container">
+  <h2>Module: <%= item.modultitel %> (<%= item.modulnr1 %>)</h2>
+  </div>
+</div>
 
 <div class="container">
-<br><br><br><br>
-    <h1>Getting started with JSON Form</h1>
     <form class="modules-edit"></form>
     <div id="res" class="alert"></div>
 </div>
@@ -21,13 +24,14 @@
         schema: {
           name: {
             type: 'string',
-            title: 'Name',
+            title: 'Modultitel',
             default: '<%= item.modultitel %>',
             required: true
           },
           age: {
             type: 'number',
-            title: 'Age'
+            title: 'Hochschule',
+            default:  '<%= item.university %>',
           }
         },
         onSubmit: function (errors, values) {

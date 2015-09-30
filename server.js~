@@ -102,13 +102,17 @@ var conn = mongoose.connect( 'mongodb://localhost/moduleBase' , function(err, db
 		Import data
 		**/
 		m = require('./routes/modules');
-		m.csvImport();
+		//m.csvImport();
 		
 		// routes
+		app.get(	'/', function ( req, res ){ res.render( 'index', { title : '' }); });
+		app.get(	'/home', function ( req, res ){ res.render( 'index', { title : '' }); });
+		app.get(	'/api', function ( req, res ){ res.render( 'api', { title : '' }); });
+		app.get(	'/about', function ( req, res ){ res.render( 'about', { title : 'About' }); });
 		app.get(	'/data/json/modules', m.getJSON );
 		app.get(	'/data/csv/modules', m.getCSV );
 		app.get(	'/modules/list', function ( req, res ){ res.render( 'm_modules', { title : 'Modules' }); });
-		app.get(	'/modules/view/:id', function ( req, res ){ res.render( 'm_modules_single', { title : 'Modules' }); });
+		app.get(	'/modules/edit/:id', m.edit );//function ( req, res ){ res.render( 'm_modules_single', { title : 'Modules' }); });
 		//var ACL = require('./routes/aclrouts')(db, app, io);
 	}	
 });

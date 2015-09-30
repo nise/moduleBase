@@ -1,15 +1,28 @@
+
 <% layout( 'm_layout' ) -%>
 
 
-<script src="/vi-lab/js/jsonform.js"></script>
-
-<script>
- <script type="text/javascript">
-      $('form').jsonForm({
+<div class="container">
+<br><br><br><br>
+    <h1>Getting started with JSON Form</h1>
+    <form class="modules-edit"></form>
+    <div id="res" class="alert"></div>
+</div>
+   
+    <script src='/vi-lab/js/jquery.min.js' type='text/javascript'></script>
+		<script type="text/javascript" src="/vi-lab/js/underscore.js"></script>
+		<script type="text/javascript" src="/vi-lab/js/jsv.js"></script>
+    <script src="/vi-lab/js/jsonform.js"></script>
+    
+  
+ 
+    <script type="text/javascript">
+      $('form.modules-edit').jsonForm({
         schema: {
           name: {
             type: 'string',
             title: 'Name',
+            default: '<%= item.modultitel %>',
             required: true
           },
           age: {
@@ -29,11 +42,3 @@
         }
       });
     </script>
-</script>
-
-<div class="container">
-<br><br><br><br>
-<form></form>
-
-
-</div>

@@ -3,6 +3,7 @@
 <head>
 <title>moduleBase</title>
 <meta name='robots' content='noindex,nofollow' /> 
+<meta charset="utf-8" />
 <% production=0 %>
 <% if (production) { %>
 <link rel="stylesheet" href="/vi-lab/css/video-patterns-style.min.css">
@@ -184,22 +185,23 @@ function startIntro(){
 				    <span class="icon-bar"></span>
 				    <span class="icon-bar"></span>
 				  </button>
-				  <a class="navbar-brand" href="/">Designing Video Interfaces <small>(alpha - work in progress)</small></a>
+				  <a class="navbar-brand" href="/">moduleBase</a>
 				</div>
 
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				  <ul class="nav navbar-nav">
 				     <li>
-				    <a href="/patterns/list">Patterns<span class="sr-only">(current)</span></a>
+				    <a href="/modules/list">Module<span class="sr-only">(current)</span></a>
 				    </li>
 				    <li>
-				    <a href="/portals">Applications<span class="sr-only">(current)</span></a>
+				    <a href="/modules/search">Suche<span class="sr-only"></span></a>
 				    </li>
 				    
+				    <!--
 				    <li class="dropdown">
 				      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Get involved<span class="caret"></span></a>
-				      <ul class="dropdown-menu" role="menu">
+				      <ul hidden class="dropdown-menu" role="menu">
 								
 				        <li class="divider"></li>
 				        <li><a href="/proto-patterns/list">Pattern Proposals</a></li>
@@ -207,16 +209,17 @@ function startIntro(){
 				        <li><a href="/vi-two">Apply Patterns</a></li>
 				       <li><a href="/api">Data API</a></li>
 				      </ul>
-				    </li>
+				    </li>-->
 				  </ul>
-				  <!--<form class="navbar-form navbar-left" role="search">
+				  <form hidden class="navbar-form navbar-left" role="search">
 				    <div class="form-group">
 				      <input type="text" class="form-control" placeholder="Search">
 				    </div>
 				    <button type="submit" class="btn btn-default">Submit</button>
-				  </form>-->
+				  </form>
 				  <ul class="nav navbar-nav navbar-right">
-				  	<li><a href="/citation">Citation</a></li>
+				    <li><a href="/api">Data API</a></li>
+				    <li><a href="/admin">Admin</a></li>
 				    <li><a href="/about">About</a></li>
 				    <li class="group-area"></li>
 						<li class="user-area"></li>

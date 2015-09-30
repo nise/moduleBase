@@ -1,4 +1,4 @@
-<% layout( 'layout' ) -%>
+<% layout( 'm_layout' ) -%>
 
 <script>
 $(document).ready (function () { 
@@ -23,38 +23,34 @@ $(document).ready (function () {
 
 <div class=" container mark">
   
-### About Design Video Interfaces
-This site has Designing Video Interfaces
-  
-#### Further Reading
-  
+### About the moduleBase
+Diese Datenbank ...
 
-* Seidel, Niels (accepted). Interaction design pattern for spatio-temporal annotations in video learning environments. In Proceedings of the 20th European Conference on Pattern Languages of Programs. ACM.
+### Anbieterkennzeichnung 
 
-* Seidel, Niels (accepted). Making web video accessible - interaction design patterns for accessible e-learning technologies. In Proceedings of the 20th European Conference on Pattern Languages of Programs (p. [accepted]). ACM.
+Projekt “ÖBIN”:
 
-*  Seidel, Niels (2014). *Interaction design patterns for design and development of video learning environments.* In Proceedings of the 19th European Conference on Pattern Languages of Programs (p. [in print]). New York, NY, USA: ACM. doi:http://dx.doi.org/10.1145/2721956.2721981
+Verantwortlich für den Inhalt dieser Seite gemäß § 55 Abs. 2 des Rundfunkstaatsvertrages (RStV):
 
-*  Seidel, Niels (2014). *Interaction design patterns for interactive video players in video-based learning environments.* In Proceedings of the 19th European Conference on Pattern Languages of Programs (p. [in print]). New York, NY, USA: ACM. doi:http://dx.doi.org/10.1145/2721956.2721980
+Prof. Thorsten Claus, TU Dresden, IHI Zittau, Markt 23, 02763 Zittau
 
-    
-#### Related Pattern Languages
-* Jeniffer Tidwell (2011). Designing Interfaces - Patterns for Effective Interaction Design (2nd ed.). Sebastopol: O’Reilly Media. [website](http://www.designinginterfaces.com/)
+thorsten.claus [ at ] tu-dresden.de
 
-*  Martijn van Welie & Gerit C. van der Veer (2003). *Pattern Languages in Interaction Design: Structure and Organization.* In M. Rauterberg (Ed.), Proceedings of Interact ’03, 1-5 September (pp. 527–534). Amsterdam: IOS Press. [Website](http://www.welie.com/ patterns/)
+### Design und Entwicklung
+...
 
-*  Tibor Kunert (2009). User-Centered Interaction Design Patterns for Interactive Digital Televison Applications. Dordrecht / Heidelberg / London / New York: Springer.
 
-*  Christian Crumlish & Erin Malone (2009). Designing Social Interfaces. (M. Treseler, Ed.). Sebastopol: O’Reilly Media. [Website](http://designingsocialinterfaces.com)
+### Lizenz
 
-*  Yahoo!, *ypatterns*. [Website](http://developer.yahoo.com/ypatterns/)
+Daten und Datenbank:
 
-*  Douglas K. van Duyne, James A. Landay, & Jason I. Hong (2006). *The Design of Sites: Patterns for Creating Winning Web Sites* (2nd edition.). Prentice Hall.
- 
-  
-  
-#### Terms of Use
-Unless otherwise mentioned the written contents of these website can be used in any manner. Further use of screenshot made from third party application 
+Software: MIT License, verfügbar unter [https://github.com/nise/moduleBase](https://github.com/nise/moduleBase)
+
+
+### Haftungsausschluss
+
+### Datenschutz
+Auf dieser Platform werden keine personenbezogenen Daten erhoben, die Aufschluß über die Nutzungsgewohnheiten geben.
   
 </div>
   

@@ -1,5 +1,7 @@
 
 <% layout('layout') -%>
+
+<h2>Registrierung</h2>
   <p>
     <div class="edit-form">
       

@@ -13,7 +13,7 @@ var Modules = new Schema({
 	modulnr2	: String,
 	modultitel: String,
 	courses:[String],
-	type: { type: String, enum: [ 'Master', 'Bachelor', 'Diplom' ] }, 
+	type: { type: String, enum: [ 'Master', 'Bachelor', 'Diplom', 'Diplom/Bachelor' ] }, 
 	university: { type: String, enum: [ 'TUD/IHI', 'TUD', 'HSZG' ] }, 
 	language: { type: String, enum: [ 'Deutsch', 'Englisch', 'Deutsch/Englisch' ] }, 
 	

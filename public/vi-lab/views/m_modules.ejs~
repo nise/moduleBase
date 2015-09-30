@@ -1,8 +1,13 @@
 
 <% layout( 'm_layout' ) -%>
 
+<div class="jumbotron">
+	<div class="container">
+  <h2>Modules</h2>
+  <p class="mark">...</p>
+  </div>
+</div>
 <div class="container">
-<br><br><br><br>
 
 <script> 
 $(document).ready (function () { 
@@ -10,7 +15,7 @@ $('#table1').bootstrapTable({
     url: '/data/json/modules',
     onLoadError : function(e){ alert(JSON.stringify(e)); },
     //    onLoadSuccess : function(e){ alert(JSON.stringify(e)); },
-    height:'500',
+    //height:'500',
     showColumns : true,
     checkboxHeader : true,
    // cardView:true, // mobile view
@@ -44,10 +49,12 @@ $('#table1').bootstrapTable({
     // details
     detailView : true,
     detailFormatter : function(index, row) {
-			return ''+index+'__'+row._id;
+			return '<a href="/modules/view/' + row._id + '">Detailansicht</a> | <a href="/data/pdf/' + row._id + '">Modulbeschreibung (PDF)</a> | <a href="/modules/edit/' + row._id + '">edit</a>'//''+index+'__'+row._id;
 		},
 		//onClickRow : function(row, el){ alert(row._id); },
-    onClickCell : function(field, value, row, el){ if(field==='modultitel'){ alert(row._id);} },
+    onClickCell : function(field, value, row, el){ if(field==='modultitel'){ 
+    	alert(row._id);
+    } },
     columns: [
     { field: 'modultitel', title: 'Modulbezeichnung', sortable : true, order: 'asc',searchable : true }, 
     { field: 'modulnr1', title: 'Modulnummer', visible:false, sortable : true, order: 'asc',searchable : true }, 
@@ -75,8 +82,6 @@ $('#table1').bootstrapTable({
 });
 
 </script>
-
-<a href="/data/csv/modules">Export all Modules as CSV</a> 
 
 <table id="table1"></table>
 
