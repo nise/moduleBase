@@ -4,20 +4,39 @@
 /*
 
 **/
-var mongoose = require( 'mongoose' );
-var Schema   = mongoose.Schema;
+var 
+	mongoose = require( 'mongoose' ),
+	Schema   = mongoose.Schema,
+	searchable = require('mongoose-searchable')
+	;
+
+
+
+/*  Make a field extensible: see feeds
+
+var appFormSchema = new Schema({
+    User_id : {type: String},
+    LogTime : {type: String},
+    feeds : [new Schema({
+        Name: {type: String},
+        Text : {type: String}
+    }, {strict: false})
+    ]
+}, {strict: false});
+*/
 
 var Modules = new Schema({
 	id				: Number,
 	modulnr1	: String,
 	modulnr2	: String,
+	modulnr3	: String,
 	modultitel: String,
-	courses:[String],
+	courses:[String], // 
 	type: { type: String, enum: [ 'Master', 'Bachelor', 'Diplom', 'Diplom/Bachelor' ] }, 
 	university: { type: String, enum: [ 'TUD/IHI', 'TUD', 'HSZG' ] }, 
 	language: { type: String, enum: [ 'Deutsch', 'Englisch', 'Deutsch/Englisch' ] }, 
 	
-	sws: [{
+	sws: { //lehrform
 		vorlesung: Number, 
 		ringvorlesung: Number, 
 		ubung: Number, 
@@ -30,21 +49,21 @@ var Modules = new Schema({
 		berufspraktikum: Number, 
 		sprachkurs: Number, 
 		elearning: Number
-	}],	
+	},	
 	sws_total: Number, 
 	workload: Number, //Arbeitsaufwand [h]		150	150
 	workload_self  : Number, //Selbststudium [h]		90	60
 	ects: Number,
 	
-	pvl: [{
+	pvl: {
 		referat: Number,
 		labor: Number,
 		beleg: Number,
 		testat: Number,
 		protokoll: Number,
 		moderation: Number
-	}],
-	pl: [	{
+	},
+	pl: 	{
 		klausur: Number,
 		mdlpruefung: Number,
 		referat: Number,
@@ -58,20 +77,59 @@ var Modules = new Schema({
 		laborarbeit: Number,
 		forschungsplan: Number,
 		elearningtest: Number
-	}],	
+	},	
 	
+	tags : [Schema.Types.Mixed],
 	
 	summer_winter: String,
 	modulverantwortlicher: String,
+	struktureinheit: String,
 	mail: { type: String, trim: true },
 	lecturers		: String, // weitere Dozenten
-	comments : String,	
+	remarks_general : String,	
+	remarks_internal : String,
+	comments : [Schema.Types.Mixed],
 	updated_at : Date
 
 });
+
+Modules.plugin(searchable);
+
+
+Modules.index( { tags: "text" } );
+	
+
+// make indexes
+
+	// text index
+	Modules.index(
+		{
+		 "modulnr1": "text",
+		 "modulnr2": "text",
+		 "modultitel": "text",
+		 "courses": "text",
+		 "type": "text",
+		 "university": "text",
+		 "language": "text",
+		 "summer_winter": "text",
+		 "modulverantwortlicher": "text",
+		 "mail": "text",
+		 "lecturers": "text",
+		 "remarks_general": "text",
+		 "remarks_internal": "text",
+		 "tags":"text",
+		 "struktureinheit": "text"
+		},
+		{ unique: true },
+		{
+		 name: "moduleMetaIndex"
+		}
+	);
+
 mongoose.model( 'Modules', Modules );	
 
 //
+
 		
 
 

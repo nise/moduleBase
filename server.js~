@@ -102,18 +102,27 @@ var conn = mongoose.connect( 'mongodb://localhost/moduleBase' , function(err, db
 		Import data
 		**/
 		m = require('./routes/modules');
-		//m.csvImport();
+		//m.importMetadata();
+		m.importTags({}, m.importMetadata );
 		
 		// routes
 		app.get(	'/', function ( req, res ){ res.render( 'index', { title : '' }); });
 		app.get(	'/home', function ( req, res ){ res.render( 'index', { title : '' }); });
 		app.get(	'/api', function ( req, res ){ res.render( 'api', { title : '' }); });
 		app.get(	'/about', function ( req, res ){ res.render( 'about', { title : 'About' }); });
+		app.get(	'/impressum', function ( req, res ){ res.render( 'impressum', { title : 'Impressum' }); });
 		app.get(	'/data/json/modules', m.getJSON );
+		app.get(	'/data/json/modules/tag/:id', m.getJSONbyTag );
 		app.get(	'/data/csv/modules', m.getCSV );
-		app.get(	'/modules/list', function ( req, res ){ res.render( 'm_modules', { title : 'Modules' }); });
-		app.get(	'/modules/edit/:id', m.edit );//function ( req, res ){ res.render( 'm_modules_single', { title : 'Modules' }); });
-		//var ACL = require('./routes/aclrouts')(db, app, io);
+		app.get(	'/modules/tag-schema', m.getTagSchema );
+		app.get(	'/modules/list', m.index );
+		app.get(	'/modules/view/:id', m.viewSingle );
+		app.get(	'/modules/edit/:id', m.edit );
+		app.get(	'/modules/tag/:id', m.modulesWithTag );
+		app.get(	'/modules/search', function ( req, res ){ res.render( 'm_search', { title : '' }); });
+		app.get(	'/modules/search/fulltext/:query', m.fulltextSearch );
+		app.get(	'/modules/search/tags/:query', m.tagSearch );
+		
 	}	
 });
 

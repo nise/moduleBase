@@ -1,23 +1,54 @@
 
 # todo
-- edit form
-- load tags
+- upload to server
+
+- module
+
+ - neues Feld: Erstelldatum ... 1.11/2014 - 1.11.2015 
+ - edit form
+ - @ module list: Google Suche als Link
+
 - search
+ - search (u.a. modulnummer)
+ - matching von modulen: nach tags, nach PVL/PL
 
-https://select2.github.io/examples.html
+- Logo Parade / Geldgeber
+- Feedback/Kommentar ... 
+- Impressum überarbeiten
+
+# bugs
+- tags mit "/"
+
+#nth
+- fuzzy search
+- visual analytics
+
+
+# Immer noch offen
+- Carsten: Text für Startseite :: Was ist das, was kann man hier tun?
+- Carsten/Nadine: Modulbeschreibungen als PDF, nachvollziehbar benannt.
+- Nadine: Verfahrensbeschreibung für Datenschutz 
+
+# Ideenregal
+- Vergleich aktueller PDFs mit den Anfang 2014 heruntergeladenen PDFs
 
 
 
-# Offene Fragen
-- Abkürzung Studiengang LA
-- Studiengänge teilw. mit Zusatz Master/Bachelor
-- "158500-VR als Prüfungszulassung??"
-- Ich benötige die Modulbeschreibungen als PDF, nachvollziehbar benannt.
-- Sprache: Deutsch oder Englisch
-- Lizenz
-- Text für Startseite :: Was ist das, was kann man hier tun?
-- Text für Impressum
-- Logo Parade
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Stunden
 Entwurf Lastenheft: 1h
@@ -29,4 +60,7 @@ Arbeitszeit:
 28.09.		1h
 29.09.   	1h
 30.09.		2h
+24.11.		1h
+
+SUMME:
 

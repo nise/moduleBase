@@ -1,44 +1,141 @@
 
 <% layout( 'm_layout' ) -%>
 
-
-<div class="container">
-<br><br><br><br>
-    <h1>Getting started with JSON Form</h1>
-    <form class="modules-edit"></form>
-    <div id="res" class="alert"></div>
+<div class="jumbotron">
+	<div class="container">
+  <h2>Modul: <%= items.modultitel %></h2>
+  </div>
 </div>
-   
-    <script src='/vi-lab/js/jquery.min.js' type='text/javascript'></script>
-		<script type="text/javascript" src="/vi-lab/js/underscore.js"></script>
-		<script type="text/javascript" src="/vi-lab/js/jsv.js"></script>
-    <script src="/vi-lab/js/jsonform.js"></script>
-    
-  
- 
-    <script type="text/javascript">
-      $('form.modules-edit').jsonForm({
-        schema: {
-          name: {
-            type: 'string',
-            title: 'Name',
-            default: '<%= item.modultitel %>',
-            required: true
-          },
-          age: {
-            type: 'number',
-            title: 'Age'
-          }
-        },
-        onSubmit: function (errors, values) {
-          if (errors) {
-            $('#res').html('<p>I beg your pardon?</p>');
-          }
-          else {
-            $('#res').html('<p>Hello ' + values.name + '.' +
-              (values.age ? '<br/>You are ' + values.age + '.' : '') +
-              '</p>');
-          }
-        }
-      });
-    </script>
+<div class="container">
+<div class="row">
+<div class="col-md-8">
+
+<h4>Einordnung</h4>
+<label>Modulnummer(n):</label> <%= items.modulnr1%>
+<% if(items.modulnr2 !== undefined){ %>, <%= items.modulnr2 %><% } %>
+<br>
+
+<label>Studiengänge:</label>
+<ul> 
+<% if(items.courses !== undefined){ %>
+	<% items.courses.forEach( function ( item ){ %>
+		<li><%= item %></li>
+	<% }) %>
+<% } %>
+</ul>
+
+<label>Hochschule:</label> <%= items.university %>
+<br>
+<label>Typ:</label> <%= items.type %>
+<br>
+<label>Sprache:</label> <%= items.language %>
+<br>
+<label>Semster:</label> 
+<% if(items.wintersemester === 1 && items.sommersemester === 1){ %>
+	WS und SS
+<%}else if(items.wintersemester === 1){%>
+	WS 
+<% } else{%>
+	SS
+<% } %>			
+<br>
+
+
+<div class="tags">
+	<label><span class="glyphicon glyphicon-tags" aria-hidden="true"></span> Schlüsselworte:</label><br>
+	<% items.tags.forEach( function ( tag ){ %>
+		<a href="/modules/tag/<%=: tag | replace:/\ /g,'-' %>"><%=: tag %></a> 
+	<% }); %>
+</div>
+
+
+<h4>Umfang</h4>
+<label>Semsterwochenstunden:</label> <%= items.sws_total %> SWS, davon
+<ul>
+<% if( items.sws.vorlesung !== undefined){ %><li>Vorlesung: <%= items.sws.vorlesung %> SWS</li><% } %>
+<% if( items.sws.seminar !== undefined){ %><li>Seminar: <%= items.sws.seminar %> SWS</li><% } %>
+<% if( items.sws.ringvorlesung !== undefined){ %><li>Ringvorlesung: <%= items.sws.ringvorlesung %> SWS</li><% } %>
+<% if( items.sws.ubung !== undefined){ %><li>Übung: <%= items.sws.ubung %> SWS</li><% } %>
+<% if( items.sws.tutorium !== undefined){ %><li>Tutorium: <%= items.sws.tutorium %> SWS</li><% } %>
+<% if( items.sws.praktikum !== undefined){ %><li>Praktikum: <%= items.sws.praktikum %> SWS</li><% } %>
+<% if( items.sws.exkursion !== undefined){ %><li>Exkursion: <%= items.sws.exkursion %> SWS</li><% } %>
+<% if( items.sws.projekt !== undefined){ %><li>Projekt: <%= items.sws.projekt %> SWS</li><% } %>
+<% if( items.sws.berufspraktikum !== undefined){ %><li>Berufspraktikum: <%= items.sws.berufspraktikum %> SWS</li><% } %>
+<% if( items.sws.sprachkurs !== undefined){ %><li>Sprachkurs: <%= items.sws.sprachkurs %> SWS</li><% } %>
+<% if( items.sws.elearning !== undefined){ %><li>E-Learning: <%= items.sws.elearning %> SWS</li><% } %>
+<% if( items.sws.ubung_seminar !== undefined){ %><li>Übung/Seminar: <%= items.sws.ubung_seminar %> SWS</li><% } %>
+</ul>
+<label>Workload:</label> <%= items.workload %>
+<br>
+<label>Workload im Selbststudium:</label> <%= items.workload_self %>
+<br>
+<label>ECTS:</label> <%= items.ects %>
+
+
+<h4>Verantwortlichkeiten</h4>
+<label>Modulverantwortlicher:</label> <%= items.modulverantwortlicher %>
+<br>
+<% if( items.lecturers !== undefined){ %>
+<label>Weitere Dozenzen:</label> <%= items.lecturers %>
+<br>
+<% } %>
+<label>Struktureinheit der Hochschule:</label> <%= items.struktureinheit %>
+<br>
+<label>E-Mail:</label> <%= items.email %>
+
+<% if( items.remarks_general !== undefined){ %>
+	<label>Bemerkingen:</label><br><%= items.remarks_general %>
+	<br>
+<% } %>
+
+
+<% if( items.remarks_internal !== undefined){ %>
+	<label>Interne Bemerkingen:</label><br><%= items.remarks_internal %>
+<% } %>
+
+
+<h4>Prüfungen / Vorleistungen</h4>
+
+<% if(items.pvl.length === 1){ %>
+<label>Prüfungsvorleistungen:</label>
+<ul>
+<% if( items.pvl.referat !== undefined){ %><li>Referat: <%= items.pvl.referat %></li><% } %>
+<% if( items.pvl.labor !== undefined){ %><li>Labor: <%= items.pvl.labor %></li><% } %>
+<% if( items.pvl.beleg !== undefined){ %><li>Beleg: <%= items.pvl.beleg %></li><% } %>
+<% if( items.pvl.testat !== undefined){ %><li>Testat: <%= items.pvl.testat %></li><% } %>
+<% if( items.pvl.protokoll !== undefined){ %><li>Protokoll: <%= items.pvl.protokoll %></li><% } %>
+<% if( items.pvl.moderation !== undefined){ %><li>Moderation: <%= items.pvl.moderation %></li><% } %>
+</ul>
+<% } %>
+
+<label>Prüfungsleistungen:</label>
+<ul>
+<% if( items.pl.klausur !== undefined){ %><li>Klausur: <%= items.pl.klausur %></li><% } %>
+<% if( items.pl.mdlpruefung !== undefined){ %><li>Mündliche Prüfung: <%= items.pl.mdlpruefung %></li><% } %>
+<% if( items.pl.referat !== undefined){ %><li>Referat: <%= items.pl.referat %></li><% } %>
+<% if( items.pl.praesentation !== undefined){ %><li>Präsentation: <%= items.pl.praesentation %></li><% } %>
+<% if( items.pl.belegarbeit !== undefined){ %><li>Belegarbeit: <%= items.pl.belegarbeit %></li><% } %>
+<% if( items.pl.seminararbeit !== undefined){ %><li>Seminararbeit: <%= items.pl.seminararbeit %></li><% } %>
+<% if( items.pl.projektarbeit !== undefined){ %><li>Projektarbeit: <%= items.pl.projektarbeit %></li><% } %>
+<% if( items.pl.praktikumsprotokoll !== undefined){ %><li>Praktikumsprotokoll: <%= items.pl.praktikumsprotokoll %></li><% } %>
+<% if( items.pl.praktikumsbericht !== undefined){ %><li>Praktikumsbericht: <%= items.pl.praktikumsbericht %></li><% } %>
+<% if( items.pl.exkursionsbericht !== undefined){ %><li>Exkursionsbericht: <%= items.pl.exkursionsbericht %></li><% } %>
+<% if( items.pl.laborarbeit !== undefined){ %><li>Laborarbeit: <%= items.pl.laborarbeit %></li><% } %>
+<% if( items.pl.forschungsplan !== undefined){ %><li>Forschungsplan: <%= items.pl.forschungsplan %></li><% } %>
+<% if( items.pl.elearningtest !== undefined){ %><li>E-Learning-Test: <%= items.pl.elearningtest %></li><% } %>
+</ul>
+	
+
+
+	comments : [Schema.Types.Mixed],
+	updated_at : Date
+
+</div></div></div>
+
+<script> 
+$(document).ready(function() {
+});	
+
+</script>
+
+

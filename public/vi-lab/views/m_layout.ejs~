@@ -13,6 +13,39 @@
 <link rel="stylesheet" href="/vi-lab/css/colorbox.css" >
 <link rel="stylesheet" href="/vi-lab/css/video-patterns.css" >
 <link rel="stylesheet" href="/vi-lab/css/bootstrap-table.min.css">
+<!--<link rel="stylesheet" href="/vi-lab/css/select2-bootstrap.css">-->
+<link rel="stylesheet" href="/vi-lab/css/select2.css">
+
+<style>
+
+h4{
+margin-top:20px;
+}
+
+.mbase-search-container {
+	width: 300px;
+	font-size:14px;
+	padding:4px;
+}    
+
+.tags a{
+	text-decoration:none; 
+	background-color: #003366;
+	color: #fff;
+	border-radius:5px;
+	padding:2px 4px;
+	
+	line-height: 24px;
+	font-size:12px;
+}
+
+.tags a:hover{
+	background-color: lightblue;
+	color: #003366;
+}
+
+</style>
+
 <script src='/vi-lab/js/jquery-1.11.2.min.js' type='text/javascript'></script>
 <script src="/vi-lab/js/bootstrap.min.js"></script>
 <script src="/vi-lab/js/bootstrap-switch.min.js"></script>
@@ -24,6 +57,9 @@
 <script src="/vi-lab/js/jspdf.js"></script>
 <script src="/vi-lab/js/base64.js"></script>
 <script src="/vi-lab/js/sprintf.js"></script>
+<script src="/vi-lab/js/select2.min.js"></script>
+<script src='/vi-lab/js/typeahead.bundle.js'></script>
+
 
 <script src="/vi-lab/js/markdown.js"></script>
 <script src="/vi-lab/js/jquery.colorbox-min.js"></script>
@@ -219,6 +255,7 @@ function startIntro(){
 				  </form>
 				  <ul class="nav navbar-nav navbar-right">
 				    <li><a href="/api">Data API</a></li>
+				    <li><a href="/admin">Admin</a></li>
 				    <li><a href="/about">About</a></li>
 				    <li class="group-area"></li>
 						<li class="user-area"></li>

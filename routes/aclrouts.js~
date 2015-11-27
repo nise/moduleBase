@@ -52,6 +52,7 @@ module.exports = function(db, app) {
   app.get(	'/', function ( req, res ){ res.render( 'intro', { title : 'Designing Video Interfaces' }); });
 	app.get(	'/wizzard', function ( req, res ){ res.render( 'wizzard', { title : 'Pattern Wizzard' }); });
 	app.get(	'/about', function ( req, res ){ res.render( 'about', { title : 'About' }); });
+	app.get(	'/impressum', function ( req, res ){ console.log(44444); res.render( 'impressum', { title : 'Impressum' }); });
 	app.get(	'/citation', function ( req, res ){ res.render( 'citation', { title : 'Citation' }); });
   app.get(	'/api', function ( req, res ){ res.render( 'api', { title : 'API' }); });
   
@@ -161,17 +162,6 @@ module.exports = function(db, app) {
 	app.get('/login', users.openLoginPage ); //curl -v -d "username=bob&password=secret" http://localhost:3000/login
 	app.post('/login', users.authenticate );
 
-	
-	// routes related to E-Assessment
-	var assess = require('./assessment');
-	app.get('/json/assessment', assess.getTest);
-	app.get('/assessment', assess.index);
-	app.get('/assessment/results', users.ensureAuthenticated, assess.getResults );
-	app.post('/assessment/results', users.ensureAuthenticated , assess.setResults );
-	app.get('/assessment/fill-in/:field', users.ensureAuthenticated, assess.getFillins );
-	app.post('/assessment/fill-in/:field', users.ensureAuthenticated, assess.setFillins );
-	app.get('/assessment/written/:field', users.ensureAuthenticated, assess.getWrittenAssessment );
-	app.post('/assessment/written/:field', users.ensureAuthenticated, assess.setWrittenAssessment );
 	
 
 /*
