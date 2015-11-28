@@ -5,7 +5,37 @@
 	<div class="container">
   <h2>Module Search</h2>
   <h3>Freitextsuche</h3>
-	<input id="fulltext-search" class="mbase-search-container" type="text">
+  <div class="search-fields">
+		<div class="search-field-row">
+			<select>
+				<option>AND</option>
+				<option>OR</option>
+				<option>NOT</option>
+			</select>
+			<select>
+				<option>Schlüsselwörter</option><!-- multi -->
+				<option>Modulnummer</option>
+				<option>Modultitel</option>
+				<option>Studiengang</option><!-- multi -->
+				<option>Type</option><!-- multi -->
+				<option>Hochschule</option><!-- multi -->
+				<option>Sprache</option><!-- multi -->
+				<option>Lehrform</option><!-- multi -->
+				<option>SWS</option>
+				<option>SWS Selbststudium</option>
+				<option>ECTS</option>
+				<option>Prüfungsvorleistung</option><!-- multi -->
+				<option>Prüfungsleistung</option><!-- multi -->
+				<option>WS/SS</option><!-- multi -->
+				<option>Modulverantwortlicher</option><!-- multi -->
+				<option>Verantw. Struktureinheit</option><!-- multi -->
+				<option>Weitere Lehrende</option>
+				<option>Bemerkungen</option>		
+			</select>
+			<input id="fulltext-search" class="mbase-search-container" type="text">
+		</div>
+	</div>	
+	<span id="add-field-row" class="glyphicon glyphicon-plus"></span>	
 	<div class="buttons">
      <button id="submitfulltextsearch" type="submit">suchen</button>  
   </div>
@@ -18,15 +48,20 @@
 	</div>
   </div>
 </div>
-<div class="container">
 
+<div class="container">
 	<h3>Suchergebnisse</h3>
-	<div id="search-results"></div>
-		<ul id="result-list"></ul>
+	<table id="table1"></table>
 </div>
 
 <script> 
 $(document).ready(function() {
+	
+	$('#add-field-row').click(function(){ 
+		var row = $('.search-fields').find('.search-field-row').clone();
+		$('.search-fields').append( row );
+	});
+
 	//$.fn.select2.defaults.set("theme", "classic");
   $(".js-example-basic-multiple").select2();
   
@@ -35,36 +70,16 @@ $(document).ready(function() {
   	var query = $('#fulltext-search').val(); 
   	console.log( 'fulltext-search query: ' + query );
   	$.get('/modules/search/fulltext/'+query, function(data){ 
-  		$('#result-list').empty();
-  		for(var i in data){
-  			if(data.hasOwnProperty(i)){
-  				var li = $('<li></li>').appendTo('#result-list');
-  				var link = $('<a>')
-  					.text( data[i].modultitel )
-  					.attr('href','/modules/view/'+ data[i]._id )
-  					.appendTo(li)
-  					;
-  			}
-  		}
-  	})
+  		showSearchResults( data );
+  	});
   });
   
   $('#submittagserach').click(function(){
   	var query = $('#tag-search').val(); 
   	console.log( 'tag-search query: ' + query );
   	$.get('/modules/search/tags/'+query, function(data){ 
-  		$('#result-list').empty();
-  		for(var i in data){
-  			if(data.hasOwnProperty(i)){
-  				var li = $('<li></li>').appendTo('#result-list');
-  				var link = $('<a>')
-  					.text( data[i].modultitel )
-  					.attr('href','/modules/view/'+ data[i]._id )
-  					.appendTo(li)
-  					;
-  			}
-  		}
-  	})
+  		showSearchResults( data );
+  	});
   });
   
   
@@ -91,6 +106,79 @@ $(document).ready(function() {
   
   
 });
+
+
+/*
+ *
+ */
+function showSearchResults( data ){
+$('#table1').bootstrapTable({
+    //url: '/data/json/modules',
+    data : data,
+    onLoadError : function(e){ alert(JSON.stringify(e)); },
+    //    onLoadSuccess : function(e){ alert(JSON.stringify(e)); },
+    //height:'500',
+    showColumns : true,
+    checkboxHeader : true,
+   // cardView:true, // mobile view
+    showExport:true,
+    exportDataType:'selected',
+    exportOptions: {
+    	consoleLog: false,
+			csvEnclosure: '"',
+			csvSeparator: ',',
+			csvUseBOM: true,
+			displayTableName: false,
+			escape: false,
+			excelstyles: [ 'css','properties','to','export','to','excel' ],
+			fileName: 'tableExport',
+			htmlContent: false,
+			ignoreColumn: [],
+			ignoreRow: [],
+			onCellData: null,
+			outputMode: 'file',
+			tbodySelector: 'tr',
+			theadSelector: 'tr',
+			tableName: 'myTableName',
+			type: 'csv',
+			worksheetName: 'xlsWorksheetName'
+    },
+    // search
+    search: true,
+    strictSearch: true,
+    trimOnSearch:true,
+    
+    // details
+    detailView : true,
+    detailFormatter : function(index, row) {
+			return '<a href="/modules/view/' + row._id + '">Detailansicht</a> | <a href="/data/pdf/' + row._id + '">Modulbeschreibung (PDF)</a> | <a href="/modules/edit/' + row._id + '">bearbeiten</a>'//''+index+'__'+row._id;
+		},
+		//onClickRow : function(row, el){ alert(row._id); },
+    onClickCell : function(field, value, row, el){ if(field==='modultitel'){ 
+    	alert(row._id);
+    } },
+    columns: [
+		  { field: 'modultitel', title: 'Modulbezeichnung', sortable : true, order: 'asc',searchable : true }, 
+		 	{ field: 'modulnr1', title: 'Modulnummer', visible:false, sortable : true, order: 'asc',searchable : true }, 
+		  { field: 'modulnr2', title: 'Modulnummer 2', visible:false, sortable : true, order: 'asc',searchable : true }, 
+		  { field: 'modulnr3', title: 'Modulnummer 3', visible:false, sortable : true, order: 'asc',searchable : true }, 
+		  { field: 'courses', title: 'Studiengang',sortable : true, order: 'asc',searchable : true }, 
+		  { field: 'type', title: 'BA/MA',sortable : true, order: 'asc',searchable : true }, 
+		  { field: 'university', title: 'Hochschule',sortable : true, order: 'asc',searchable : true }, 
+		  { field: 'language', title: 'Sprache',sortable : true, order: 'asc',searchable : true }, 
+		  { field: 'sws_total', title: 'SWS',sortable : true, order: 'asc',searchable : true }, 
+		  { field: 'workload', title: 'Workload',sortable : true, order: 'asc',searchable : true }, 
+		  { field: 'workload_self', title: 'Workload Selbst',sortable : true, order: 'asc',searchable : true }, 
+		  { field: 'ects', title: 'ECTS',sortable : true, order: 'asc',searchable : true }, 
+		  { field: 'summer_winter', title: 'Semester',sortable : true, order: 'asc',searchable : true }, 
+		  { field: 'modulverantwortlicher', title: 'Modulverantwortliche/r',sortable : true, order: 'asc',searchable : true }, 
+		  { field: 'mail', title: 'E-Mail',sortable : true, visible:false, order: 'asc',searchable : true }, 
+		  { field: 'lecturers', title: 'Weitere Dozenten',sortable : true, visible:false, order: 'asc',searchable : true }, 
+		  { field: 'remarks', title: 'Hinweise',sortable : true, order: 'asc',visible:false, searchable : true }, 
+		  { field: 'updated_at', title: 'Letzte Änderung',sortable : true, visible:false, order: 'asc',searchable : true }
+    ]
+	});
+}
 
 </script>
 
