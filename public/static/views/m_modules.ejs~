@@ -3,10 +3,9 @@
 
 <div class="jumbotron">
 	<div class="container">
-  <h2>Modules</h2>
-  <p class="mark"></p>
-  </div>
-</div>
+  	<h2>Module</h2>
+  	<p class="mark"></p></div>
+	</div>
 <div class="container">
 	<table id="table1"></table>
 </div>

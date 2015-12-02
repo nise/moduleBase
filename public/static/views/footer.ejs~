@@ -1,0 +1,24 @@
+
+<script>
+  $(function() {
+    //$( "#tabs" ).tabs();
+  });
+ </script>
+
+<div class="footer">
+	<div class="container">
+		<div class="logos">
+			<img src="/static/img/logos/logo_tud.gif" />
+			<img src="/static/img/logos/logo_hszg.png" />
+			<img src="/static/img/logos/logo_senkenberg.gif" />
+			<img src="/static/img/logos/logo_ioer.gif" />
+			<img src="/static/img/logos/logo_izs.png" />
+		</div>
+	</div>	
+	<div class="container mark">
+
+[Impressum](/impressum) | [Admin](/admin) | [nise81](http://www.nise81.com/) 
+	</div>
+ 
+</div>
+

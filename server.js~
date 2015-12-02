@@ -57,7 +57,7 @@ console.log('************************************************\n\n');
 	app.use(compression())
 	
   app.use(express.static(path.join(__dirname, 'public')));
-	app.set('views', __dirname + '/public/vi-lab/views');
+	app.set('views', __dirname + '/public/static/views');
 	app.set('view engine', 'ejs');
 	app.engine('ejs', require('ejs-locals'));
 		
@@ -102,8 +102,7 @@ var conn = mongoose.connect( 'mongodb://localhost/moduleBase' , function(err, db
 		Import data
 		**/
 		m = require('./routes/modules');
-		//m.importMetadata();
-		m.importTags({}, m.importMetadata );
+		//m.importTags({}, m.importMetadata );
 		
 		// routes
 		app.get(	'/', function ( req, res ){ res.render( 'index', { title : '' }); });
@@ -115,6 +114,7 @@ var conn = mongoose.connect( 'mongodb://localhost/moduleBase' , function(err, db
 		app.get(	'/data/json/modules/tag/:id', m.getJSONbyTag );
 		app.get(	'/data/csv/modules', m.getCSV );
 		app.get(	'/modules/tag-schema', m.getTagSchema );
+		app.get(	'/json/modules/field-schema', m.getFieldSchema );
 		app.get(	'/modules/list', m.index );
 		app.get(	'/modules/view/:id', m.viewSingle );
 		app.get(	'/modules/edit/:id', m.edit );

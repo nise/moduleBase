@@ -7,9 +7,40 @@ font-family: 'Oswald', sans-serif;
 font-weight:bold;
 }
 
+h3 {
+	font-size: 20px;
+}
+
+h4 {
+	font-size: 16px;
+}
+
+select.select {
+	height:35px;
+	font-size:14px;
+	padding:4px;
+}
+
+select.select option {
+	padding:4px;
+	background-color:#fff;
+}
+
+
 .navbar-default {
     background-color: #CCEBFF;
     border-color: #e7e7e7;
+    padding-bottom:10px;
+}
+
+.navbar-logo{
+	padding: 6px 20px 0 0;
+	max-height:70px;
+	float:left;
+}
+
+.nav {
+	padding-top:20px;
 }
 
 .panel-default > .panel-heading {
@@ -19,6 +50,7 @@ font-weight:bold;
 
 .jumbotron {
     background-color: #87D0E8;
+    padding-top:100px;
 }
 
 .spacer200 { height: 100px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
@@ -127,12 +159,25 @@ background-image:none;
 background-color:#999;
 }
 
-.footer{
+.footer {
 display:inline-block;
 height: 400px;
 width:100%;
 margin-top:50px;
 padding:20px;
-background-color:#333;
-color:#eee;
+background-color:#fff;
+color:#333;
+border-top: solid 1px #ccc;
 }
+
+.footer .logos {
+	margin-bottom:50px;
+}
+
+.footer img {
+ max-width:250px;
+ max-height:75px;
+ padding-right:20px;
+}
+
+

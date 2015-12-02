@@ -1,5 +1,11 @@
 <% layout( 'm_layout' ) -%>
 
+<script>
+$(document).ready (function () { 
+	$("input:text").focus(function() {;$(this).select(); } );
+});	
+</script>
+
 
 <div class="jumbotron">
 	<div class="container">
@@ -16,20 +22,35 @@
 
 
 <div class=" container mark">
+
   
-### Willkommen moduleBase
+### Über diese Datenbank
+
 Diese Datenbank ...
 
-- Wofür brauche ich das?
+Zitation: 
 
-- Was kann ich noch damit tun?
+### Das Projekt ÖBIN
 
-- Wer nutzt es?
+...
 
-- Ist es aktuell?
+### Design und Entwicklung
+
+Niels Seidel, [nise81](http://www.nise81.com/)
 
 
+### Lizenzen
+
+Inhalte, Daten und Datenbank: Creative Commons 3.0, CC-BY
+
+Software: MIT License, verfügbar unter [https://github.com/nise/moduleBase](https://github.com/nise/moduleBase)
+
+
+  
 </div>
   
   
 </div>
+
+
+

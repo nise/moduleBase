@@ -15,26 +15,75 @@ exports.getTagSchema = function(req,res){
 }
 
 /*
+ *
+ */
+exports.getFieldSchema = function(req,res){
+	Modules.find().distinct( 'university', function(error, university) {
+		Modules.find().distinct('language', function(error, language) {
+			Modules.find().distinct('courses', function(error, courses) {
+				Modules.find().distinct('type', function(error, type) {
+					Modules.find().distinct('summer_winter', function(error, semester) {
+						Modules.find().distinct('pl', function(error, pl) {
+							Modules.find().distinct('pvl', function(error, pvl) {
+								Modules.find().distinct('sws', function(error, sws) {
+									//Modules.find().distinct('tags', function(error, tags) {
+									fs.readFile( './data/data-tag-level-relations.csv' , function read(err, data) { 
+										if(err){
+											console.log(err);
+										} 
+										csv().from.string(data, {comment: '#'} )
+											.to.array( function(csv){
+												for(var i = 1; i < csv.length; i++){
+													if( tag_schema[ csv[i][1] ] === undefined ){
+														tag_schema[ csv[i][1] ] = [];
+													}
+													tag_schema[ csv[i][1] ].push( csv[i][0] )
+												}
+												//console.log(tag_schema);	
+											});
+											var extractKeys = function(obj){
+												var arr = [];
+												for(var p in obj){
+													if( obj.hasOwnProperty(p)){ 
+														arr.push( Object.keys( obj[p] )[0] );
+													}
+												}
+												return arr.filter( uniq );
+											}
+											var uniq = function onlyUnique(value, index, self) { 
+													return self.indexOf(value) === index;
+											}
+											res.jsonp( {
+												university: university,
+												language: language,
+												courses: courses,
+												type: type,
+												semester: semester,
+												tags : tag_schema, // captures in advance,
+												pl: extractKeys( pl ),
+												pvl: extractKeys( pvl ),
+												sws: extractKeys( sws )
+											} );
+										});
+									
+										
+									//});	
+								});
+							});
+						});				
+					});				
+				});
+			});
+		});
+	}); 
+}
+
+/*
 Import tags from several csv files
 **/
 exports.importTags = function ( req, res ){
 	// import tag classification
-	fs.readFile( './data/data-tag-level-relations.csv' , function read(err, data) { // test: data2.csv
-		if(err){
-			console.log(err);
-		} 
-		csv().from.string(data, {comment: '#'} )
-			.to.array( function(csv){
-				for(var i = 1; i < csv.length; i++){
-					if( tag_schema[ csv[i][1] ] === undefined ){
-						tag_schema[ csv[i][1] ] = [];
-					}
-					tag_schema[ csv[i][1] ].push( csv[i][0] )
-				}
-				console.log(tag_schema);	
-			});
 			
-	});		
 	// import tag files 
 	var dir = './data/tags';
 	var files = fs.readdirSync(dir);
@@ -122,7 +171,7 @@ exports.importMetadata = function ( req, res ){
 							validate(obj, 'modultitel', 	data[i][3], 'string');
 						
 							var courses = [];
-							for(var j = 3; j < 10; j++){
+							for(var j = 4; j < 10; j++){
 								if( typeof data[i][j] === "string" && data[i][j].length > 0){
 									courses.push( data[i][j] ); 
 								}

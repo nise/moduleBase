@@ -1,11 +1,5 @@
 <% layout( 'm_layout' ) -%>
 
-<script>
-$(document).ready (function () { 
-	$("input:text").focus(function() {;$(this).select(); } );
-});	
-</script>
-
 
 <div class="jumbotron">
 	<div class="container">
@@ -23,26 +17,19 @@ $(document).ready (function () {
 
 <div class=" container mark">
   
-### Über diese Datenbank
+### Willkommen in der moduleBase
 Diese Datenbank ...
 
+- Wofür brauche ich das?
 
-### Design und Entwicklung
-Niels Seidel, [nise81](http://www.nise81.com/)
+- Was kann ich noch damit tun?
 
+- Wer nutzt es?
 
-### Lizenz
-
-Daten und Datenbank: Creative Commons 3.0, CC-BY
-
-Software: MIT License, verfügbar unter [https://github.com/nise/moduleBase](https://github.com/nise/moduleBase)
+- Ist es aktuell?
 
 
-  
 </div>
   
   
 </div>
-
-
-

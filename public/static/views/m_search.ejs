@@ -3,50 +3,47 @@
 
 <div class="jumbotron">
 	<div class="container">
-  <h2>Module Search</h2>
-  <h3>Freitextsuche</h3>
+  <h2>Modulsuche</h2>
+  <h3 data-i18n="app.name"></h3>
+  
   <div class="search-fields">
-		<div class="search-field-row">
-			<select>
+		<div id="row-0" class="search-field-row">
+			<select id="row-0-operator" class="select select-operator">
 				<option>AND</option>
 				<option>OR</option>
 				<option>NOT</option>
 			</select>
-			<select>
-				<option>Schlüsselwörter</option><!-- multi -->
-				<option>Modulnummer</option>
-				<option>Modultitel</option>
-				<option>Studiengang</option><!-- multi -->
-				<option>Type</option><!-- multi -->
-				<option>Hochschule</option><!-- multi -->
-				<option>Sprache</option><!-- multi -->
-				<option>Lehrform</option><!-- multi -->
-				<option>SWS</option>
-				<option>SWS Selbststudium</option>
-				<option>ECTS</option>
-				<option>Prüfungsvorleistung</option><!-- multi -->
-				<option>Prüfungsleistung</option><!-- multi -->
-				<option>WS/SS</option><!-- multi -->
-				<option>Modulverantwortlicher</option><!-- multi -->
-				<option>Verantw. Struktureinheit</option><!-- multi -->
-				<option>Weitere Lehrende</option>
-				<option>Bemerkungen</option>		
+			<select id="row-0-field" class="select select-field">
+				<option data-multi="true" data-key="tags" >Schlüsselwörter</option><!-- multi -->
+				<option data-multi="false" data-key="modulnr">Modulnummer</option>
+				<option data-multi="false" data-key="title">Modultitel</option>
+				<option data-multi="true" data-key="courses" >Studiengang</option><!-- multi -->
+				<option data-multi="true" data-key="type" >Type</option><!-- multi -->
+				<option data-multi="true" data-key="university" >Hochschule</option><!-- multi -->
+				<option data-multi="true" data-key="language" >Sprache</option><!-- multi -->
+				<option data-multi="true" data-key="sws" >Lehrform</option><!-- multi -->
+				<option data-multi="false" data-key="sws">SWS</option>
+				<option data-multi="false" data-key="sws">SWS Selbststudium</option>
+				<option data-multi="false" data-key="ects">ECTS</option>
+				<option data-multi="true" data-key="pvl" >Prüfungsvorleistung</option><!-- multi -->
+				<option data-multi="true" data-key="pl" >Prüfungsleistung</option><!-- multi -->
+				<option data-multi="true" data-key="semester" >WS/SS</option><!-- multi -->
+				<option data-multi="false" data-key="xxx">Modulverantwortlicher</option>
+				<option data-multi="false" data-key="xxx">Verantw. Struktureinheit</option>
+				<option data-multi="false" data-key="xxx">Weitere Lehrende</option>
+				<option data-multi="false" data-key="xxx">Bemerkungen</option>		
 			</select>
-			<input id="fulltext-search" class="mbase-search-container" type="text">
+			<span id="row-0-input" class="select-input">
+				<input id="fulltext-search" class="mbase-search-container" type="text">
+			</span>	
 		</div>
 	</div>	
+	
 	<span id="add-field-row" class="glyphicon glyphicon-plus"></span>	
 	<div class="buttons">
      <button id="submitfulltextsearch" type="submit">suchen</button>  
   </div>
 
-
-	<h3>Suche nach Schlüsselworten</h3>
-	<select id="tag-search" class="js-example-basic-multiple mbase-search-container" multiple="multiple"></select>
-	<div class="buttons">
-		 <button id="submittagserach" type="submit">suchen</button>  
-	</div>
-  </div>
 </div>
 
 <div class="container">
@@ -57,55 +54,92 @@
 <script> 
 $(document).ready(function() {
 	
+
 	$('#add-field-row').click(function(){ 
 		var row = $('.search-fields').find('.search-field-row').first().clone();
+		var id = Math.floor(Math.random()*1000);
+		row.attr('id', 'row-'+ id);
+		row.find('.select-operator').attr('id', 'row-'+ id + '-operator');
+		row.find('.select-field').attr('id', 'row-'+ id + '-field');
+		row.find('.select-input').attr('id', 'row-'+ id + '-input');
 		$('.search-fields').append( row );
 	});
 
-	//$.fn.select2.defaults.set("theme", "classic");
-  $(".js-example-basic-multiple").select2();
-  
-  
-  $('#submitfulltextsearch').click(function(){
-  	var query = $('#fulltext-search').val(); 
-  	console.log( 'fulltext-search query: ' + query );
-  	$.get('/modules/search/fulltext/'+query, function(data){ 
-  		showSearchResults( data );
-  	});
-  });
-  
-  $('#submittagserach').click(function(){
-  	var query = $('#tag-search').val(); 
-  	console.log( 'tag-search query: ' + query );
-  	$.get('/modules/search/tags/'+query, function(data){ 
-  		showSearchResults( data );
-  	});
-  });
-  
-  
-  // fill tag schema to select2
-  $.get('/modules/tag-schema', function(data){
-  	for(var group in data){
-  		if( data.hasOwnProperty(group) ){
-  			var gr = $('<optgroup></optgroup>')
-  				.attr('label', group)
-  				.appendTo( '#tag-search' );
-  				;	
-  			for(var i = 0; i < data[group].length; i++){
-  				$('<option>')
-  					.attr('value', data[group][i] )//data[group][i].replace(\\ \g, '')
-  					.text( data[group][i] )
-  					.appendTo( gr )
-  					;
-  			}
-  				
-  		}
-  	}
+
+  // get field schemas
+  $.get('/json/modules/field-schema', function(data){
+  	field_schemas = data;
+  	  $('.select-field').change(function(e){ alert('#' + $(this).attr('id') + '-input')
+				setDataSchema( {
+						id : $(this).find(':selected').attr('id'), 
+						key: $(this).find(':selected').data('key'), 
+						multiselect: $(this).find(':selected').data('multi'),
+						selector : '#' + $(this).attr('id').replace('-field','') + '-input'
+				} );
+			});
   });
   
   
   
 });
+
+
+var field_schemas = {};
+
+/*
+ *
+ */
+ function setDataSchema ( obj ){ 
+ 	if( obj.multiselect ){
+ 		// simple
+ 		var select = $('<select></select>')
+ 			.attr('id',"field-search" + obj.selector.replace('#') )
+ 			.addClass('multiple-select-'+ obj.key +' mbase-search-container')
+ 			.attr('multiple',"multiple")
+ 			;
+ 		if( field_schemas[ obj.key ] === undefined ){
+ 			alert('empty_'+obj.key)
+ 			
+ 		// init tags	
+ 		}else if( obj.key === 'tags'){ //alert(JSON.stringify())
+ 			for(var group in field_schemas[ obj.key ]){
+				if( field_schemas[ obj.key ].hasOwnProperty(group) ){
+					var gr = $('<optgroup></optgroup>')
+						.attr('label', group)
+						.appendTo( select );
+						;	
+					for(var i = 0; i < field_schemas[ obj.key ][group].length; i++){
+						$('<option>')
+							.attr('value', field_schemas[ obj.key ][group][i] )
+							.text( field_schemas[ obj.key ][group][i] )
+							.appendTo( gr )
+							;
+					}		
+				}
+			}// end for
+			$( obj.selector ).html( select );
+			$('.multiple-select-'+ obj.key ).select2();
+			
+		// init other multi-select fields	
+ 		}else{	
+	 		for(var i = 0; i < field_schemas[ obj.key ].length; i++){
+				$('<option>')
+					.attr('value', field_schemas[ obj.key ][i] )
+					.text(  field_schemas[ obj.key ][i] )
+					.appendTo( select )
+					;
+			} 
+			$( obj.selector ).html( select );
+		}	 
+  	// activate multi select
+  	$('.multiple-select-'+ obj.key ).select2();
+  	
+  	// init default input
+ 	}else{
+ 		$( obj.selector ).html( '<input id="fulltext-search" class="mbase-search-container" type="text">' );
+ 	}
+ }
+
 
 
 /*

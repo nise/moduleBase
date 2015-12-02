@@ -1,120 +1,29 @@
 
 <% layout( 'm_layout' ) -%>
 
-<div class="jumbotron">
+<div  class="jumbotron">
 	<div class="container">
-  <h2>Module Search</h2>
-  <h3>Freitextsuche</h3>
-  <div class="search-fields">
-		<div class="search-field-row">
-			<select>
-				<option>AND</option>
-				<option>OR</option>
-				<option>NOT</option>
-			</select>
-			<select>
-				<option>Schlüsselwörter</option><!-- multi -->
-				<option>Modulnummer</option>
-				<option>Modultitel</option>
-				<option>Studiengang</option><!-- multi -->
-				<option>Type</option><!-- multi -->
-				<option>Hochschule</option><!-- multi -->
-				<option>Sprache</option><!-- multi -->
-				<option>Lehrform</option><!-- multi -->
-				<option>SWS</option>
-				<option>SWS Selbststudium</option>
-				<option>ECTS</option>
-				<option>Prüfungsvorleistung</option><!-- multi -->
-				<option>Prüfungsleistung</option><!-- multi -->
-				<option>WS/SS</option><!-- multi -->
-				<option>Modulverantwortlicher</option><!-- multi -->
-				<option>Verantw. Struktureinheit</option><!-- multi -->
-				<option>Weitere Lehrende</option>
-				<option>Bemerkungen</option>		
-			</select>
-			<input id="fulltext-search" class="mbase-search-container" type="text">
-		</div>
-	</div>	
-	<span id="add-field-row" class="glyphicon glyphicon-plus"></span>	
-	<div class="buttons">
-     <button id="submitfulltextsearch" type="submit">suchen</button>  
-  </div>
-
-
-	<h3>Suche nach Schlüsselworten</h3>
-	<select id="tag-search" class="js-example-basic-multiple mbase-search-container" multiple="multiple"></select>
-	<div class="buttons">
-		 <button id="submittagserach" type="submit">suchen</button>  
-	</div>
+  <h2>
+  <% if(title === undefined){ %>
+  	Modules
+  <%}else{%>
+  	<%= title %>
+  <%}%>	
+  </h2>
+  <p class="mark"></p>
   </div>
 </div>
-
 <div class="container">
-	<h3>Suchergebnisse</h3>
 	<table id="table1"></table>
 </div>
 
 <script> 
-$(document).ready(function() {
-	
-	$('#add-field-row').click(function(){ 
-		var row = $('.search-fields').find('.search-field-row').clone();
-		$('.search-fields').append( row );
-	});
-
-	//$.fn.select2.defaults.set("theme", "classic");
-  $(".js-example-basic-multiple").select2();
-  
-  
-  $('#submitfulltextsearch').click(function(){
-  	var query = $('#fulltext-search').val(); 
-  	console.log( 'fulltext-search query: ' + query );
-  	$.get('/modules/search/fulltext/'+query, function(data){ 
-  		showSearchResults( data );
-  	});
-  });
-  
-  $('#submittagserach').click(function(){
-  	var query = $('#tag-search').val(); 
-  	console.log( 'tag-search query: ' + query );
-  	$.get('/modules/search/tags/'+query, function(data){ 
-  		showSearchResults( data );
-  	});
-  });
-  
-  
-  // fill tag schema to select2
-  $.get('/modules/tag-schema', function(data){
-  	for(var group in data){
-  		if( data.hasOwnProperty(group) ){
-  			var gr = $('<optgroup></optgroup>')
-  				.attr('label', group)
-  				.appendTo( '#tag-search' );
-  				;	
-  			for(var i = 0; i < data[group].length; i++){
-  				$('<option>')
-  					.attr('value', data[group][i] )//data[group][i].replace(\\ \g, '')
-  					.text( data[group][i] )
-  					.appendTo( gr )
-  					;
-  			}
-  				
-  		}
-  	}
-  });
-  
-  
-  
-});
+$(document).ready (function () { 
 
 
-/*
- *
- */
-function showSearchResults( data ){
 $('#table1').bootstrapTable({
     //url: '/data/json/modules',
-    data : data,
+    data : <%-JSON.stringify(items)%>,
     onLoadError : function(e){ alert(JSON.stringify(e)); },
     //    onLoadSuccess : function(e){ alert(JSON.stringify(e)); },
     //height:'500',
@@ -178,8 +87,12 @@ $('#table1').bootstrapTable({
 		  { field: 'updated_at', title: 'Letzte Änderung',sortable : true, visible:false, order: 'asc',searchable : true }
     ]
 	});
-}
-
+	
+	
+	
+	
+});
 </script>
+
 
 
