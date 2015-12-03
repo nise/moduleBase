@@ -14,6 +14,7 @@
 				<option>NOT</option>
 			</select>
 			<select id="row-0-field" class="select select-field">
+				<option selected disabled hidden value=''></option>
 				<option data-multi="true" data-key="tags" >Schlüsselwörter</option><!-- multi -->
 				<option data-multi="false" data-key="modulnr">Modulnummer</option>
 				<option data-multi="false" data-key="title">Modultitel</option>
@@ -36,12 +37,13 @@
 			<span id="row-0-input" class="select-input">
 				<input id="fulltext-search" class="mbase-search-container" type="text">
 			</span>	
-		</div>
+			<span id="row-0-remove" class="remove glyphicon glyphicon-remove mb-btn"></span>
+		</div>	 
 	</div>	
 	
-	<span id="add-field-row" class="glyphicon glyphicon-plus"></span>	
+	<div id="add-field-row" class="btn"><span class="glyphicon glyphicon-plus"></span> Suchfeld hinzufügen</div>	
 	<div class="buttons">
-     <button id="submitfulltextsearch" type="submit">suchen</button>  
+     <button id="submitfulltextsearch" class="btn-default btn" type="submit">suchen</button>  
   </div>
 
 </div>
@@ -52,6 +54,9 @@
 </div>
 
 <script> 
+
+var field_schemas = {};
+
 $(document).ready(function() {
 	
 
@@ -61,21 +66,42 @@ $(document).ready(function() {
 		row.attr('id', 'row-'+ id);
 		row.find('.select-operator').attr('id', 'row-'+ id + '-operator');
 		row.find('.select-field').attr('id', 'row-'+ id + '-field');
-		row.find('.select-input').attr('id', 'row-'+ id + '-input');
+		row.find('.remove').attr('id', 'row-'+ id + '-remove');
+		row.find('.select-input').empty().attr('id', 'row-'+ id + '-input');
 		$('.search-fields').append( row );
+		
+		row.find('.select-field').change(function(e){  
+				var obj = {
+						id : $(this).find(':selected').attr('id'), 
+						key: $(this).find(':selected').data('key'), 
+						multiselect: $(this).find(':selected').data('multi'),
+						selector : '#' + $(this).attr('id').replace('-field','') + '-input'
+				}; 
+				setDataSchema( obj );
+			});
+			
+		row.find('.remove').click(function(){
+			removeFieldRow( this );
+		});
+		$('.search-fields').find('.remove').show();	
+	});
+	
+	$('.remove').click(function(){
+			removeFieldRow( this );
 	});
 
 
   // get field schemas
   $.get('/json/modules/field-schema', function(data){
   	field_schemas = data;
-  	  $('.select-field').change(function(e){ alert('#' + $(this).attr('id') + '-input')
-				setDataSchema( {
+  	  $('#row-0 > .select-field').change(function(e){ 
+				var obj = {
 						id : $(this).find(':selected').attr('id'), 
 						key: $(this).find(':selected').data('key'), 
 						multiselect: $(this).find(':selected').data('multi'),
 						selector : '#' + $(this).attr('id').replace('-field','') + '-input'
-				} );
+				}; 
+				setDataSchema( obj );
 			});
   });
   
@@ -84,7 +110,19 @@ $(document).ready(function() {
 });
 
 
-var field_schemas = {};
+/*
+ *
+ */
+ function removeFieldRow( row ){
+ 		
+		$( row ).parent().remove();
+		if( $('.search-fields').find('.remove').size() === 1 ){
+			$('.search-fields').find('.remove').hide();
+		}else{
+			$('.search-fields').find('.remove').show();
+		}
+ }
+
 
 /*
  *
@@ -93,7 +131,7 @@ var field_schemas = {};
  	if( obj.multiselect ){
  		// simple
  		var select = $('<select></select>')
- 			.attr('id',"field-search" + obj.selector)
+ 			.attr('id',"field-search" + obj.selector.replace('#') )
  			.addClass('multiple-select-'+ obj.key +' mbase-search-container')
  			.attr('multiple',"multiple")
  			;
@@ -117,8 +155,9 @@ var field_schemas = {};
 					}		
 				}
 			}// end for
+			alert(obj.selector)
 			$( obj.selector ).html( select );
-			$('.multiple-select-'+ obj.key ).select2();
+			$( obj.selector + ' .multiple-select-'+ obj.key ).select2();
 			
 		// init other multi-select fields	
  		}else{	
@@ -132,7 +171,7 @@ var field_schemas = {};
 			$( obj.selector ).html( select );
 		}	 
   	// activate multi select
-  	$('.multiple-select-'+ obj.key ).select2();
+  	$( obj.selector + ' .multiple-select-'+ obj.key ).select2();
   	
   	// init default input
  	}else{

@@ -27,6 +27,7 @@ select.select option {
 }
 
 
+
 .navbar-default {
     background-color: #CCEBFF;
     border-color: #e7e7e7;
@@ -179,5 +180,25 @@ border-top: solid 1px #ccc;
  max-height:75px;
  padding-right:20px;
 }
+
+.search-fields {
+	max-width: 600px;
+	border-bottom: solid 2px #fff;
+	padding: 4px;
+}
+
+#add-field-row {
+	padding-left:450px;
+	margin-top:6px;
+}
+
+
+.btn{
+ color:#777;
+}
+.btn:hover{
+	color:#111;
+}
+
 
 
