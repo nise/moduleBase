@@ -120,6 +120,7 @@ var conn = mongoose.connect( 'mongodb://localhost/moduleBase' , function(err, db
 		app.get(	'/modules/edit/:id', m.edit );
 		app.get(	'/modules/tag/:id', m.modulesWithTag );
 		app.get(	'/modules/search', function ( req, res ){ res.render( 'm_search', { title : '' }); });
+		app.post(	'/modules/search', m.searchQuery );
 		app.get(	'/modules/search/fulltext/:query', m.fulltextSearch );
 		app.get(	'/modules/search/tags/:query', m.tagSearch );
 		

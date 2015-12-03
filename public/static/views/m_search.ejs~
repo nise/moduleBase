@@ -14,7 +14,7 @@
 				<option>NOT</option>
 			</select>
 			<select id="row-0-field" class="select select-field">
-				<option selected disabled hidden value=''></option>
+				<option selected disabled hidden value='' data-key=""></option>
 				<option data-multi="true" data-key="tags" >Schlüsselwörter</option><!-- multi -->
 				<option data-multi="false" data-key="modulnr">Modulnummer</option>
 				<option data-multi="false" data-key="title">Modultitel</option>
@@ -41,15 +41,15 @@
 		</div>	 
 	</div>	
 	
-	<div id="add-field-row" class="btn"><span class="glyphicon glyphicon-plus"></span> Suchfeld hinzufügen</div>	
+	<div id="add-field-row" class="mb-btn"><span class="glyphicon glyphicon-plus"></span> Suchfeld hinzufügen</div>	
 	<div class="buttons">
-     <button id="submitfulltextsearch" class="btn-default btn" type="submit">suchen</button>  
+     <button id="submitsearch" class="btn-default btn" type="submit">Suchen</button>  
   </div>
 
 </div>
 
 <div class="container">
-	<h3>Suchergebnisse</h3>
+	<h3 hidden >Suchergebnisse</h3>
 	<table id="table1"></table>
 </div>
 
@@ -61,35 +61,18 @@ $(document).ready(function() {
 	
 
 	$('#add-field-row').click(function(){ 
-		var row = $('.search-fields').find('.search-field-row').first().clone();
-		var id = Math.floor(Math.random()*1000);
-		row.attr('id', 'row-'+ id);
-		row.find('.select-operator').attr('id', 'row-'+ id + '-operator');
-		row.find('.select-field').attr('id', 'row-'+ id + '-field');
-		row.find('.remove').attr('id', 'row-'+ id + '-remove');
-		row.find('.select-input').empty().attr('id', 'row-'+ id + '-input');
-		$('.search-fields').append( row );
-		
-		row.find('.select-field').change(function(e){  
-				var obj = {
-						id : $(this).find(':selected').attr('id'), 
-						key: $(this).find(':selected').data('key'), 
-						multiselect: $(this).find(':selected').data('multi'),
-						selector : '#' + $(this).attr('id').replace('-field','') + '-input'
-				}; 
-				setDataSchema( obj );
-			});
-			
-		row.find('.remove').click(function(){
-			removeFieldRow( this );
-		});
-		$('.search-fields').find('.remove').show();	
+		addFieldRow( this );	
 	});
 	
 	$('.remove').click(function(){
-			removeFieldRow( this );
+		removeFieldRow( this );
 	});
-
+	
+	$('#submitsearch').click(function(){
+		submitSearch();
+	});
+	
+	$('.search-fields').find('.remove').hide();
 
   // get field schemas
   $.get('/json/modules/field-schema', function(data){
@@ -111,7 +94,38 @@ $(document).ready(function() {
 
 
 /*
- *
+ * Adds a new row for selecting a data field.
+ */
+ function addFieldRow( row ){
+ 		var row = $('.search-fields').find('.search-field-row').first().clone();
+		var id = Math.floor(Math.random()*1000);
+		row.attr('id', 'row-'+ id);
+		row.find('.select-operator').attr('id', 'row-'+ id + '-operator');
+		row.find('.select-field').attr('id', 'row-'+ id + '-field');
+		row.find('.remove').attr('id', 'row-'+ id + '-remove');
+		row.find('.select-input').empty().attr('id', 'row-'+ id + '-input');
+		$('.search-fields').append( row );
+		
+		row.find('.select-field').change(function(e){  
+				var obj = {
+						id : $(this).find(':selected').attr('id'), 
+						key: $(this).find(':selected').data('key'), 
+						multiselect: $(this).find(':selected').data('multi'),
+						selector : '#' + $(this).attr('id').replace('-field','') + '-input'
+				}; 
+				setDataSchema( obj );
+			});
+			
+		row.find('.remove').click(function(){
+			removeFieldRow( this );
+		});
+		
+		$('.search-fields').find('.remove').show();
+ }
+
+
+/*
+ * Removes a row of a data field.
  */
  function removeFieldRow( row ){
  		
@@ -125,21 +139,21 @@ $(document).ready(function() {
 
 
 /*
- *
+ * Determines schema for the selected data field.
  */
  function setDataSchema ( obj ){ 
  	if( obj.multiselect ){
  		// simple
  		var select = $('<select></select>')
  			.attr('id',"field-search" + obj.selector.replace('#') )
- 			.addClass('multiple-select-'+ obj.key +' mbase-search-container')
+ 			.addClass('multiple-select-'+ obj.key +' select-fields mbase-search-container')
  			.attr('multiple',"multiple")
  			;
  		if( field_schemas[ obj.key ] === undefined ){
  			alert('empty_'+obj.key)
  			
  		// init tags	
- 		}else if( obj.key === 'tags'){ //alert(JSON.stringify())
+ 		}else if( obj.key === 'tags'){ 
  			for(var group in field_schemas[ obj.key ]){
 				if( field_schemas[ obj.key ].hasOwnProperty(group) ){
 					var gr = $('<optgroup></optgroup>')
@@ -155,7 +169,7 @@ $(document).ready(function() {
 					}		
 				}
 			}// end for
-			alert(obj.selector)
+			
 			$( obj.selector ).html( select );
 			$( obj.selector + ' .multiple-select-'+ obj.key ).select2();
 			
@@ -175,14 +189,48 @@ $(document).ready(function() {
   	
   	// init default input
  	}else{
- 		$( obj.selector ).html( '<input id="fulltext-search" class="mbase-search-container" type="text">' );
+ 		$( obj.selector ).html( '<input id="fulltext-search" class="select-fields mbase-search-container" type="text">' );
  	}
  }
 
 
+/*
+ * 
+ */
+ function submitSearch(){
+ 		//$('#table1').empty();
+ 		
+ 		var query = [];
+ 		// get data field entries 
+ 		$('.search-field-row').each(function(i, val){ 
+ 			var operator = $(val).find('.select-operator option:selected').val();
+ 			var field = $(val).find('.select-field option:selected').data('key');
+ 			var input = $(val).find('select.select-fields').val();
+ 			
+ 			// build query
+ 			if( field  !== undefined && input !== '' && input !== undefined ){ 
+ 				var el = {};
+ 				 
+ 				if( operator === 'AND' ){ el[ field ] = { $all:  input };	 }
+ 				if( operator === 'OR' ){  el[ field ] = { $or:  input };	 }
+ 				if( operator === 'NOT' ){ el[ field ] = { $not: input };	 } 
+ 				query.push( el );				 				
+ 			}
+ 		});
+ 		//alert( JSON.stringify(query) )
+ 		// send query
+ 		$.post('/modules/search', { data: query }, function(data){	
+ 			
+ 			showSearchResults( data );
+ 			$('#table1').bootstrapTable('refresh', {
+          data: data
+      });
+ 		});
+ }
+
 
 /*
- *
+ * Renders serach results
  */
 function showSearchResults( data ){
 $('#table1').bootstrapTable({

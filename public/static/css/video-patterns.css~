@@ -193,10 +193,11 @@ border-top: solid 1px #ccc;
 }
 
 
-.btn{
+.mb-btn{
  color:#777;
+ cursor:pointer;
 }
-.btn:hover{
+.mb-btn:hover{
 	color:#111;
 }
 

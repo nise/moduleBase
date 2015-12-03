@@ -607,6 +607,22 @@ Book.search('comic', function(error, books){
 
 };
 
+/*
+ *
+ */
+ exports.searchQuery = function( req, res ){ console.log(req.body.data)
+	Modules
+	 .find( { $and : req.body.data } )
+	 .exec( function ( err, modules ){
+			if(err){
+				console.log(err);
+			}else{ //console.log(modules)
+				res.jsonp(modules);
+			}	
+		})
+		;
+ }
+
 
 /*
 **/
