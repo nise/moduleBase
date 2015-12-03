@@ -173,12 +173,12 @@ $(document).ready(function() {
  		// init tags	
  		}else if( obj.key === 'tags'){ 
  			for(var group in field_schemas[ obj.key ]){
-				if( field_schemas[ obj.key ].hasOwnProperty(group) ){
+				if( field_schemas[ obj.key ].hasOwnProperty(group) ){ 
 					var gr = $('<optgroup></optgroup>')
 						.attr('label', group)
 						.appendTo( select );
 						;	
-					for(var i = 0; i < field_schemas[ obj.key ][group].length; i++){
+					for(var i = 0; i < field_schemas[ obj.key ][group].length; i++){ 
 						$('<option>')
 							.attr('value', field_schemas[ obj.key ][group][i] )
 							.text( field_schemas[ obj.key ][group][i] )
@@ -189,7 +189,7 @@ $(document).ready(function() {
 			}// end for
 			
 			$( obj.selector ).html( select );
-			$( obj.selector + ' .multiple-select-'+ obj.key ).select2();
+			$( obj.selector + ' >  .multiple-select-'+ obj.key ).select2();
 			
 		// init other multi-select fields	
  		}else{	
@@ -203,7 +203,7 @@ $(document).ready(function() {
 			$( obj.selector ).html( select );
 		}	 
   	// activate multi select
-  	$( obj.selector + ' .multiple-select-'+ obj.key ).select2();
+  	$( obj.selector + ' > .multiple-select-'+ obj.key ).select2();
   	
   	// init default input
  	}else{

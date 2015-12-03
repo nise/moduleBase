@@ -26,6 +26,7 @@ exports.getFieldSchema = function(req,res){
 						Modules.find().distinct('pl', function(error, pl) {
 							Modules.find().distinct('pvl', function(error, pvl) {
 								Modules.find().distinct('sws', function(error, sws) {
+									
 									//Modules.find().distinct('tags', function(error, tags) {
 									fs.readFile( './data/data-tag-level-relations.csv' , function read(err, data) { 
 										if(err){
@@ -33,6 +34,7 @@ exports.getFieldSchema = function(req,res){
 										} 
 										csv().from.string(data, {comment: '#'} )
 											.to.array( function(csv){
+												tag_schema = {};
 												for(var i = 1; i < csv.length; i++){
 													if( tag_schema[ csv[i][1] ] === undefined ){
 														tag_schema[ csv[i][1] ] = [];
@@ -40,32 +42,37 @@ exports.getFieldSchema = function(req,res){
 													tag_schema[ csv[i][1] ].push( csv[i][0] )
 												}
 												//console.log(tag_schema);	
-											});
-											var extractKeys = function(obj){
-												var arr = [];
-												for(var p in obj){
-													if( obj.hasOwnProperty(p)){ 
-														arr.push( Object.keys( obj[p] )[0] );
-													}
+												
+												for(var j = 0; j < tag_schema.length; j++){
+													tag_schema[j] = tag_schema[j].filter( uniq );
 												}
-												return arr.filter( uniq );
-											}
-											var uniq = function onlyUnique(value, index, self) { 
-													return self.indexOf(value) === index;
-											}
-											res.jsonp( {
-												university: university,
-												language: language,
-												courses: courses,
-												type: type,
-												semester: semester,
-												tags : tag_schema, // captures in advance,
-												pl: extractKeys( pl ),
-												pvl: extractKeys( pvl ),
-												sws: extractKeys( sws )
-											} );
+												var extractKeys = function(obj){
+													var arr = [];
+													for(var p in obj){
+														if( obj.hasOwnProperty(p)){ 
+															arr.push( Object.keys( obj[p] )[0] );
+														}
+													}
+													return arr.filter( uniq );
+												}
+												var uniq = function onlyUnique(value, index, self) { 
+														return self.indexOf(value) === index;
+												}
+											
+											
+												res.jsonp( {
+													university: university,
+													language: language,
+													courses: courses,
+													type: type,
+													semester: semester,
+													tags : tag_schema, // captures in advance,
+													pl: extractKeys( pl ),
+													pvl: extractKeys( pvl ),
+													sws: extractKeys( sws )
+												} );
+											});
 										});
-									
 										
 									//});	
 								});

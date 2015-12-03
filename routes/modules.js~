@@ -26,6 +26,7 @@ exports.getFieldSchema = function(req,res){
 						Modules.find().distinct('pl', function(error, pl) {
 							Modules.find().distinct('pvl', function(error, pvl) {
 								Modules.find().distinct('sws', function(error, sws) {
+									tag_schema = {};
 									//Modules.find().distinct('tags', function(error, tags) {
 									fs.readFile( './data/data-tag-level-relations.csv' , function read(err, data) { 
 										if(err){
@@ -39,8 +40,11 @@ exports.getFieldSchema = function(req,res){
 													}
 													tag_schema[ csv[i][1] ].push( csv[i][0] )
 												}
-												//console.log(tag_schema);	
+												console.log(tag_schema);	
 											});
+											for(var j = 0; j < tag_schema.length; j++){
+												tag_schema[j] = tag_schema[j].filter( uniq );
+											}
 											var extractKeys = function(obj){
 												var arr = [];
 												for(var p in obj){
@@ -53,6 +57,8 @@ exports.getFieldSchema = function(req,res){
 											var uniq = function onlyUnique(value, index, self) { 
 													return self.indexOf(value) === index;
 											}
+											
+											
 											res.jsonp( {
 												university: university,
 												language: language,
@@ -325,7 +331,7 @@ exports.getJSONbyTag = function ( req, res ){
 
 
 /*
- * Frequency of tags 
+ * Frequency of tags. In how many jj 
  */
 exports.getSimilarJSON = function ( req, res ){
   Modules
