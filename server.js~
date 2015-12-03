@@ -102,7 +102,7 @@ var conn = mongoose.connect( 'mongodb://localhost/moduleBase' , function(err, db
 		Import data
 		**/
 		m = require('./routes/modules');
-		//m.importTags({}, m.importMetadata );
+		m.importTags({}, m.importMetadata );
 		
 		// routes
 		app.get(	'/', function ( req, res ){ res.render( 'index', { title : '' }); });
