@@ -1,6 +1,7 @@
 .gitignore
 bfg.jar
 **/*~
+*~
 **/__*
 **/*.mp4
 **/*.wav
