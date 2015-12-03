@@ -12,10 +12,10 @@
     <div id="res" class="alert"></div>
 </div>
    
-    <script src='/vi-lab/js/jquery.min.js' type='text/javascript'></script>
-		<script type="text/javascript" src="/vi-lab/js/underscore.js"></script>
-		<script type="text/javascript" src="/vi-lab/js/jsv.js"></script>
-    <script src="/vi-lab/js/jsonform.js"></script>
+    <script src='/static/js/jquery.min.js' type='text/javascript'></script>
+		<script type="text/javascript" src="/static/js/underscore.js"></script>
+		<script type="text/javascript" src="/static/js/jsv.js"></script>
+    <script src="/static/js/jsonform.js"></script>
     
   
  

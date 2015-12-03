@@ -325,21 +325,31 @@ exports.getJSONbyTag = function ( req, res ){
 
 
 /*
- * Return JSON of similar Modules
+ * Frequency of tags. In how many jj 
  */
-exports.getJSONbyTag = function ( req, res ){
+exports.getSimilarJSON = function ( req, res ){
   Modules
-		.find( 
-			{ $text: { $search: "Naturschutz" } },
-   		{ score: { $meta: "textScore" } }
-		)
-		.sort( { score: { $meta: "textScore" } } )
-		.limit(3)
-		.exec( function ( err, modules ){
-			if(err){ console.log(err); }else{ 
-				res.jsonp(modules);
-			}
-		});
+		.aggregate([
+					{
+						  "$unwind" :  "$tags" 
+					},
+					{
+						  "$group" : {
+						      "_id" : "$tags",
+						      "count" : {
+						          "$sum" : 1
+						      }//,
+						      //"name" : "$name" 
+						  }
+					},
+					{
+						  "$sort" : {
+						      "count" : -1
+						  }
+					}
+			]).exec(function(err, docs){
+					res.jsonp(docs);
+			});
 };
 
 
@@ -509,70 +519,6 @@ exports.tagSearch = function ( req, res ){ console.log(req.params.query);
 		});
 };
 
-/*
-
-	sws: [{
-		vorlesung: Number, 
-		ringvorlesung: Number, 
-		ubung: Number, 
-		seminar: Number, 
-		ubung_seminar: Number, 
-		tutorium: Number, 
-		praktikum: Number, 
-		exkursion: Number, 
-		projekt: Number, 
-		berufspraktikum: Number, 
-		sprachkurs: Number, 
-		elearning: Number
-	}],	
-	sws_total: Number, 
-	workload: Number, //Arbeitsaufwand [h]		150	150
-	workload_self  : Number, //Selbststudium [h]		90	60
-	ects: Number,
-	
-	pvl: [{
-		referat: Number,
-		labor: Number,
-		beleg: Number,
-		testat: Number,
-		protokoll: Number,
-		moderation: Number
-	}],
-	pl: [	{
-		klausur: Number,
-		mdlpruefung: Number,
-		referat: Number,
-		praesentation: Number,
-		belegarbeit: Number,
-		seminararbeit: Number,
-		projektarbeit: Number,
-		praktikumsprotokoll: Number,
-		praktikumsbericht: Number,
-		exkursionsbericht: Number,
-		laborarbeit: Number,
-		forschungsplan: Number,
-		elearningtest: Number
-	}],	
-	
-	
-	summer_winter: String,
-	modulverantwortlicher: String,
-	mail: { type: String, trim: true },
-	lecturers		: String, // weitere Dozenten
-	comments : String,	
-	updated_at : Date
-	
-	
-	modulnr1	: String,
-	modulnr2	: String,
-	modultitel: String,
-	courses:[String],
-	type: { type: String, enum: [ 'Master', 'Bachelor', 'Diplom', 'Diplom/Bachelor' ] }, 
-	university: { type: String, enum: [ 'TUD/IHI', 'TUD', 'HSZG' ] }, 
-	language: { type: String, enum: [ 'Deutsch', 'Englisch', 'Deutsch/Englisch' ] }, 
-	
-	*/
-
 
 exports.makeIndex = function( req, res){
 	
@@ -580,37 +526,13 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var searchable = require('mongoose-searchable');
 
-//define schema
-var BookSchema = new Schema({
-    title: {
-        type: String,
-        required: true
-    },
-    authors: [String],
-    categories: [{
-        type: String
-    }]
-});
-
-//make all string field searchable
-BookSchema.plugin(searchable);
-
-//compile model
-var Book = mongoose.model('Book', BookSchema);
-
-var t = new Book({ title:"hello", authors:"mi", categories:['hu7','hu6','hu5','hu4','hu3']})
-
-//search comic books
-Book.search('comic', function(error, books){
-    console.log(books)
-});
-
-};
+}
 
 /*
  *
  */
- exports.searchQuery = function( req, res ){ console.log(req.body.data)
+ exports.searchQuery = function( req, res ){ 
+ console.log( JSON.stringify(req.body.data));
 	Modules
 	 .find( { $and : req.body.data } )
 	 .exec( function ( err, modules ){

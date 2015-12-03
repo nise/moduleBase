@@ -1,23 +1,20 @@
 
 # todo
-- upload to server
 
-- module
-
- - neues Feld: Erstelldatum ... 1.11/2014 - 1.11.2015 
- - edit form
- - @ module list: Google Suche als Link
-
-- search
- - search (u.a. modulnummer)
- - matching von modulen: nach tags, nach PVL/PL
-
-- Logo Parade / Geldgeber
+- edit form
+- search debug
+- matching von modulen: nach tags, nach PVL/PL
 - Feedback/Kommentar ... 
-- Impressum überarbeiten
 
+# Kleinkram
+
+- Impressum überarbeiten
+- neues Feld: Erstelldatum ... 1.11/2014 - 1.11.2015 
+
+ 
 # bugs
 - tags mit "/"
+- suche nach allen modulnummern
 
 #nth
 - fuzzy search
@@ -61,6 +58,9 @@ Arbeitszeit:
 29.09.   	1h
 30.09.		2h
 24.11.		1h
+01.12.		1h	
+02.12.		4h
+03.12.    3h
 
 SUMME:
 

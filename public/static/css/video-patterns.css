@@ -30,6 +30,9 @@ select.select option {
 	background-color:#fff;
 }
 
+.search-results-head {
+	display:none;
+}
 
 
 .navbar-default {

@@ -16,26 +16,29 @@
 			<select id="row-0-field" class="select select-field">
 				<option selected disabled hidden value='' data-key=""></option>
 				<option data-multi="true" data-key="tags" >Schlüsselwörter</option><!-- multi -->
-				<option data-multi="false" data-key="modulnr">Modulnummer</option>
-				<option data-multi="false" data-key="title">Modultitel</option>
+				<option data-multi="false" data-key="modulnr1">Modulnummer</option>
+				<option data-multi="false" data-key="modultitel">Modultitel</option>
 				<option data-multi="true" data-key="courses" >Studiengang</option><!-- multi -->
 				<option data-multi="true" data-key="type" >Type</option><!-- multi -->
 				<option data-multi="true" data-key="university" >Hochschule</option><!-- multi -->
 				<option data-multi="true" data-key="language" >Sprache</option><!-- multi -->
 				<option data-multi="true" data-key="sws" >Lehrform</option><!-- multi -->
-				<option data-multi="false" data-key="sws">SWS</option>
+				<option data-multi="false" data-key="sws_total">SWS</option>
 				<option data-multi="false" data-key="sws">SWS Selbststudium</option>
+				<option data-multi="false" data-key="workload">Workload</option>
+				<option data-multi="false" data-key="workload_self">Workload Selbststudium</option>
 				<option data-multi="false" data-key="ects">ECTS</option>
 				<option data-multi="true" data-key="pvl" >Prüfungsvorleistung</option><!-- multi -->
 				<option data-multi="true" data-key="pl" >Prüfungsleistung</option><!-- multi -->
-				<option data-multi="true" data-key="semester" >WS/SS</option><!-- multi -->
-				<option data-multi="false" data-key="xxx">Modulverantwortlicher</option>
-				<option data-multi="false" data-key="xxx">Verantw. Struktureinheit</option>
-				<option data-multi="false" data-key="xxx">Weitere Lehrende</option>
-				<option data-multi="false" data-key="xxx">Bemerkungen</option>		
+				<option data-multi="true" data-key="summer_winter" >WS/SS</option><!-- multi -->
+				<option data-multi="false" data-key="modulverantwortlicher">Modulverantwortlicher</option>
+				<option data-multi="false" data-key="struktureinheit">Verantw. Struktureinheit</option>
+				<option data-multi="false" data-key="lecturers">Weitere Lehrende</option>
+				<option data-multi="false" data-key="remarks_general">Bemerkungen</option>		
+		
 			</select>
 			<span id="row-0-input" class="select-input">
-				<input id="fulltext-search" class="mbase-search-container" type="text">
+				<input hidden id="fulltext-search" class="mbase-search-container" type="text">
 			</span>	
 			<span id="row-0-remove" class="remove glyphicon glyphicon-remove mb-btn"></span>
 		</div>	 
@@ -44,12 +47,13 @@
 	<div id="add-field-row" class="mb-btn"><span class="glyphicon glyphicon-plus"></span> Suchfeld hinzufügen</div>	
 	<div class="buttons">
      <button id="submitsearch" class="btn-default btn" type="submit">Suchen</button>  
+     <a id="resetsearch" class="">Suche zurücksetzen</a>
   </div>
 
-</div>
+</div></div>
 
 <div class="container">
-	<h3 hidden >Suchergebnisse</h3>
+	<h3 id="search-results-head" class="search-results-head" >Suchergebnisse</h3>
 	<table id="table1"></table>
 </div>
 
@@ -58,8 +62,10 @@
 var field_schemas = {};
 
 $(document).ready(function() {
+		
+	// init module table
+	initModuleTable();	
 	
-
 	$('#add-field-row').click(function(){ 
 		addFieldRow( this );	
 	});
@@ -71,6 +77,16 @@ $(document).ready(function() {
 	$('#submitsearch').click(function(){
 		submitSearch();
 	});
+	
+	$('#resetsearch').click(function(){
+		$('.search-fields').find('div').each(function(i, val){
+			if(i>0){
+				$(val).remove();
+			}
+		});
+		initModuleTable();
+	});
+	
 	
 	$('.search-fields').find('.remove').hide();
 
@@ -189,7 +205,12 @@ $(document).ready(function() {
   	
   	// init default input
  	}else{
- 		$( obj.selector ).html( '<input id="fulltext-search" class="select-fields mbase-search-container" type="text">' );
+ 		var input = $('<input />')
+ 			.addClass('multiple-select-'+ obj.key +' select-fields mbase-search-container')
+ 			.attr('id',"field-search" + obj.selector.replace('#') )
+ 			.attr('type','text')
+ 			;
+ 		$( obj.selector ).html( input );
  	}
  }
 
@@ -205,26 +226,31 @@ $(document).ready(function() {
  		$('.search-field-row').each(function(i, val){ 
  			var operator = $(val).find('.select-operator option:selected').val();
  			var field = $(val).find('.select-field option:selected').data('key');
- 			var input = $(val).find('select.select-fields').val();
+ 			var input = $(val).find('select.select-fields, input.select-fields').val();
  			
+ 			if(typeof input === 'string'){
+ 				var tmp = input;
+ 				input = [];
+ 				input[0] = tmp;
+ 			}
  			// build query
  			if( field  !== undefined && input !== '' && input !== undefined ){ 
  				var el = {};
- 				 
  				if( operator === 'AND' ){ el[ field ] = { $all:  input };	 }
  				if( operator === 'OR' ){  el[ field ] = { $or:  input };	 }
  				if( operator === 'NOT' ){ el[ field ] = { $not: input };	 } 
+ 				// exception for modulnr
  				query.push( el );				 				
  			}
  		});
  		//alert( JSON.stringify(query) )
  		// send query
  		$.post('/modules/search', { data: query }, function(data){	
- 			
- 			showSearchResults( data );
- 			$('#table1').bootstrapTable('refresh', {
-          data: data
-      });
+ 			$('.search-results-head')
+ 				.show();
+ 			$('#search-results-head').append( ' ('+ data.length +' Treffer)' )
+ 				;
+ 			$('#table1').bootstrapTable('load', data);
  		});
  }
 
@@ -232,11 +258,11 @@ $(document).ready(function() {
 /*
  * Renders serach results
  */
-function showSearchResults( data ){
-$('#table1').bootstrapTable({
-    //url: '/data/json/modules',
+function showSearchResults( data, fresh ){
+	$('#table1').bootstrapTable({
+    //url: '',//'/data/json/modules',
     data : data,
-    onLoadError : function(e){ alert(JSON.stringify(e)); },
+    onLoadError : function(e){ console.log(JSON.stringify(e)); },
     //    onLoadSuccess : function(e){ alert(JSON.stringify(e)); },
     //height:'500',
     showColumns : true,
@@ -299,6 +325,89 @@ $('#table1').bootstrapTable({
 		  { field: 'updated_at', title: 'Letzte Änderung',sortable : true, visible:false, order: 'asc',searchable : true }
     ]
 	});
+}
+
+
+
+
+
+
+
+/*
+	*
+	*/
+function initModuleTable(){ 
+	$.get('/data/json/modules', function(data){	
+	
+	
+		 $('#table1').bootstrapTable({
+				//url: '/data/json/modules',
+				data:data,
+				onLoadError : function(e){ alert(JSON.stringify(e)); },
+				//    onLoadSuccess : function(e){ alert(JSON.stringify(e)); },
+				//height:'500',
+				showColumns : true,
+				checkboxHeader : true,
+			 // cardView:true, // mobile view
+				showExport:true,
+				exportDataType:'selected',
+				exportOptions: {
+					consoleLog: false,
+					csvEnclosure: '"',
+					csvSeparator: ',',
+					csvUseBOM: true,
+					displayTableName: false,
+					escape: false,
+					excelstyles: [ 'css','properties','to','export','to','excel' ],
+					fileName: 'tableExport',
+					htmlContent: false,
+					ignoreColumn: [],
+					ignoreRow: [],
+					onCellData: null,
+					outputMode: 'file',
+					tbodySelector: 'tr',
+					theadSelector: 'tr',
+					tableName: 'myTableName',
+					type: 'csv',
+					worksheetName: 'xlsWorksheetName'
+				},
+				// search
+				search: true,
+				strictSearch: true,
+				trimOnSearch:true,
+				
+				// details
+				detailView : true,
+				detailFormatter : function(index, row) {
+					return '<a href="/modules/view/' + row._id + '">Detailansicht</a> | <a href="/data/pdf/' + row._id + '">Modulbeschreibung (PDF)</a> | <a href="/modules/edit/' + row._id + '">bearbeiten</a>'//''+index+'__'+row._id;
+				},
+				//onClickRow : function(row, el){ alert(row._id); },
+				onClickCell : function(field, value, row, el){ if(field==='modultitel'){ 
+					alert(row._id);
+				} },
+				columns: [
+					{ field: 'modultitel', title: 'Modulbezeichnung', sortable : true, order: 'asc',searchable : true }, 
+					{ field: 'modulnr1', title: 'Modulnummer', visible:false, sortable : true, order: 'asc',searchable : true }, 
+					{ field: 'modulnr2', title: 'Modulnummer 2', visible:false, sortable : true, order: 'asc',searchable : true }, 
+					{ field: 'modulnr3', title: 'Modulnummer 3', visible:false, sortable : true, order: 'asc',searchable : true }, 
+					{ field: 'courses', title: 'Studiengang',sortable : true, order: 'asc',searchable : true }, 
+					{ field: 'type', title: 'BA/MA',sortable : true, order: 'asc',searchable : true }, 
+					{ field: 'university', title: 'Hochschule',sortable : true, order: 'asc',searchable : true }, 
+					{ field: 'language', title: 'Sprache',sortable : true, order: 'asc',searchable : true }, 
+					{ field: 'sws_total', title: 'SWS',sortable : true, order: 'asc',searchable : true }, 
+					{ field: 'workload', title: 'Workload',sortable : true, order: 'asc',searchable : true }, 
+					{ field: 'workload_self', title: 'Workload Selbst',sortable : true, order: 'asc',searchable : true }, 
+					{ field: 'ects', title: 'ECTS',sortable : true, order: 'asc',searchable : true }, 
+					{ field: 'summer_winter', title: 'Semester',sortable : true, order: 'asc',searchable : true }, 
+					{ field: 'modulverantwortlicher', title: 'Modulverantwortliche/r',sortable : true, order: 'asc',searchable : true }, 
+					{ field: 'mail', title: 'E-Mail',sortable : true, visible:false, order: 'asc',searchable : true }, 
+					{ field: 'lecturers', title: 'Weitere Dozenten',sortable : true, visible:false, order: 'asc',searchable : true }, 
+					{ field: 'remarks', title: 'Hinweise',sortable : true, order: 'asc',visible:false, searchable : true }, 
+					{ field: 'updated_at', title: 'Letzte Änderung',sortable : true, visible:false, order: 'asc',searchable : true }, 
+				]
+			});
+		
+ 	});		
 }
 
 </script>
