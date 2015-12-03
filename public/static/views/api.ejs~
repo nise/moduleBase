@@ -11,8 +11,11 @@ $(document).ready (function () {
 	<div class="container">
   <h2></h2>
   <h2>Data API</h2>
-  <p class="mark">
+  <p class="">
 We would like to encourage other researchers and academics to use our data for further research, evaluation and computation. Therefore, we propose this moduleBase as an Open Data repository. You can download and dynamically call our data in different formats.
+</p>
+<p>
+Our data is made available under the Open Data Commons Attribution License: <a href="http://opendatacommons.org/licenses/by/1.0/">opendatacommons.org/licenses/by/1.0/</a>. 
 </p>
   </div>
 </div>

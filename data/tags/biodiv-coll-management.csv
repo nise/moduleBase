@@ -1,600 +1,599 @@
-ModulNr.1,tag,M_BCM 1.1,M_BCM 1.2,M_BCM 1.3,M_BCM 1.4,M_BCM 1.5,M_BCM 1.6,M_BCM 1.7,M_BCM 1.8,M_BCM 1.9,M_BCM 1.10,M_BCM 1.11,M_BCM 2.1,M_BCM 2.2,M_BCM 2.3,M_BCM 2.4,M_BCM 3.1,M_BCM 3.2,M_BCM 3.3
-Biodiversität,Artenvielfalt,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0
-,Biodiversität,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0
-,Biodiversitätsforschung,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0
-,funktionale Vielfalt,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,genetische Vielfalt,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Indikatoren Biodiversität,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Lebensraumvielfalt,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Molekulare Biodiversität,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Schutz von Biodiversität,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Biologie,"Anpassung (an klimatische, geologische, geographische Bedingungen)",1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Anpassung pflanzlicher Diasporen morphologisch / anatomisch,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Areal / Verbreitungsgebiet,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Artkonzept,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Aussterbeereignis / Extinktionsereignis / Aussterben / Extinktion,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,bioanorganische Chemie / Pathobiochemie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Biologische Eigenschaften von Taxa / Arten,0,1,1,0,0,1,0,0,0,0,0,1,1,1,0,0,0,0
-,Chronobiologie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Cytologie / Zytologie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Diasporenausbreitung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Genetik,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0
-,Habitat / Lebensraum von Arten,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Merkmale (anatomisch / morphologisch),0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Mikrobiologie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,ökologische Biochemie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Photosynthese,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Phylogenie / Stammesgeschichte,0,1,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0
-,Phyloinformatik,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Physiologie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Phytopathologie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Biotechnologie,Abbaubare Kunststoffe / Biokunststoffe,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Bioethanol,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Bioreaktor / Fermenter,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Biotechnologische Produkte,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Biotechnologische Prozesse,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Interaktion Mikroorganismen / Bakterien - Pflanzen,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0
-,Umweltbiotechnologie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Naturstoffabbau / Fremdstoffabbau,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Boden,biogeochemische Prozesse,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Boden,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Bodenbildung,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0
-,Boden-Biozönose,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Bodenchemie,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Bodeneigenschaften,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Bodenkunde,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Bodenphysik,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Bodensystematik,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Bodentypen,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Boden-Vegetation-Atmosphäre-Modelle,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Bodenwasserhaushalt,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Evapotranspiration,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,subhydrische Böden als Umweltarchiv,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Ethik / Philosophie,Angewandte Ethik,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
-,Bereichsethiken,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
-,Praktische Philosophie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
-Forschung,Berichtlegung / Dokumentation / Qualifizierungsarbeiten,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0
-,Datenbanken,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0
-,empirische Sozialforschung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Ergebnisinterpretation,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Forschung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Forschungsmethoden,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Forschungsfragen / Hypothesen / Forschungsansätze,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Forschungsplan / Arbeitsplan,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Forschungspraktikum,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Interdisziplinarität,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Literaturrecherche / Literaturauswertung / Literaturdatenbanken,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Patentierung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,wissenschaftliche Diskussion,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1
-,wissenschaftliche Publikation,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,wissenschaftliche Transferleistung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,wissenschaftliche Vorträge,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
-,wissenschaftliches Arbeiten,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
-,Wissenschaftsgeschichte,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Wissenschaftstheorie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Wissenschaftsverständnis,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Geoinformation,Analyse von Bilddaten,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Datengewinnung / Aufnahmeverfahren / Datenaufzeichnung von Geodaten,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Fernerkundung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Geodateninfrastruktur / GDI,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Geodatenintegration,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Geoinformatik,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Geoinformationen / Geoinformationsdienste,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Geoinformationssysteme / GIS,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Georeferenzierung,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0
-,Kartographische Feldarbeit,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Klassifikation von Fernerkundungsdaten / Auswerteverfahren,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Laserscanner in der Photogrammetrie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Luftbilddaten,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,multi-sensorale Bilddaten,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,multi-temporale Bilddaten,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Photogrammetrie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Radiometrie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,raumbezogene Datenanalyse,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Satellitenbilddaten,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Sensorik in der Fernerkundung / Sensorsysteme auf Satelliten / Flugzeugen,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Verwaltung raumbezogener Daten,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Visualisierungsverfahren,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Geographie,Bevölkerungsgeographie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Demographie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,geographische Dimensionsstufen,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Globaler Wandel,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Globalisierung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Maßstabsebenen,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,physische Struktur / humangeographisch Struktur,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,räumliche Disparitäten,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Regionalwissenschaften,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Siedlungsgeographie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,sozialer  Wandel / demographischer Wandel,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Gesetz / Recht,Abfallrecht,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0
-,Arbeitsschutz,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Baurecht,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Bodenschutzrecht,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0
-,Energierecht,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Forstrecht,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Gefahrstoffrecht / europäisches Gefahrstoffrecht,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0
-,Immissionsschutzrecht,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0
-,Jagdrecht,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Naturschutzrecht,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0
-,Planfeststellung / Planfeststellungsverfahren,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0
-,Plangenehmigung / Plangenehmigungsverfahren,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0
-,Planungsrecht,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Raumordnungsrecht,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Umweltrecht,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0
-,Umweltvölkerrecht,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0
-,Wasserrecht / Gewässerschutzrecht,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0
-Klima / Luft,Atmosphäre / Atmosphärische Einflüsse / Atmosphärische Spurenstoffe,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Bestandsklima,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,CO2-Absorption,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,C-Sequestrierung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,globale Beobachtungssysteme für Wetter und Klima,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Kaltluft / Kaltluftproblematik,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Klima,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Klimaforschung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Klimasystemkomponenten,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Klimatische Betrachtung verschiedener Oberflächen,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Klimatische Schwankungen,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,klimatische Wechselwirkungen,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Klimawandel / Klimaänderung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Kohlenstoffakkumulation,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Landschaftsklima,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Luft,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Luftfeuchte,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Luftverunreinigung / Luftverschmutzung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Makroklima,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Mitigation / Klimaanpassung,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,ökonomische Auswirkungen Klimawandel / Klimafolgen,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Stadtklima,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Strahlung / Strahlungshaushalt / Strahlungsbilanz,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Temperatur,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Treibhauseffekt,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Lebewesen,Amphibien / Amphibia,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Gliederfüßer / Arthropoden,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Bakterien / Bacteria,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0
-,Fische / Pisces,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Gefäßpflanzen / Tracheophyta,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Insekten / Insecta,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Mikroorganismen,0,0,0,1,0,1,0,0,1,0,0,0,0,0,0,0,0,0
-,Moose / Bryophyta,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Parasiten,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Urwesen / Protisten,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0
-,Pilze / Fungi,0,1,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0
-,Pflanzen / Embryophyta,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0
-,Reptilien / Reptilia,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Säugetiere / Mammalia,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Vögel / Aves,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Weichtiere / Mollusca,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Wirbellose / Invertebrata,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Wirbeltiere / Vertebrata,0,0,1,0,,,,,,,,,,,,,,
-Lehrform,Exkursion,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Geländepraktikum,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Sommerschule,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Lehrpraktikum,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Management,Arbeitsmanagement,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Artenschutzmanagement,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,betriebliches Management,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Biodiversitätsmanagement,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
-,Citymanagement / Stadtmanagement / Regionalmanagement,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Energiemanagement,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Flächennutzungsmanagement,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Flussgebietsmanagement,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Gebietsmanagement / Biotopmanagement / Schutzgebietsmanagement,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Gesundheitsschutzmanagement,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Hochwasserrisikomanagement,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Integriertes Wasser-Ressourcen-Management (IWRM),0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,IT-Sicherheitsmanagement,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Landnutzungsmanagement,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Managementplanung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Nachhaltigkeitsmanagement,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
-,Projektmanagement,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Qualitätsmanagement,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Regionalmanagement,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Ressourcenmanagement,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
-,Risikomanagement,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Stadtmanagement,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Strategisches Management,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
-,Umweltmanagement,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
-,Wassermanagement / Management Wassereinzugsgebiet,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Methoden,Bestimmung von Arten / Artenkenntnis,0,0,1,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0
-,Bioanalytik / Umweltanalytik,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,biologische Systematik,0,1,1,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0
-,Biologisches Zeichnen,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,bodenkundliche Messtechniken,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,faunistische Erfassungsmethode / Bestandsaufnahme / Fangmethode,0,0,1,0,0,1,0,0,0,0,0,0,1,1,0,0,0,0
-,Felduntersuchung / Feldmethode / Freilanduntersuchung,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0
-,floristische Erfassungsmethode / Bestandsaufnahme,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
-,geographische Untersuchungstechnik / geographische Recherchetechnik,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Informationssystem / Expertensystem,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Informationstechnologie / Kommunikationstechnologie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Labormethode / Laborexperiment,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Landschaftsanalyse,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Meteorologische Messtechniken / Meteorologische Messverfahren,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Methoden der empirischen Sozialforschung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Mikroskopie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Modellierung / Modelle / Implementierung von Modellen,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Monitoring / Biomonitoring / Umweltmonitoring,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Morphometrische Methoden,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0
-,Ökogramm,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,ökologisches Experiment,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Planungsmethoden,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Präparation / Präparationsmethode,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
-,Probenahmestrategie / repräsentative Probenahme,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0
-,Produktivitätsbestimmung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Sammeln / Sammelstrategien,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0
-,Sammlungen / naturkundliche Sammlungen,0,0,0,0,0,1,1,1,0,0,0,1,1,1,1,0,0,0
-,Simulation / Simulatoren / Simulationsexperiment,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Taxonomie,0,1,1,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0
-,tierökologische Analyse,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Toxikologische Untersuchungsverfahren,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Umweltrisikoanalyse / Risikoanalyse,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Versuchsplanung / Versuchspläne,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Zeigerwerte Ellenberg,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,zellbiologische / molekularbiologische Arbeitsmethoden,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Nachhaltigkeit,nachhaltige Entwicklung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Nachhaltigkeit,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
-,Nachhaltigkeitsberichterstattung / Nachhaltigkeitsbericht,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Systems Thinking,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Naturschutz,Artenschutz,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Artenschwund,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Biotopschutz,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Gefährdung / Gefährdungsursachen / Gefährdungsabschätzung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Naturschutz,1,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
-,naturschutzrelevante Artengruppen (floristisch / faunistisch),0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Renaturierung landwirtschaftlicher Flächen,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Rote Liste,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Schutz von Wäldern / Waldnaturschutz,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Schutzgebietskategorien national / international,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Nutzung,Bewässerung / Entwässerung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,biologische Sanierungsverfahren  / nicht-biologische Sanierungsverfahren,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,biotische Risikofaktoren,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Bodendegradation / Bodenerosion,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,differenzierte Landnutzung  / Biosphärenreservat,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Ertragsbildung  von Böden,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Forstwirtschaft,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Industrie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Kreislaufwirtschaft,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Kurzumtriebsplantagen,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Landnutzung / Landnutzungssysteme,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Landnutzungsplanung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Landrehabilitation,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Landwirtschaft,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,nachhaltige Landnutzung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Nutzung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Nutzung von Biodiversität,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Nutzpflanzen,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Nutzung von Ökosystemen,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Nutzungsänderung / Bewirtschaftungsänderung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Nutzungskonflikt,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Pflanzeninhaltsstoffe,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Subsistenzlandwirtschaft,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Szenarien,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Theorie der erschöpfbaren Ressourcen,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Ökologie,(Angewandte) Ökologie,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Abiotik / Abiotische Parameter / Abiotische Umweltfaktoren,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
-,Antagonismus,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Biogeosysteme,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Biomineralisation,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Biosphäre,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0
-,Biotik / Biotische Parameter,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
-,Biotop,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
-,Biozönose / Artengemeinschaft,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
-,Botanik / Flora,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0
-,demographische Prozesse / Lebenszyklen,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Destruenten,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Energiehaushalt / Energiefluss,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Evolution / Koevolution,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Exotische Arten / Neobiota / Neophyten / Neozoen,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Habitatstrukturen / Strukturelementkonzept / Habitatkonzept,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Heimische Arten,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Holzzuwachs,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Lebensgemeinschaften,1,0,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0
-,Lebensraumdynamik / Sukzession / Fluktuation,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Lebensstrategien,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Nahrungsnetze,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Ökosysteme,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
-,Pflanzensoziologie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Population / Populationsdynamik,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Prädation (top-down Steuergröße),0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Quellenfunktion / Senkenfunktion,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Räuber-Beute-Systeme,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Raumnutzung (Tiere),0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Raum-Zeit-Dynamik / raum-zeitliche Strukturen,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Ressourcen (bottom-up Steuergröße),0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Selbstregulation / Selbstregulationsfähigkeit,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,seltene Gehölze,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Spezielle Ökologie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Stoffhaushalt / Stoffflüsse / Stoffkreisläufe,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0
-,Störung / Störungsregime,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,tierische Bestäuber,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Vegetation,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Verkehrsökologie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Vernetzung / Biotopvernetzung / Biotopverbund,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Waldbodenpflanzen / Krautschicht / Moosschicht,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Waldformationen / Pflanzenformationen,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Zonobiome,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Zoologie / Fauna,0,0,1,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0
-Interaktionen /,biogeochemischen Kreisläufe,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Ökologische Skalen /,Interaktion Mensch - Umwelt,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
-Kreisläufe,ökologische Ebenen,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,ökologische Interaktionen,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
-,Pathogenitätsfaktoren,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Skala / Skalenebenen: Organismus - Population - Artengemeinschaft / Biozönose - Ökosystem,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,System Atmosphäre - Boden - Pflanze,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,System Erde - Atmosphäre,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Trophische Interaktionen,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
-,Wechselbeziehung Herbivore - Antagonisten,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Wechselbeziehung Mensch - Wald (Tropen),0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Wechselbeziehung Pflanzen - Herbivore,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Wechselwirkung Mikroorganismus - unbelebte und belebte Natur,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0
-,Zusammenhänge Vegetation - Standort,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Zusammenhänge Vorkommen Tierart - Standort,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-ökologische / biologische,aquatische Ökologie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Teildisziplinen,Ausbreitungsbiologie / Ausbreitungsökologie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Autökologie,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0
-,Blütenbiologie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Dendroökologie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Entwicklungsbiologie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Evolutionsbiologie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Fischökologie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Histologie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Landschaftsökologie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,mikrobielle Ökologie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Molekularbiologie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Ökotoxikologie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Paläoökologie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Populationsökologie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Reproduktionsbiologie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Stadtökologie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Systemökologie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Toxikologie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Verhaltensökologie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Zellbiologie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Ökonomie,Allokation / Waldallokation,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Budgetierung / Projektökonomie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Controlling,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Forstökonomie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Instrumente monetärer ökologischer Bewertung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Internalisierung externer Effekte,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Marketing (Forstindustrie / Holzindustrie),0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,ökologieorientierte Unternehmensstrategien / ökologieorientierte Unternehmensführung / umweltorientierte Unternehmensführung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,ökonomische Analysen,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
-,Produktivität,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Ressourcenökonomie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
-,Spannungsfeld Gesellschaft - Wald - Forstwirtschaft,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Strukturwandel (wirtschaftlicher),0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,SWOT-Analyse,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Unternehmenswertsteigerung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Verfügungsrechtsökonomik / Verfügungsrechte,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Wirtschaftlichkeit,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Wirtschaftsplanung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Ökosysteme,Acker,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,aquatische Ökosysteme / limnische Ökosysteme,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
-,Fließgewässer,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Forst,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Heide,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Moor / Sumpf,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Städtischer Wald / Park / Garten,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Standgewässer,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,terrestrische Ökosysteme,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
-,Tropen,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,tropische Straßenhabitate (Baum / Gehölz),0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Wald,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Weide,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Wiese,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Wüste,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Pläne / Prüfungen / Bewertungen,Artenschutzprogramm,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Bauleitplanung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Bebauungsplanung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Bewertungsverfahren / Bewertungsmethoden,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Bewirtschaftungsplan,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Bodenbewertung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,FFH-Verträglichkeitsprüfung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Flächennutzungsplanung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Landschaftspflegerische Begleitplanung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Landschaftsplanung / Landschaftsrahmenplanung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Ökobilanz (globale Stoffströme / Waren / Recyclinggüter / Andere),0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Ökobilanzierung / Umweltbewertung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Raumplanung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Regionalplanung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Umweltrisikobewertung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Umweltverträglichkeitsprüfung / Umweltverträglichkeitsstudie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0
-Politik,Bodenpolitik,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Energiepolitik,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Entwicklungspolitik,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Forstpolitik,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Governance / Governancekonzept,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Klimapolitik,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Naturschutzpolitik,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Politikfeldanalyse / Politikanalyse,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Politikgestaltung / Politikkoordination,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,politikwissenschaftliche Erklärungsansätze,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,politische Instrumente,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Umweltpolitik,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Raumentwicklung,Administrative Steuerungsmaßnahmen (Wasser),0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,anthropogene Eingriffe,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Auswertungsverfahren,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Eingriffsregelung / Ausgleichsregelung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,technische Energie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Entscheidungstheorie / Entscheidungsfindung,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0
-,europäische Raumentwicklung / Internationale Raumentwicklung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Evaluierung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Gewässerzustand,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Hochwasser,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Hochwasserschutz / integrierter Hochwasserschutz,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Integrierte ländliche Entwicklung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Interessenkonflikte,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,landschaftliche Transformationsprozesse,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Landschaftsentwicklung / Landschaftswandel / Landschaftsveränderung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Ökosystemfunktionen,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Ökosystemleistungen / Ökosystemdienstleistungen,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Partizipation,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,planerische Erhebungsverfahren,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,praktische / planerische Umsetzung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,planerisches Leitbild,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Planungsansätze,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Vollzugsinstrumente,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Planungsinstrumente,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Planungstheorie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Projektphasen,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Raumentwicklung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,räumliche Ebenen der Planung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Raumordnung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,rechtliche Rahmenbedingungen / Planungsbedingungen (Boden),0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,städtebauliche Bodenordnung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,städtebauliche Instrumente,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Stadtentwicklung / Regionalentwicklung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Stadtplanung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Stadtumbau,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,technische Wärme,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,territoriale Kohäsion,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Trends / Zukunftsfragen,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Umweltanalyse / Ressourcenanalyse,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
-,Umweltschutz / Umweltvorsorge / nachsorgender Umweltschutz,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Verkehrsplanung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Wirkungsanalyse / Wirkungsabschätzung in der Planung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Ziele in der Planung / Zielsysteme in der Planung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Schutz / Schutzgüter /,Bodenfunktionen,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Landschaftsfunktionen,Bodenschutz,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Gewässerschutz,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Klimaschutz,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Lebensraumfunktion,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Naturraumausstattung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Naturressourcen,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Regeneration,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Schutz von Pflanzenbeständen,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Schutz von Tierbeständen,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Schutzgüter,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Wasserdargebot,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Sozialkompetenzen,Führung / Führungsmodelle / Führungstheorien,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Kommunikation / Kommunikationsmethoden / Kommunikationstheorien,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,1
-,Konfliktarten / Konfliktlösung / Mediation,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Moderation,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Organisation / Zeitmanagement,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0
-,Präsentation / Präsentationsmethoden / Präsentationstechnologien,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,1
-,Teambildung / Teambuilding / Teamfindung,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0
-Statistik,Analyse komplexer Systeme,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,analytische Statistik,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,bayesische Statistik,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Biostatistik,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Datenanalyse,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Datenstruktur / Datenstrukturierung / Datenorganisation / Datenadministration,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,deskriptive Statistik,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Geostatistik,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Hypothesen,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Inventurdesign,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,multivariate Statistik,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Statistik / Statistische Verfahren / Statistische Tests,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,statistische Analyse von Laborexperimenten,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Stichprobenverfahren,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Verteilungen in der beschreibenden und schließenden Statistik,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Umweltchemie /,Bindung / Entfernung von Stoffe,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Umweltbelastungen /,Bioindikation,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Ökotoxikologie,chemische Wechselwirkungen mit Pflanzen,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Dosis-Wirkungs-Beziehungen,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Expositionsanalyse,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Gift,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Persistenz von Schadstoffen,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Pharmaka,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Prophylaxe,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Rekultivierung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Renaturierung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Risikobewertung von Chemikalien,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Sanierung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Schadstoff,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Tierversuche (in-vivo),0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Toxizität / Toxikokinetik / Toxikodynamik,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Umweltkompartimente / Umweltmedien,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,umweltrelevante chemische Stoffe,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Xenobiotika,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Zellkultur (in-vitro),0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Waldbewirtschaftung,Agroforstwirtschaft (Tropen / Subtropen),0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Baum,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Waldbestand / Forstbestand,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Bewirtschaftungsmaßnahmen / Bewirtschaftungsstrategien,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Forstbetrieb,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Forsteinrichtung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,forstliche Inventur / Waldinventur / Strukturinventur / Vorratsinventur,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,forstliche Nachhaltigkeit,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Forstplantagen (Tropen),0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Forstschutz / Forstschutzstrategien / Waldschutz,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Funktionsgerechtigkeit / funktionsorientierte Waldbewirtschaftung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Holz,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Naturwaldbewirtschaftung (Tropen),0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Partnerschaftsmodelle (Waldbewirtschaftung),0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Produktionsstrategien / Produktionssysteme,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,traditionelle Waldnutzung (Tropen),0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Waldbau / Waldbausysteme,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,waldbauliche Maßnahmen,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Waldnutzung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Waldumbau,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Waldwachstum,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Zertifizierung von Holz,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Wasser,aquatische Lebensgemeinschaften,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0
-,fluviale Dynamik,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Gewässerbelastung / Belastungskomponenten,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Gewässergüte / Wasserqualität / Wassergüte,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Grundwasser / Grundwasserleiter,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Hydrologie arider und semi-arider Gebiete,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Hydrologische Prozesse,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Hydromechanik / Hydrodynamik,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Niederschlag,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Sediment / sedimentologische Prozesse,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Stressoren (für Lebensgemeinschaften),0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Strömungsvorgänge / Stofftransportvorgänge,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Tracerhydrologie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Verdunstung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Wasser,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Wassereinzugsgebiet / Wassereinzugsgebietsmodellierung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Wasserhaushalt (terrestrische Standorte),0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Wasserhaushalt von Pflanzen,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Wasserhaushaltsmodellierung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,"Wasserinhaltsstoffe (natürliche, anthropogene, xenobiotische)",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Wasserkreislauf,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Wasserorganismen,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Wasserspezifische Fragestellungen (international),0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Stofftransport im Wasser,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Wasserstress,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Wechselwirkung Abflussdynamik - Sedimentdynamik,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Wasserwirtschaft,Abwasserentsorgung / Abwasserableitung  / Regenwasserableitung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Abwasserreinigung / Aquatische Aufbereitung / Abwasserbehandlung / Abwasseraufbereitung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Flussgebietsbewirtschaftung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Hydraulische Grundlagen,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Siedlungswasserwirtschaft,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Trinkwasser / Trinkwasserversorgung / Trinkwasseraufbereitung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Abwasseraufbereitungstechniken,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Wasserbau,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Wassernutzung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Wasserwirtschaft,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Wechselwirkung Landnutzung - Wassernutzung,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Wissenschaftliche,Biogeographie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Disziplinen,Biologie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Biotechnologie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Bodengeologie,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Ethik /Philosophie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Ethnologie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,"Geographie (integrative, physische, Humangeographie)",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Geologie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
-,"Geomorphologie (angewandte, Risiken)",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Glaziologie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Hydrobiologie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Hydrochemie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Hydrogeologie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Hydrologie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Hydrometeorologie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Klimatologie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Kommunikationswissenschaft,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Meteorologie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Mineralogie (der Gesteinsverwitterung),0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
-,Museologie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Naturwissenschaften,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Ontologie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Paläontologie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
-,Petrographie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
-,Planungswissenschaften,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Politikwissenschaften,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Sozialwissenschaften,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Sozioökonomie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Technikwissenschaften,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Umweltökonomie,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,Wirtschaftswissenschaften,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-,,19,8,17,14,4,17,6,4,11,2,1,10,9,10,9,11,6,13
+"ModulNr.1","tag","M_BCM 1.1","M_BCM 1.2","M_BCM 1.3","M_BCM 1.4","M_BCM 1.5","M_BCM 1.6","M_BCM 1.7","M_BCM 1.8","M_BCM 1.9","M_BCM 1.10","M_BCM 1.11","M_BCM 2.1","M_BCM 2.2","M_BCM 2.3","M_BCM 2.4","M_BCM 3.1","M_BCM 3.2","M_BCM 3.3"
+"Biodiversität","Artenvielfalt",0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0
+"Biodiversität","Biodiversität",0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0
+"Biodiversität","Biodiversitätsforschung",0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0
+"Biodiversität","funktionale Vielfalt",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Biodiversität","genetische Vielfalt",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Biodiversität","Indikatoren Biodiversität",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Biodiversität","Lebensraumvielfalt",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Biodiversität","Molekulare Biodiversität",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Biodiversität","Schutz von Biodiversität",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Biologie","Anpassung (an klimatische, geologische, geographische Bedingungen)",1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Biologie","Anpassung pflanzlicher Diasporen morphologisch / anatomisch",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Biologie","Areal / Verbreitungsgebiet",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Biologie","Artkonzept",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Biologie","Aussterbeereignis / Extinktionsereignis / Aussterben / Extinktion",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Biologie","bioanorganische Chemie / Pathobiochemie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Biologie","Biologische Eigenschaften von Taxa / Arten",0,1,1,0,0,1,0,0,0,0,0,1,1,1,0,0,0,0
+"Biologie","Chronobiologie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Biologie","Cytologie / Zytologie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Biologie","Diasporenausbreitung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Biologie","Genetik",0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0
+"Biologie","Habitat / Lebensraum von Arten",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Biologie","Merkmale (anatomisch / morphologisch)",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Biologie","Mikrobiologie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Biologie","ökologische Biochemie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Biologie","Photosynthese",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Biologie","Phylogenie / Stammesgeschichte",0,1,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0
+"Biologie","Phyloinformatik",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Biologie","Physiologie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Biologie","Phytopathologie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Biotechnologie","Abbaubare Kunststoffe / Biokunststoffe",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Biotechnologie","Bioethanol",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Biotechnologie","Bioreaktor / Fermenter",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Biotechnologie","Biotechnologische Produkte",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Biotechnologie","Biotechnologische Prozesse",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Biotechnologie","Interaktion Mikroorganismen / Bakterien - Pflanzen",0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0
+"Biotechnologie","Umweltbiotechnologie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Biotechnologie","Naturstoffabbau / Fremdstoffabbau",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Boden","biogeochemische Prozesse",0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Boden","Boden",0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Boden","Bodenbildung",0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0
+"Boden","Boden-Biozönose",1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Boden","Bodenchemie",0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Boden","Bodeneigenschaften",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Boden","Bodenkunde",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Boden","Bodenphysik",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Boden","Bodensystematik",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Boden","Bodentypen",0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Boden","Boden-Vegetation-Atmosphäre-Modelle",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Boden","Bodenwasserhaushalt",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Boden","Evapotranspiration",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Boden","subhydrische Böden als Umweltarchiv",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ethik / Philosophie","Angewandte Ethik",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+"Ethik / Philosophie","Bereichsethiken",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+"Ethik / Philosophie","Praktische Philosophie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+"Forschung","Berichtlegung / Dokumentation / Qualifizierungsarbeiten",0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0
+"Forschung","Datenbanken",0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0
+"Forschung","empirische Sozialforschung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Forschung","Ergebnisinterpretation",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Forschung","Forschung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Forschung","Forschungsmethoden",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Forschung","Forschungsfragen / Hypothesen / Forschungsansätze",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Forschung","Forschungsplan / Arbeitsplan",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Forschung","Forschungspraktikum",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Forschung","Interdisziplinarität",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Forschung","Literaturrecherche / Literaturauswertung / Literaturdatenbanken",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Forschung","Patentierung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Forschung","wissenschaftliche Diskussion",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1
+"Forschung","wissenschaftliche Publikation",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Forschung","wissenschaftliche Transferleistung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Forschung","wissenschaftliche Vorträge",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+"Forschung","wissenschaftliches Arbeiten",0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
+"Forschung","Wissenschaftsgeschichte",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Forschung","Wissenschaftstheorie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Forschung","Wissenschaftsverständnis",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Geoinformation","Analyse von Bilddaten",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Geoinformation","Datengewinnung / Aufnahmeverfahren / Datenaufzeichnung von Geodaten",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Geoinformation","Fernerkundung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Geoinformation","Geodateninfrastruktur / GDI",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Geoinformation","Geodatenintegration",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Geoinformation","Geoinformatik",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Geoinformation","Geoinformationen / Geoinformationsdienste",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Geoinformation","Geoinformationssysteme / GIS",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Geoinformation","Georeferenzierung",0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0
+"Geoinformation","Kartographische Feldarbeit",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Geoinformation","Klassifikation von Fernerkundungsdaten / Auswerteverfahren",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Geoinformation","Laserscanner in der Photogrammetrie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Geoinformation","Luftbilddaten",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Geoinformation","multi-sensorale Bilddaten",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Geoinformation","multi-temporale Bilddaten",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Geoinformation","Photogrammetrie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Geoinformation","Radiometrie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Geoinformation","raumbezogene Datenanalyse",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Geoinformation","Satellitenbilddaten",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Geoinformation","Sensorik in der Fernerkundung / Sensorsysteme auf Satelliten / Flugzeugen",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Geoinformation","Verwaltung raumbezogener Daten",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Geoinformation","Visualisierungsverfahren",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Geographie","Bevölkerungsgeographie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Geographie","Demographie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Geographie","geographische Dimensionsstufen",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Geographie","Globaler Wandel",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Geographie","Globalisierung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Geographie","Maßstabsebenen",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Geographie","physische Struktur / humangeographisch Struktur",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Geographie","räumliche Disparitäten",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Geographie","Regionalwissenschaften",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Geographie","Siedlungsgeographie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Geographie","sozialer  Wandel / demographischer Wandel",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Gesetz / Recht","Abfallrecht",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0
+"Gesetz / Recht","Arbeitsschutz",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Gesetz / Recht","Baurecht",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Gesetz / Recht","Bodenschutzrecht",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0
+"Gesetz / Recht","Energierecht",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Gesetz / Recht","Forstrecht",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Gesetz / Recht","Gefahrstoffrecht / europäisches Gefahrstoffrecht",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0
+"Gesetz / Recht","Immissionsschutzrecht",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0
+"Gesetz / Recht","Jagdrecht",0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Gesetz / Recht","Naturschutzrecht",0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0
+"Gesetz / Recht","Planfeststellung / Planfeststellungsverfahren",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0
+"Gesetz / Recht","Plangenehmigung / Plangenehmigungsverfahren",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0
+"Gesetz / Recht","Planungsrecht",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Gesetz / Recht","Raumordnungsrecht",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Gesetz / Recht","Umweltrecht",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0
+"Gesetz / Recht","Umweltvölkerrecht",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0
+"Gesetz / Recht","Wasserrecht / Gewässerschutzrecht",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0
+"Klima / Luft","Atmosphäre / Atmosphärische Einflüsse / Atmosphärische Spurenstoffe",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Klima / Luft","Bestandsklima",1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Klima / Luft","CO2-Absorption",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Klima / Luft","C-Sequestrierung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Klima / Luft","globale Beobachtungssysteme für Wetter und Klima",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Klima / Luft","Kaltluft / Kaltluftproblematik",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Klima / Luft","Klima",1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Klima / Luft","Klimaforschung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Klima / Luft","Klimasystemkomponenten",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Klima / Luft","Klimatische Betrachtung verschiedener Oberflächen",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Klima / Luft","Klimatische Schwankungen",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Klima / Luft","klimatische Wechselwirkungen",1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Klima / Luft","Klimawandel / Klimaänderung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Klima / Luft","Kohlenstoffakkumulation",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Klima / Luft","Landschaftsklima",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Klima / Luft","Luft",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Klima / Luft","Luftfeuchte",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Klima / Luft","Luftverunreinigung / Luftverschmutzung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Klima / Luft","Makroklima",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Klima / Luft","Mitigation / Klimaanpassung",1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Klima / Luft","ökonomische Auswirkungen Klimawandel / Klimafolgen",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Klima / Luft","Stadtklima",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Klima / Luft","Strahlung / Strahlungshaushalt / Strahlungsbilanz",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Klima / Luft","Temperatur",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Klima / Luft","Treibhauseffekt",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Lebewesen","Amphibien / Amphibia",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Lebewesen","Gliederfüßer / Arthropoden",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Lebewesen","Bakterien / Bacteria",0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0
+"Lebewesen","Fische / Pisces",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Lebewesen","Gefäßpflanzen / Tracheophyta",0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Lebewesen","Insekten / Insecta",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Lebewesen","Mikroorganismen",0,0,0,1,0,1,0,0,1,0,0,0,0,0,0,0,0,0
+"Lebewesen","Moose / Bryophyta",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Lebewesen","Parasiten",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Lebewesen","Urwesen / Protisten",0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0
+"Lebewesen","Pilze / Fungi",0,1,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0
+"Lebewesen","Pflanzen / Embryophyta",0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0
+"Lebewesen","Reptilien / Reptilia",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Lebewesen","Säugetiere / Mammalia",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Lebewesen","Vögel / Aves",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Lebewesen","Weichtiere / Mollusca",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Lebewesen","Wirbellose / Invertebrata",0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Lebewesen","Wirbeltiere / Vertebrata",0,0,1,0,,,,,,,,,,,,,,
+"Lehrform","Exkursion",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Lehrform","Geländepraktikum",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Lehrform","Sommerschule",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Lehrform","Lehrpraktikum",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Management","Arbeitsmanagement",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Management","Artenschutzmanagement",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Management","betriebliches Management",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Management","Biodiversitätsmanagement",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+"Management","Citymanagement / Stadtmanagement / Regionalmanagement",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Management","Energiemanagement",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Management","Flächennutzungsmanagement",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Management","Flussgebietsmanagement",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Management","Gebietsmanagement / Biotopmanagement / Schutzgebietsmanagement",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Management","Gesundheitsschutzmanagement",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Management","Hochwasserrisikomanagement",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Management","Integriertes Wasser-Ressourcen-Management (IWRM)",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Management","IT-Sicherheitsmanagement",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Management","Landnutzungsmanagement",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Management","Managementplanung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Management","Nachhaltigkeitsmanagement",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+"Management","Projektmanagement",0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Management","Qualitätsmanagement",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Management","Regionalmanagement",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Management","Ressourcenmanagement",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+"Management","Risikomanagement",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Management","Stadtmanagement",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Management","Strategisches Management",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+"Management","Umweltmanagement",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+"Management","Wassermanagement / Management Wassereinzugsgebiet",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Methoden","Bestimmung von Arten / Artenkenntnis",0,0,1,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0
+"Methoden","Bioanalytik / Umweltanalytik",0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Methoden","biologische Systematik",0,1,1,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0
+"Methoden","Biologisches Zeichnen",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Methoden","bodenkundliche Messtechniken",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Methoden","faunistische Erfassungsmethode / Bestandsaufnahme / Fangmethode",0,0,1,0,0,1,0,0,0,0,0,0,1,1,0,0,0,0
+"Methoden","Felduntersuchung / Feldmethode / Freilanduntersuchung",0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0
+"Methoden","floristische Erfassungsmethode / Bestandsaufnahme",0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
+"Methoden","geographische Untersuchungstechnik / geographische Recherchetechnik",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Methoden","Informationssystem / Expertensystem",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Methoden","Informationstechnologie / Kommunikationstechnologie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Methoden","Labormethode / Laborexperiment",0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Methoden","Landschaftsanalyse",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Methoden","Meteorologische Messtechniken / Meteorologische Messverfahren",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Methoden","Methoden der empirischen Sozialforschung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Methoden","Mikroskopie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Methoden","Modellierung / Modelle / Implementierung von Modellen",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Methoden","Monitoring / Biomonitoring / Umweltmonitoring",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Methoden","Morphometrische Methoden",0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0
+"Methoden","Ökogramm",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Methoden","ökologisches Experiment",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Methoden","Planungsmethoden",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Methoden","Präparation / Präparationsmethode",0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
+"Methoden","Probenahmestrategie / repräsentative Probenahme",0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0
+"Methoden","Produktivitätsbestimmung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Methoden","Sammeln / Sammelstrategien",0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0
+"Methoden","Sammlungen / naturkundliche Sammlungen",0,0,0,0,0,1,1,1,0,0,0,1,1,1,1,0,0,0
+"Methoden","Simulation / Simulatoren / Simulationsexperiment",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Methoden","Taxonomie",0,1,1,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0
+"Methoden","tierökologische Analyse",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Methoden","Toxikologische Untersuchungsverfahren",0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Methoden","Umweltrisikoanalyse / Risikoanalyse",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Methoden","Versuchsplanung / Versuchspläne",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Methoden","Zeigerwerte Ellenberg",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Methoden","zellbiologische / molekularbiologische Arbeitsmethoden",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Nachhaltigkeit","nachhaltige Entwicklung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Nachhaltigkeit","Nachhaltigkeit",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+"Nachhaltigkeit","Nachhaltigkeitsberichterstattung / Nachhaltigkeitsbericht",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Nachhaltigkeit","Systems Thinking",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Naturschutz","Artenschutz",1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Naturschutz","Artenschwund",1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Naturschutz","Biotopschutz",1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Naturschutz","Gefährdung / Gefährdungsursachen / Gefährdungsabschätzung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Naturschutz","Naturschutz",1,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
+"Naturschutz","naturschutzrelevante Artengruppen (floristisch / faunistisch)",0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Naturschutz","Renaturierung landwirtschaftlicher Flächen",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Naturschutz","Rote Liste",0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Naturschutz","Schutz von Wäldern / Waldnaturschutz",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Naturschutz","Schutzgebietskategorien national / international",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Nutzung","Bewässerung / Entwässerung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Nutzung","biologische Sanierungsverfahren  / nicht-biologische Sanierungsverfahren",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Nutzung","biotische Risikofaktoren",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Nutzung","Bodendegradation / Bodenerosion",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Nutzung","differenzierte Landnutzung  / Biosphärenreservat",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Nutzung","Ertragsbildung  von Böden",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Nutzung","Forstwirtschaft",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Nutzung","Industrie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Nutzung","Kreislaufwirtschaft",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Nutzung","Kurzumtriebsplantagen",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Nutzung","Landnutzung / Landnutzungssysteme",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Nutzung","Landnutzungsplanung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Nutzung","Landrehabilitation",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Nutzung","Landwirtschaft",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Nutzung","nachhaltige Landnutzung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Nutzung","Nutzung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Nutzung","Nutzung von Biodiversität",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Nutzung","Nutzpflanzen",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Nutzung","Nutzung von Ökosystemen",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Nutzung","Nutzungsänderung / Bewirtschaftungsänderung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Nutzung","Nutzungskonflikt",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Nutzung","Pflanzeninhaltsstoffe",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Nutzung","Subsistenzlandwirtschaft",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Nutzung","Szenarien",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Nutzung","Theorie der erschöpfbaren Ressourcen",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökologie","(Angewandte) Ökologie",1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökologie","Abiotik / Abiotische Parameter / Abiotische Umweltfaktoren",1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökologie","Antagonismus",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökologie","Biogeosysteme",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökologie","Biomineralisation",0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökologie","Biosphäre",0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0
+"Ökologie","Biotik / Biotische Parameter",0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökologie","Biotop",0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökologie","Biozönose / Artengemeinschaft",0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökologie","Botanik / Flora",0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0
+"Ökologie","demographische Prozesse / Lebenszyklen",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökologie","Destruenten",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökologie","Energiehaushalt / Energiefluss",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökologie","Evolution / Koevolution",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökologie","Exotische Arten / Neobiota / Neophyten / Neozoen",0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökologie","Habitatstrukturen / Strukturelementkonzept / Habitatkonzept",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökologie","Heimische Arten",0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökologie","Holzzuwachs",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökologie","Lebensgemeinschaften",1,0,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0
+"Ökologie","Lebensraumdynamik / Sukzession / Fluktuation",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökologie","Lebensstrategien",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökologie","Nahrungsnetze",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökologie","Ökosysteme",1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökologie","Pflanzensoziologie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökologie","Population / Populationsdynamik",1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökologie","Prädation (top-down Steuergröße)",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökologie","Quellenfunktion / Senkenfunktion",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökologie","Räuber-Beute-Systeme",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökologie","Raumnutzung (Tiere)",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökologie","Raum-Zeit-Dynamik / raum-zeitliche Strukturen",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökologie","Ressourcen (bottom-up Steuergröße)",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökologie","Selbstregulation / Selbstregulationsfähigkeit",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökologie","seltene Gehölze",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökologie","Spezielle Ökologie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökologie","Stoffhaushalt / Stoffflüsse / Stoffkreisläufe",0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0
+"Ökologie","Störung / Störungsregime",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökologie","tierische Bestäuber",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökologie","Vegetation",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökologie","Verkehrsökologie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökologie","Vernetzung / Biotopvernetzung / Biotopverbund",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökologie","Waldbodenpflanzen / Krautschicht / Moosschicht",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökologie","Waldformationen / Pflanzenformationen",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökologie","Zonobiome",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökologie","Zoologie / Fauna",0,0,1,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0
+"Interaktionen / Ökologische Skalen / Kreisläufe","biogeochemischen Kreisläufe",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Interaktionen / Ökologische Skalen / Kreisläufe","Interaktion Mensch - Umwelt",0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
+"Interaktionen / Ökologische Skalen / Kreisläufe","ökologische Ebenen",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Interaktionen / Ökologische Skalen / Kreisläufe","ökologische Interaktionen",0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
+"Interaktionen / Ökologische Skalen / Kreisläufe","Pathogenitätsfaktoren",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Interaktionen / Ökologische Skalen / Kreisläufe","Skala / Skalenebenen: Organismus - Population - Artengemeinschaft / Biozönose - Ökosystem",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Interaktionen / Ökologische Skalen / Kreisläufe","System Atmosphäre - Boden - Pflanze",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Interaktionen / Ökologische Skalen / Kreisläufe","System Erde - Atmosphäre",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Interaktionen / Ökologische Skalen / Kreisläufe","Trophische Interaktionen",0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
+"Interaktionen / Ökologische Skalen / Kreisläufe","Wechselbeziehung Herbivore - Antagonisten",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Interaktionen / Ökologische Skalen / Kreisläufe","Wechselbeziehung Mensch - Wald (Tropen)",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Interaktionen / Ökologische Skalen / Kreisläufe","Wechselbeziehung Pflanzen - Herbivore",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Interaktionen / Ökologische Skalen / Kreisläufe","Wechselwirkung Mikroorganismus - unbelebte und belebte Natur",0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0
+"Interaktionen / Ökologische Skalen / Kreisläufe","Zusammenhänge Vegetation - Standort",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Interaktionen / Ökologische Skalen / Kreisläufe","Zusammenhänge Vorkommen Tierart - Standort",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"ökologische / biologische Teildisziplinen","aquatische Ökologie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"ökologische / biologische Teildisziplinen","Ausbreitungsbiologie / Ausbreitungsökologie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"ökologische / biologische Teildisziplinen","Autökologie",0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0
+"ökologische / biologische Teildisziplinen","Blütenbiologie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"ökologische / biologische Teildisziplinen","Dendroökologie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"ökologische / biologische Teildisziplinen","Entwicklungsbiologie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"ökologische / biologische Teildisziplinen","Evolutionsbiologie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"ökologische / biologische Teildisziplinen","Fischökologie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"ökologische / biologische Teildisziplinen","Histologie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"ökologische / biologische Teildisziplinen","Landschaftsökologie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"ökologische / biologische Teildisziplinen","mikrobielle Ökologie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"ökologische / biologische Teildisziplinen","Molekularbiologie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"ökologische / biologische Teildisziplinen","Ökotoxikologie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"ökologische / biologische Teildisziplinen","Paläoökologie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"ökologische / biologische Teildisziplinen","Populationsökologie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"ökologische / biologische Teildisziplinen","Reproduktionsbiologie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"ökologische / biologische Teildisziplinen","Stadtökologie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"ökologische / biologische Teildisziplinen","Systemökologie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"ökologische / biologische Teildisziplinen","Toxikologie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"ökologische / biologische Teildisziplinen","Verhaltensökologie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"ökologische / biologische Teildisziplinen","Zellbiologie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökonomie","Allokation / Waldallokation",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökonomie","Budgetierung / Projektökonomie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökonomie","Controlling",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökonomie","Forstökonomie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökonomie","Instrumente monetärer ökologischer Bewertung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökonomie","Internalisierung externer Effekte",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökonomie","Marketing (Forstindustrie / Holzindustrie)",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökonomie","ökologieorientierte Unternehmensstrategien / ökologieorientierte Unternehmensführung / umweltorientierte Unternehmensführung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökonomie","ökonomische Analysen",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+"Ökonomie","Produktivität",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökonomie","Ressourcenökonomie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+"Ökonomie","Spannungsfeld Gesellschaft - Wald - Forstwirtschaft",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökonomie","Strukturwandel (wirtschaftlicher)",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökonomie","SWOT-Analyse",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökonomie","Unternehmenswertsteigerung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökonomie","Verfügungsrechtsökonomik / Verfügungsrechte",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökonomie","Wirtschaftlichkeit",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökonomie","Wirtschaftsplanung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökosysteme","Acker",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökosysteme","aquatische Ökosysteme / limnische Ökosysteme",1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökosysteme","Fließgewässer",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökosysteme","Forst",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökosysteme","Heide",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökosysteme","Moor / Sumpf",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökosysteme","Städtischer Wald / Park / Garten",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökosysteme","Standgewässer",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökosysteme","terrestrische Ökosysteme",1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökosysteme","Tropen",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökosysteme","tropische Straßenhabitate (Baum / Gehölz)",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökosysteme","Wald",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökosysteme","Weide",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökosysteme","Wiese",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Ökosysteme","Wüste",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Pläne / Prüfungen / Bewertungen","Artenschutzprogramm",1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Pläne / Prüfungen / Bewertungen","Bauleitplanung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Pläne / Prüfungen / Bewertungen","Bebauungsplanung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Pläne / Prüfungen / Bewertungen","Bewertungsverfahren / Bewertungsmethoden",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Pläne / Prüfungen / Bewertungen","Bewirtschaftungsplan",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Pläne / Prüfungen / Bewertungen","Bodenbewertung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Pläne / Prüfungen / Bewertungen","FFH-Verträglichkeitsprüfung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Pläne / Prüfungen / Bewertungen","Flächennutzungsplanung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Pläne / Prüfungen / Bewertungen","Landschaftspflegerische Begleitplanung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Pläne / Prüfungen / Bewertungen","Landschaftsplanung / Landschaftsrahmenplanung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Pläne / Prüfungen / Bewertungen","Ökobilanz (globale Stoffströme / Waren / Recyclinggüter / Andere)",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Pläne / Prüfungen / Bewertungen","Ökobilanzierung / Umweltbewertung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Pläne / Prüfungen / Bewertungen","Raumplanung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Pläne / Prüfungen / Bewertungen","Regionalplanung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Pläne / Prüfungen / Bewertungen","Umweltrisikobewertung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Pläne / Prüfungen / Bewertungen","Umweltverträglichkeitsprüfung / Umweltverträglichkeitsstudie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0
+"Politik","Bodenpolitik",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Politik","Energiepolitik",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Politik","Entwicklungspolitik",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Politik","Forstpolitik",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Politik","Governance / Governancekonzept",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Politik","Klimapolitik",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Politik","Naturschutzpolitik",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Politik","Politikfeldanalyse / Politikanalyse",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Politik","Politikgestaltung / Politikkoordination",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Politik","politikwissenschaftliche Erklärungsansätze",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Politik","politische Instrumente",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Politik","Umweltpolitik",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Raumentwicklung","Administrative Steuerungsmaßnahmen (Wasser)",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Raumentwicklung","anthropogene Eingriffe",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Raumentwicklung","Auswertungsverfahren",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Raumentwicklung","Eingriffsregelung / Ausgleichsregelung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Raumentwicklung","technische Energie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Raumentwicklung","Entscheidungstheorie / Entscheidungsfindung",0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0
+"Raumentwicklung","europäische Raumentwicklung / Internationale Raumentwicklung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Raumentwicklung","Evaluierung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Raumentwicklung","Gewässerzustand",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Raumentwicklung","Hochwasser",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Raumentwicklung","Hochwasserschutz / integrierter Hochwasserschutz",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Raumentwicklung","Integrierte ländliche Entwicklung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Raumentwicklung","Interessenkonflikte",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Raumentwicklung","landschaftliche Transformationsprozesse",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Raumentwicklung","Landschaftsentwicklung / Landschaftswandel / Landschaftsveränderung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Raumentwicklung","Ökosystemfunktionen",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Raumentwicklung","Ökosystemleistungen / Ökosystemdienstleistungen",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Raumentwicklung","Partizipation",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Raumentwicklung","planerische Erhebungsverfahren",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Raumentwicklung","praktische / planerische Umsetzung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Raumentwicklung","planerisches Leitbild",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Raumentwicklung","Planungsansätze",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Raumentwicklung","Vollzugsinstrumente",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Raumentwicklung","Planungsinstrumente",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Raumentwicklung","Planungstheorie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Raumentwicklung","Projektphasen",0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Raumentwicklung","Raumentwicklung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Raumentwicklung","räumliche Ebenen der Planung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Raumentwicklung","Raumordnung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Raumentwicklung","rechtliche Rahmenbedingungen / Planungsbedingungen (Boden)",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Raumentwicklung","städtebauliche Bodenordnung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Raumentwicklung","städtebauliche Instrumente",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Raumentwicklung","Stadtentwicklung / Regionalentwicklung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Raumentwicklung","Stadtplanung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Raumentwicklung","Stadtumbau",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Raumentwicklung","technische Wärme",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Raumentwicklung","territoriale Kohäsion",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Raumentwicklung","Trends / Zukunftsfragen",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Raumentwicklung","Umweltanalyse / Ressourcenanalyse",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+"Raumentwicklung","Umweltschutz / Umweltvorsorge / nachsorgender Umweltschutz",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Raumentwicklung","Verkehrsplanung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Raumentwicklung","Wirkungsanalyse / Wirkungsabschätzung in der Planung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Raumentwicklung","Ziele in der Planung / Zielsysteme in der Planung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Schutz / Schutzgüter / Landschaftsfunktionen","Bodenfunktionen",0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Schutz / Schutzgüter / Landschaftsfunktionen","Bodenschutz",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Schutz / Schutzgüter / Landschaftsfunktionen","Gewässerschutz",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Schutz / Schutzgüter / Landschaftsfunktionen","Klimaschutz",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Schutz / Schutzgüter / Landschaftsfunktionen","Lebensraumfunktion",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Schutz / Schutzgüter / Landschaftsfunktionen","Naturraumausstattung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Schutz / Schutzgüter / Landschaftsfunktionen","Naturressourcen",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Schutz / Schutzgüter / Landschaftsfunktionen","Regeneration",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Schutz / Schutzgüter / Landschaftsfunktionen","Schutz von Pflanzenbeständen",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Schutz / Schutzgüter / Landschaftsfunktionen","Schutz von Tierbeständen",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Schutz / Schutzgüter / Landschaftsfunktionen","Schutzgüter",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Schutz / Schutzgüter / Landschaftsfunktionen","Wasserdargebot",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Sozialkompetenzen","Führung / Führungsmodelle / Führungstheorien",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Sozialkompetenzen","Kommunikation / Kommunikationsmethoden / Kommunikationstheorien",0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,1
+"Sozialkompetenzen","Konfliktarten / Konfliktlösung / Mediation",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Sozialkompetenzen","Moderation",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Sozialkompetenzen","Organisation / Zeitmanagement",0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0
+"Sozialkompetenzen","Präsentation / Präsentationsmethoden / Präsentationstechnologien",0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,1
+"Sozialkompetenzen","Teambildung / Teambuilding / Teamfindung",0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Statistik","Analyse komplexer Systeme",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Statistik","analytische Statistik",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Statistik","bayesische Statistik",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Statistik","Biostatistik",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Statistik","Datenanalyse",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Statistik","Datenstruktur / Datenstrukturierung / Datenorganisation / Datenadministration",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Statistik","deskriptive Statistik",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Statistik","Geostatistik",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Statistik","Hypothesen",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Statistik","Inventurdesign",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Statistik","multivariate Statistik",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Statistik","Statistik / Statistische Verfahren / Statistische Tests",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Statistik","statistische Analyse von Laborexperimenten",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Statistik","Stichprobenverfahren",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Statistik","Verteilungen in der beschreibenden und schließenden Statistik",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Umweltchemie / Umweltbelastungen / Ökotoxikologie","Bindung / Entfernung von Stoffe",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Umweltchemie / Umweltbelastungen / Ökotoxikologie","Bioindikation",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Umweltchemie / Umweltbelastungen / Ökotoxikologie","chemische Wechselwirkungen mit Pflanzen",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Umweltchemie / Umweltbelastungen / Ökotoxikologie","Dosis-Wirkungs-Beziehungen",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Umweltchemie / Umweltbelastungen / Ökotoxikologie","Expositionsanalyse",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Umweltchemie / Umweltbelastungen / Ökotoxikologie","Gift",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Umweltchemie / Umweltbelastungen / Ökotoxikologie","Persistenz von Schadstoffen",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Umweltchemie / Umweltbelastungen / Ökotoxikologie","Pharmaka",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Umweltchemie / Umweltbelastungen / Ökotoxikologie","Prophylaxe",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Umweltchemie / Umweltbelastungen / Ökotoxikologie","Rekultivierung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Umweltchemie / Umweltbelastungen / Ökotoxikologie","Renaturierung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Umweltchemie / Umweltbelastungen / Ökotoxikologie","Risikobewertung von Chemikalien",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Umweltchemie / Umweltbelastungen / Ökotoxikologie","Sanierung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Umweltchemie / Umweltbelastungen / Ökotoxikologie","Schadstoff",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Umweltchemie / Umweltbelastungen / Ökotoxikologie","Tierversuche (in-vivo)",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Umweltchemie / Umweltbelastungen / Ökotoxikologie","Toxizität / Toxikokinetik / Toxikodynamik",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Umweltchemie / Umweltbelastungen / Ökotoxikologie","Umweltkompartimente / Umweltmedien",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Umweltchemie / Umweltbelastungen / Ökotoxikologie","umweltrelevante chemische Stoffe",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Umweltchemie / Umweltbelastungen / Ökotoxikologie","Xenobiotika",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Umweltchemie / Umweltbelastungen / Ökotoxikologie","Zellkultur (in-vitro)",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Waldbewirtschaftung","Agroforstwirtschaft (Tropen / Subtropen)",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Waldbewirtschaftung","Baum",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Waldbewirtschaftung","Waldbestand / Forstbestand",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Waldbewirtschaftung","Bewirtschaftungsmaßnahmen / Bewirtschaftungsstrategien",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Waldbewirtschaftung","Forstbetrieb",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Waldbewirtschaftung","Forsteinrichtung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Waldbewirtschaftung","forstliche Inventur / Waldinventur / Strukturinventur / Vorratsinventur",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Waldbewirtschaftung","forstliche Nachhaltigkeit",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Waldbewirtschaftung","Forstplantagen (Tropen)",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Waldbewirtschaftung","Forstschutz / Forstschutzstrategien / Waldschutz",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Waldbewirtschaftung","Funktionsgerechtigkeit / funktionsorientierte Waldbewirtschaftung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Waldbewirtschaftung","Holz",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Waldbewirtschaftung","Naturwaldbewirtschaftung (Tropen)",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Waldbewirtschaftung","Partnerschaftsmodelle (Waldbewirtschaftung)",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Waldbewirtschaftung","Produktionsstrategien / Produktionssysteme",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Waldbewirtschaftung","traditionelle Waldnutzung (Tropen)",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Waldbewirtschaftung","Waldbau / Waldbausysteme",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Waldbewirtschaftung","waldbauliche Maßnahmen",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Waldbewirtschaftung","Waldnutzung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Waldbewirtschaftung","Waldumbau",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Waldbewirtschaftung","Waldwachstum",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Waldbewirtschaftung","Zertifizierung von Holz",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wasser","aquatische Lebensgemeinschaften",0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0
+"Wasser","fluviale Dynamik",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wasser","Gewässerbelastung / Belastungskomponenten",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wasser","Gewässergüte / Wasserqualität / Wassergüte",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wasser","Grundwasser / Grundwasserleiter",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wasser","Hydrologie arider und semi-arider Gebiete",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wasser","Hydrologische Prozesse",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wasser","Hydromechanik / Hydrodynamik",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wasser","Niederschlag",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wasser","Sediment / sedimentologische Prozesse",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wasser","Stressoren (für Lebensgemeinschaften)",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wasser","Strömungsvorgänge / Stofftransportvorgänge",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wasser","Tracerhydrologie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wasser","Verdunstung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wasser","Wasser",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wasser","Wassereinzugsgebiet / Wassereinzugsgebietsmodellierung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wasser","Wasserhaushalt (terrestrische Standorte)",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wasser","Wasserhaushalt von Pflanzen",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wasser","Wasserhaushaltsmodellierung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wasser","Wasserinhaltsstoffe (natürliche, anthropogene, xenobiotische)",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wasser","Wasserkreislauf",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wasser","Wasserorganismen",0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wasser","Wasserspezifische Fragestellungen (international)",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wasser","Stofftransport im Wasser",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wasser","Wasserstress",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wasser","Wechselwirkung Abflussdynamik - Sedimentdynamik",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wasserwirtschaft","Abwasserentsorgung / Abwasserableitung  / Regenwasserableitung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wasserwirtschaft","Abwasserreinigung / Aquatische Aufbereitung / Abwasserbehandlung / Abwasseraufbereitung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wasserwirtschaft","Flussgebietsbewirtschaftung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wasserwirtschaft","Hydraulische Grundlagen",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wasserwirtschaft","Siedlungswasserwirtschaft",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wasserwirtschaft","Trinkwasser / Trinkwasserversorgung / Trinkwasseraufbereitung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wasserwirtschaft","Abwasseraufbereitungstechniken",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wasserwirtschaft","Wasserbau",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wasserwirtschaft","Wassernutzung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wasserwirtschaft","Wasserwirtschaft",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wasserwirtschaft","Wechselwirkung Landnutzung - Wassernutzung",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wissenschaftliche Disziplinen","Biogeographie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wissenschaftliche Disziplinen","Biologie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wissenschaftliche Disziplinen","Biotechnologie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wissenschaftliche Disziplinen","Bodengeologie",1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wissenschaftliche Disziplinen","Ethik /Philosophie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wissenschaftliche Disziplinen","Ethnologie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wissenschaftliche Disziplinen","Geographie (integrative, physische, Humangeographie)",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wissenschaftliche Disziplinen","Geologie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
+"Wissenschaftliche Disziplinen","Geomorphologie (angewandte, Risiken)",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wissenschaftliche Disziplinen","Glaziologie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wissenschaftliche Disziplinen","Hydrobiologie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wissenschaftliche Disziplinen","Hydrochemie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wissenschaftliche Disziplinen","Hydrogeologie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wissenschaftliche Disziplinen","Hydrologie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wissenschaftliche Disziplinen","Hydrometeorologie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wissenschaftliche Disziplinen","Klimatologie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wissenschaftliche Disziplinen","Kommunikationswissenschaft",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wissenschaftliche Disziplinen","Meteorologie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wissenschaftliche Disziplinen","Mineralogie (der Gesteinsverwitterung)",0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
+"Wissenschaftliche Disziplinen","Museologie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wissenschaftliche Disziplinen","Naturwissenschaften",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wissenschaftliche Disziplinen","Ontologie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wissenschaftliche Disziplinen","Paläontologie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
+"Wissenschaftliche Disziplinen","Petrographie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
+"Wissenschaftliche Disziplinen","Planungswissenschaften",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wissenschaftliche Disziplinen","Politikwissenschaften",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wissenschaftliche Disziplinen","Sozialwissenschaften",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wissenschaftliche Disziplinen","Sozioökonomie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wissenschaftliche Disziplinen","Technikwissenschaften",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wissenschaftliche Disziplinen","Umweltökonomie",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+"Wissenschaftliche Disziplinen","Wirtschaftswissenschaften",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0

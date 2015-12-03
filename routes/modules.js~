@@ -14,19 +14,21 @@ exports.getTagSchema = function(req,res){
  res.jsonp( tag_schema );
 }
 
-/*
- *
+
+
+/* Returns the filed schemas of most of the module fields
+ * status: tested, but could be refactored
  */
 exports.getFieldSchema = function(req,res){
 	Modules.find().distinct( 'university', function(error, university) {
 		Modules.find().distinct('language', function(error, language) {
 			Modules.find().distinct('courses', function(error, courses) {
 				Modules.find().distinct('type', function(error, type) {
-					Modules.find().distinct('summer_winter', function(error, semester) {
+					Modules.find().distinct('summer_winter', function(error, summer_winter) {
 						Modules.find().distinct('pl', function(error, pl) {
 							Modules.find().distinct('pvl', function(error, pvl) {
 								Modules.find().distinct('sws', function(error, sws) {
-									tag_schema = {};
+									
 									//Modules.find().distinct('tags', function(error, tags) {
 									fs.readFile( './data/data-tag-level-relations.csv' , function read(err, data) { 
 										if(err){
@@ -34,44 +36,45 @@ exports.getFieldSchema = function(req,res){
 										} 
 										csv().from.string(data, {comment: '#'} )
 											.to.array( function(csv){
+												tag_schema = {};
 												for(var i = 1; i < csv.length; i++){
 													if( tag_schema[ csv[i][1] ] === undefined ){
 														tag_schema[ csv[i][1] ] = [];
 													}
 													tag_schema[ csv[i][1] ].push( csv[i][0] )
 												}
-												console.log(tag_schema);	
-											});
-											for(var j = 0; j < tag_schema.length; j++){
-												tag_schema[j] = tag_schema[j].filter( uniq );
-											}
-											var extractKeys = function(obj){
-												var arr = [];
-												for(var p in obj){
-													if( obj.hasOwnProperty(p)){ 
-														arr.push( Object.keys( obj[p] )[0] );
-													}
+												//console.log(tag_schema);	
+												
+												for(var j = 0; j < tag_schema.length; j++){
+													tag_schema[j] = tag_schema[j].filter( uniq );
 												}
-												return arr.filter( uniq );
-											}
-											var uniq = function onlyUnique(value, index, self) { 
-													return self.indexOf(value) === index;
-											}
+												var extractKeys = function(obj){
+													var arr = [];
+													for(var p in obj){
+														if( obj.hasOwnProperty(p)){ 
+															arr.push( Object.keys( obj[p] )[0] );
+														}
+													}
+													return arr.filter( uniq );
+												}
+												var uniq = function onlyUnique(value, index, self) { 
+														return self.indexOf(value) === index;
+												}
 											
 											
-											res.jsonp( {
-												university: university,
-												language: language,
-												courses: courses,
-												type: type,
-												semester: semester,
-												tags : tag_schema, // captures in advance,
-												pl: extractKeys( pl ),
-												pvl: extractKeys( pvl ),
-												sws: extractKeys( sws )
-											} );
+												res.jsonp( {
+													university: university,
+													language: language,
+													courses: courses,
+													type: type,
+													summer_winter: summer_winter,
+													tags : tag_schema, // captures in advance,
+													pl: extractKeys( pl ),
+													pvl: extractKeys( pvl ),
+													sws: extractKeys( sws )
+												} );
+											});
 										});
-									
 										
 									//});	
 								});
@@ -98,14 +101,14 @@ exports.importTags = function ( req, res ){
 			continue;
 		}	
 	  var name = dir+'/'+files[i];
-	  if (fs.statSync(name).isDirectory()){
-	   //getFiles(name);
-	 	}else{  
-			if(name.slice(-1) !== '~' && files[i].slice(0,2) !== '.~'){
+	  if ( fs.statSync(name).isDirectory() === false){
+	  	// exclude temp files etc.
+	  	if(name.slice(-1) !== '~' && files[i].slice(0,2) !== '.~'){
+	  		//console.log('Start prosessing tags for file: '+ name + '................')
 				importTagFile( { file: name}, res ); 
-	  		//console.log('Running module: '+ name)
 	  	}
-  		
+	 	}else{  
+			//getFiles(name);
 	 	}
 	}
 }
@@ -113,6 +116,8 @@ exports.importTags = function ( req, res ){
 var 
 	modules = {},
 	tag_file_count = 0;
+	tag_level1_arr = [];
+	tag_level2_arr = [];
 
 function importTagFile( req, res ){ 
 	
@@ -122,22 +127,29 @@ function importTagFile( req, res ){
 		} 
 		csv().from.string(data, {comment: '#'} )
 			.to.array( function(csv){
-//				console.log( csv[0][2] );
+				//console.log( csv[0][2] );
 				// 
 				tag_file_count++;
-				for(var i = 1; i < csv.length; i++){
-					for(var j = 1; j < csv[i].length; j++){
+				for(var i = 1; i < csv.length; i++){ // ignore first row
+					for(var j = 1; j < csv[i].length; j++){ // ignore first column (== tags on level 1)
 						if( csv[i][j] === '1' ){ 	
 							//console.log(csv[0][j] + ' has tag '+csv[i][1]);
 							if( modules[ csv[0][j] ] === undefined ){
 								modules[ csv[0][j] ] = [];
 							}
+							// collect all tags for consitency checks
+							tag_level1_arr.push( csv[i][0] );
+							tag_level2_arr.push( csv[i][1] );
+							if( csv[i][0] === ''){
+								console.log( req.file )
+							}
+							//
 							modules[ csv[0][j] ].push( csv[i][1] );
 						}
 					}
 				}
 				//console.log(modules);
-				if(tag_file_count === 11 ){
+				if(tag_file_count === 11 ){ // 11 file sin total
 					res( { tags: modules }, {} );
 				}
 			});
@@ -151,7 +163,14 @@ function importTagFile( req, res ){
 /*
 Import meta data from single csv
 **/
-exports.importMetadata = function ( req, res ){ 
+exports.importMetadata = function ( req, res ){
+	// print the previously collected tags per module:
+	//console.log( req.tags ); 
+	//console.log( uniq( tag_level2_arr ) );
+	write2file('module-tag-names.json', JSON.stringify( uniq( tag_level2_arr ) , null, 4) );
+	write2file('module-tag.json', JSON.stringify(req.tags, null, 4) );
+	
+	
 	// load data
 	fs.readFile(__dirname+'/../data/module_metadata_clean2.csv', function read(err, data) { // test: data2.csv
 		if(err){
@@ -233,8 +252,10 @@ exports.importMetadata = function ( req, res ){
 							validate(pl, 'elearningtest', 	data[i][48], 'number');
 							obj.pl = pl;
 						
-							obj.wintersemester = data[i][49];
-							obj.sommersemester = data[i][50];
+							obj.summer_winter = data[i][49] === '1' ? 'WS' : '';
+							obj.summer_winter += data[i][50] === '1' ? 'SS' : '';
+							obj.summer_winter = data[i][49] === '1' && data[i][50] === '1' ? 'WS + SS' : obj.summer_winter;
+
 							obj.dauer = data[i][51];
 							validate(obj, 'modulverantwortlicher', 	data[i][52], 'string');
 							validate(obj, 'mail', 	data[i][53], 'string');
@@ -244,7 +265,7 @@ exports.importMetadata = function ( req, res ){
 							
 							// add tags
 							if( req.tags[ obj.modulnr1 ] === undefined ){
-								console.log('module not found to add tags '+obj.modulnr1);
+								//console.log('module not found to add tags '+obj.modulnr1);
 							}else{
 								obj.tags = req.tags[ obj.modulnr1 ];
 							}
@@ -253,7 +274,7 @@ exports.importMetadata = function ( req, res ){
 							new Modules( obj ).save( function( err, todo, count ){
 								if(err){console.error(String(err))}
 								else{ 
-									//console.log(todo) 
+									//console.log(todo)
 								}
 								//res.redirect( '/portals' );
 							});	
@@ -264,6 +285,8 @@ exports.importMetadata = function ( req, res ){
 				module.exports.makeIndex();
 				console.log('Imported modules.csv');
 				console.log('......................')
+				// analysis
+				
 			});	
 	});// end fs				
 };
@@ -279,6 +302,38 @@ function validate(obj, entry, val, type, not_null){
 	if( typeof Number(val) === "number" && type == "number" && val !== '0' && val !== 0){
 		obj[entry] = Number(val.replace(',','.'));	
 	}
+}
+
+
+/***********************************************************/
+/* ANALYSIS */
+
+exports.getTagVectors = function( req, res ){
+	var 
+		tagnames = require(__dirname+'/../data/analysis/module-tag-names.json'),
+		tmp = [],
+		out = ',' +  tagnames.toString() + '\n' 
+		;
+	Modules.find()
+	.select('modulnr1 tags')
+	.lean()
+	.exec( function ( err, modules ){
+		if(err){ console.log( err ); }
+		for(var i = 0; i < modules.length; i++){
+			// init array
+			for(var j = 0; j < 570; j++){ tmp[j] = 0; }	
+			// travers tags of current module
+			for(var k = 0; k < modules[i].tags.length; k++ ){
+				// flip vector bit
+				if(tagnames.indexOf( modules[i].tags[k] ) !== -1 ){
+					tmp[ tagnames.indexOf( modules[i].tags[k] ) ] = 1; //console.log( modules[i].tags[k] )
+				}
+			}
+			out += modules[i].modulnr1 + ',' + tmp.toString() + '\n';
+		}
+		//console.log(out);
+		write2file('tag-vectors.csv', out );
+	});
 }
 
 
@@ -587,6 +642,41 @@ exports.tagSearch = function ( req, res ){
 		});
 };
 
+
+
+
+/*
+ * Util: Writes file to disk
+ * status: finished and tested
+ **/
+write2file = function(filename, dataset, new_path){
+	var path = '/home/abb/Documents/www2/moduleBase/data/analysis/';
+	if(new_path !== undefined){
+		path = new_path;
+	}
+	if(!filename || ! dataset){
+		console.log('No data or file to write'); return;
+	}
+//	fs.writeFile(__dirname+'/results/data/'+filename, dataset, function(err){
+	fs.writeFile(path+filename, dataset, function(err){
+	 if(err) {
+	      console.log(err);
+	  } else {
+	  	 console.log('Data generated: '+filename);
+		}	
+	});
+}	
+
+
+/*
+ * Util: remove duplicate entries in an array
+ * status: finished
+ **/
+function uniq(a) {
+  return a.sort().filter(function(item, pos, ary) {
+      return !pos || item != ary[pos - 1];
+  })
+}
 
 
 

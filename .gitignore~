@@ -1,4 +1,5 @@
 .gitignore
+.gitignore~
 bfg.jar
 **/*~
 *~
@@ -11,10 +12,13 @@ bfg.jar
 **/*.mov
 **/*.debug
 **/*.log
+**/*.pdf
+*.pdf
 #data/**
 dump/**
 _tools/**
 _trash/**
+data/**
 node_modules/**
 public/static/_trash/**
 

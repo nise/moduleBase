@@ -28,7 +28,7 @@ $(document).ready (function () {
 
 Diese Datenbank ...
 
-Zitation: 
+Zitation: ...
 
 ### Das Projekt ÖBIN
 
@@ -41,7 +41,10 @@ Niels Seidel, [nise81](http://www.nise81.com/)
 
 ### Lizenzen
 
-Inhalte, Daten und Datenbank: Creative Commons 3.0, CC-BY
+Daten veröffentlicht unter [ODC-BY 1.0 license](http://opendatacommons.org/licenses/by/summary/);  
+opendata.png
+
+Sonstige Inhalte: Creative Commons 3.0, CC-BY
 
 Software: MIT License, verfügbar unter [https://github.com/nise/moduleBase](https://github.com/nise/moduleBase)
 
