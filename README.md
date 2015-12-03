@@ -17,7 +17,6 @@
 ## Update from repo
 
 git fetch --all
-
 git reset --hard origin/master
 
 ## dump and restore mongoDB 
@@ -25,11 +24,9 @@ git reset --hard origin/master
 mongodb: mongodb://localhost/module-base
 
 **dump**
-
 mongodump --db video-patterns
 
 **restore**
-
 mongorestore --db video-patterns ./dump/module-base
 
 

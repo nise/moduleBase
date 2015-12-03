@@ -2,7 +2,6 @@
 # todo
 
 - edit form
-- search debug
 - matching von modulen: nach tags, nach PVL/PL
 - Feedback/Kommentar ... 
 
