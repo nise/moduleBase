@@ -52,7 +52,7 @@ module.exports = function(db, app) {
   app.get(	'/', function ( req, res ){ res.render( 'intro', { title : 'Designing Video Interfaces' }); });
 	app.get(	'/wizzard', function ( req, res ){ res.render( 'wizzard', { title : 'Pattern Wizzard' }); });
 	app.get(	'/about', function ( req, res ){ res.render( 'about', { title : 'About' }); });
-	app.get(	'/impressum', function ( req, res ){ console.log(44444); res.render( 'impressum', { title : 'Impressum' }); });
+
 	app.get(	'/citation', function ( req, res ){ res.render( 'citation', { title : 'Citation' }); });
   app.get(	'/api', function ( req, res ){ res.render( 'api', { title : 'API' }); });
   

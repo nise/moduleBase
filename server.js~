@@ -1,8 +1,8 @@
 /*
-author: niels.seidel@nise81.com
-titel: video pattern and application database
-description: 
-**/
+ * author: niels.seidel@nise81.com
+ * titel: moduleBase
+ * description: 
+ **/
 
 
 require( './db' );
@@ -17,24 +17,6 @@ var
 	server = require('http').createServer(app),
 	fs = require('node-fs')
 	;
-	
-	// database entities 
-	/*
-	videos = require('./routes/videos'),
-	users = require('./routes/users'),
-	images = require('./routes/images'),
-	scripts = require('./routes/scripts'),
-	portals = require('./routes/portals'),
-	patterns = require('./routes/patterns'),
-	analysis = require('./routes/analysis'),
-		
-	groups = require('./routes/groups'),
-	// terzin specific entities
-	scenes = require('./routes/scenes'),
-	persons = require('./routes/persons')
-	;
-	*/
-
 	
 	//io.set('transports', ['websocket', 'htmlfile', 'xhr-polling', 'jsonp-polling']);
 	var port = 3003;
@@ -102,8 +84,8 @@ var conn = mongoose.connect( 'mongodb://localhost/moduleBase' , function(err, db
 		Import data
 		**/
 		m = require('./routes/modules');
-		m.importTags({}, m.importMetadata );
-		//m.getTagVectors();
+		//m.importTags({}, m.importMetadata );
+		//m.getTagVectors(); // builts matrix of tags and module numbers
 		
 		// routes
 		app.get(	'/', function ( req, res ){ res.render( 'index', { title : '' }); });
@@ -113,18 +95,19 @@ var conn = mongoose.connect( 'mongodb://localhost/moduleBase' , function(err, db
 		app.get(	'/impressum', function ( req, res ){ res.render( 'impressum', { title : 'Impressum' }); });
 		app.get(	'/data/json/modules', m.getJSON );
 		app.get(	'/data/json/modules/tag/:id', m.getJSONbyTag );
+		app.get(	'/json/modules/field-schema', m.getFieldSchema );
+		app.get(	'/json/modules/similar/:id', m.getSimilarModulesJSON );
 		app.get(	'/data/csv/modules', m.getCSV );
 		app.get(	'/modules/tag-schema', m.getTagSchema );
-		app.get(	'/json/modules/field-schema', m.getFieldSchema );
 		app.get(	'/modules/list', m.index );
 		app.get(	'/modules/view/:id', m.viewSingle );
 		app.get(	'/modules/edit/:id', m.edit );
+		app.post(	'/modules/update/:id', m.update );
 		app.get(	'/modules/tag/:id', m.modulesWithTag );
-		app.get(	'/json/modules/similar/:id', m.getSimilarJSON );
 		app.get(	'/modules/search', function ( req, res ){ res.render( 'm_search', { title : '' }); });
-		app.post(	'/modules/search', m.searchQuery );
 		app.get(	'/modules/search/fulltext/:query', m.fulltextSearch );
 		app.get(	'/modules/search/tags/:query', m.tagSearch );
+		app.post(	'/modules/search', m.searchQuery );
 		
 	}	
 });

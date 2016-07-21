@@ -1,18 +1,31 @@
 
 <% layout( 'm_layout' ) -%>
 
+<div  class="jumbotron">
+	<div class="container">
+  <h2>
+  <% if(title === undefined){ %>
+  	Modules
+  <%}else{%>
+  	<%= title %>
+  <%}%>	
+  </h2>
+  <p class="mark"></p>
+  </div>
+</div>
 <div class="container">
 	<table id="table1"></table>
 </div>
 
 <script> 
 $(document).ready (function () { 
+	
+	
 
-
-$('#table1').bootstrapTable({
+	$('#table1').bootstrapTable({
     //url: '/data/json/modules',
     data : <%-JSON.stringify(items)%>,
-    onLoadError : function(e){ alert(JSON.stringify(e)); },
+   // onLoaded : function(e){  },
     //    onLoadSuccess : function(e){ alert(JSON.stringify(e)); },
     //height:'500',
     showColumns : true,
@@ -46,16 +59,16 @@ $('#table1').bootstrapTable({
     trimOnSearch:true,
     
     // details
-    detailView : true,
+    detailView : false,
     detailFormatter : function(index, row) {
-			return '<a href="/modules/view/' + row._id + '">Detailansicht</a> | <a href="/data/pdf/' + row._id + '">Modulbeschreibung (PDF)</a> | <a href="/modules/edit/' + row._id + '">bearbeiten</a>'//''+index+'__'+row._id;
+			return '<span class="glyphicon glyphicon-file"><a href="/data/pdf/' + row._id + '">Modulbeschreibung (PDF)</a> | <span class="glyphicon glyphicon-edit"> <a href="/modules/edit/' + row._id + '">bearbeiten</a>'//''+index+'__'+row._id;
 		},
 		//onClickRow : function(row, el){ alert(row._id); },
-    onClickCell : function(field, value, row, el){ if(field==='modultitel'){ 
+    /*onClickCell : function(field, value, row, el){ if(field==='modultitel'){ 
     	alert(row._id);
-    } },
+    } },*/
     columns: [
-		  { field: 'modultitel', title: 'Modulbezeichnung', sortable : true, order: 'asc',searchable : true }, 
+		  { field: 'modultitel', title: 'Modulbezeichnung', sortable : true, formatter: titleFormatter, order: 'asc',searchable : true }, 
 		 	{ field: 'modulnr1', title: 'Modulnummer', visible:false, sortable : true, order: 'asc',searchable : true }, 
 		  { field: 'modulnr2', title: 'Modulnummer 2', visible:false, sortable : true, order: 'asc',searchable : true }, 
 		  { field: 'modulnr3', title: 'Modulnummer 3', visible:false, sortable : true, order: 'asc',searchable : true }, 
@@ -76,7 +89,9 @@ $('#table1').bootstrapTable({
     ]
 	});
 	
-	
+	function titleFormatter(value, row, index) {
+	return 	'<a href="/modules/view/' + row._id + '">'+value+'</a>';
+}
 	
 	
 });

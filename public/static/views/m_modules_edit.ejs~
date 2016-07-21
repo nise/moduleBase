@@ -8,7 +8,7 @@
 </div>
 
 <div class="container">
-    <form class="modules-edit"></form>
+    <form class="modules-edit" action="/modules/save" method="post"></form>
     <div id="res" class="alert"></div>
 </div>
    
@@ -22,16 +22,22 @@
     <script type="text/javascript">
       $('form.modules-edit').jsonForm({
         schema: {
-          name: {
+          modultitel: {
             type: 'string',
             title: 'Modultitel',
             default: '<%= item.modultitel %>',
             required: true
           },
-          age: {
+          university: {
             type: 'number',
             title: 'Hochschule',
             default:  '<%= item.university %>'
+          },
+          sws: {
+            type: 'select',
+            title: 'SWS',
+            default: '<%= item.sws %>',
+            required: true
           }
         },
         onSubmit: function (errors, values) {

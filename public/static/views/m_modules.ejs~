@@ -13,9 +13,9 @@
 
 <script> 
 $(document).ready (function () { 
-$('#table1').bootstrapTable({
+	$('#table1').bootstrapTable({
     url: '/data/json/modules',
-    onLoadError : function(e){ alert(JSON.stringify(e)); },
+   // onLoadError : function(e){ alert(JSON.stringify(e)); },
     //    onLoadSuccess : function(e){ alert(JSON.stringify(e)); },
     //height:'500',
     showColumns : true,
@@ -49,16 +49,16 @@ $('#table1').bootstrapTable({
     trimOnSearch:true,
     
     // details
-    detailView : true,
+    /*detailView : true,
     detailFormatter : function(index, row) {
-			return '<a href="/modules/view/' + row._id + '">Detailansicht</a> | <a href="/data/pdf/' + row._id + '">Modulbeschreibung (PDF)</a> | <a href="/modules/edit/' + row._id + '">bearbeiten</a>'//''+index+'__'+row._id;
-		},
+			return '<a href="/data/pdf/' + row._id + '">Modulbeschreibung (PDF)</a> | <a href="/modules/edit/' + row._id + '">bearbeiten</a>'//''+index+'__'+row._id;
+		},*/
 		//onClickRow : function(row, el){ alert(row._id); },
-    onClickCell : function(field, value, row, el){ if(field==='modultitel'){ 
+    /*onClickCell : function(field, value, row, el){ if(field==='modultitel'){ 
     	alert(row._id);
-    } },
+    } },*/
     columns: [
-		  { field: 'modultitel', title: 'Modulbezeichnung', sortable : true, order: 'asc',searchable : true }, 
+		  { field: 'modultitel', title: 'Modulbezeichnung', sortable : true, formatter: titleFormatter, order: 'asc',searchable : true }, 
 		  { field: 'modulnr1', title: 'Modulnummer', visible:false, sortable : true, order: 'asc',searchable : true }, 
 		  { field: 'modulnr2', title: 'Modulnummer 2', visible:false, sortable : true, order: 'asc',searchable : true }, 
 		  { field: 'modulnr3', title: 'Modulnummer 3', visible:false, sortable : true, order: 'asc',searchable : true }, 
@@ -79,6 +79,10 @@ $('#table1').bootstrapTable({
     ]
 	});
 });
+
+function titleFormatter(value, row, index) {
+	return 	'<a href="/modules/view/' + row._id + '">'+row.title+'</a>';
+}
 </script>
 
 

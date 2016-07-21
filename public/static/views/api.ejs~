@@ -15,7 +15,7 @@ $(document).ready (function () {
 We would like to encourage other researchers and academics to use our data for further research, evaluation and computation. Therefore, we propose this moduleBase as an Open Data repository. You can download and dynamically call our data in different formats.
 </p>
 <p>
-Our data is made available under the Open Data Commons Attribution License: <a href="http://opendatacommons.org/licenses/by/1.0/">opendatacommons.org/licenses/by/1.0/</a>. 
+Our data is made available under the Open Data Commons Attribution License: <a href="http://opendatacommons.org/licenses/by/1.0/">opendatacommons.org/licenses/by/1.0/</a>
 </p>
   </div>
 </div>
@@ -25,20 +25,25 @@ Our data is made available under the Open Data Commons Attribution License: <a h
   <h3>Modules</h3>
   <div class="input-group">
 		<span class="input-group-addon" id="sizing-addon2">HTTP GET / JSON</span>
-		<input style="cursor:pointer;" readonly type="text" class="form-control" placeholder="" value="http://<our-site>/data/json/modules" aria-describedby="sizing-addon2">
+		<input style="cursor:pointer;" readonly type="text" class="url form-control" placeholder="" value="http://<our-site>/data/json/modules" aria-describedby="sizing-addon2">
 	</div>
 	<br>
 	<div class="input-group">
 		<span class="input-group-addon" id="sizing-addon2">HTTP GET / CSV</span>
-		<input style="cursor:pointer;" readonly type="text" class="form-control" placeholder="" value="http://<our-site>/data/csv/modules" aria-describedby="sizing-addon2">
+		<input style="cursor:pointer;" readonly type="text" class="url form-control" placeholder="" value="http://<our-site>/data/csv/modules" aria-describedby="sizing-addon2">
 	</div>
 	
-	
- 
+	</div>
 </div>
-  
-  
-</div>
+
+<script>
+	$(document).ready(function() {
+		$('.url').each(function(i, val){ 
+			var t =  $(this).attr('value').replace('<our-site>', window.location.host); 
+			$(this).attr('value', t );
+		});
+	});	
+</script>
 
 
 

@@ -22,6 +22,15 @@ h4{
 margin-top:20px;
 }
 
+.navbar-nav.main > li > a {
+	font-weight:bold;
+	font-size:14pt;
+}
+
+.navbar-nav > li > a {
+	font-size:14pt;
+}
+
 .mbase-search-container {
 	width: 300px;
 	font-size:14px;
@@ -30,17 +39,17 @@ margin-top:20px;
 
 .tags a{
 	text-decoration:none; 
-	background-color: #003366;
-	color: #fff;
+	background-color: #ccebff;
+	color: #222;
 	border-radius:5px;
-	padding:2px 4px;
+	padding:3px 5px;
 	
 	line-height: 24px;
 	font-size:12px;
 }
 
 .tags a:hover{
-	background-color: lightblue;
+	background-color: #87d0e8;
 	color: #003366;
 }
 
@@ -61,6 +70,7 @@ margin-top:20px;
 <script src='/static/js/typeahead.bundle.js'></script>
 <script src='/static/js/i18next-latest.js'></script>
 <script src="/static/js/markdown.js"></script>
+<script src="/static/js/moment.min.js"></script>
 <script src="/static/js/jquery.colorbox-min.js"></script>
 <script src="/static/js/jquery-image-loader.js"></script>
 <script src='/static/js/db.js'></script>
@@ -236,7 +246,7 @@ function startIntro(){
 
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-				  <ul class="nav navbar-nav">
+				  <ul class="nav navbar-nav main">
 				     <li>
 				    <a href="/modules/list">Module<span class="sr-only">(current)</span></a>
 				    </li>

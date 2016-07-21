@@ -3,138 +3,178 @@
 
 <div class="jumbotron">
 	<div class="container">
-  <h2>Modul: <%= items.modultitel %></h2>
+  	<h2>
+  		<%= items.modultitel %>
+  		<%%>
+  		<a href="/modules/edit/<%= items._id %>"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+  	</h2>
   </div>
 </div>
 <div class="container">
 <div class="row">
 <div class="col-md-8">
 
-<h4>Einordnung</h4>
-<label>Modulnummer(n):</label> <%= items.modulnr1%>
-<% if(items.modulnr2 !== undefined){ %>, <%= items.modulnr2 %><% } %>
-<br>
+<div>
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#context" aria-controls="context" role="tab" data-toggle="tab">Einordnung</a></li>
+    <li role="presentation"><a href="#umfang" aria-controls="umfang" role="tab" data-toggle="tab">Umfang</a></li>
+    <li role="presentation"><a href="#verantwortlichkeiten" aria-controls="verantwortlichkeiten" role="tab" data-toggle="tab">Verantwortlichkeiten</a></li>   
+  </ul>
 
-<label>Studiengänge:</label>
-<ul> 
-<% if(items.courses !== undefined){ %>
-	<% items.courses.forEach( function ( item ){ %>
-		<li><%= item %></li>
-	<% }) %>
-<% } %>
-</ul>
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="context"><br>
+			<label>Modulnummer(n):</label> <%= items.modulnr1%>
+			<% if(items.modulnr2 !== undefined){ %>, <%= items.modulnr2 %><% } %>
+			<br>
 
-<label>Hochschule:</label> <%= items.university %>
-<br>
-<label>Typ:</label> <%= items.type %>
-<br>
-<label>Sprache:</label> <%= items.language %>
-<br>
-<label>Semster:</label> 
-<% if(items.wintersemester === 1 && items.sommersemester === 1){ %>
-	WS und SS
-<%}else if(items.wintersemester === 1){%>
-	WS 
-<% } else{%>
-	SS
-<% } %>			
-<br>
+			<label>Studiengänge:</label>
+			<ul> 
+			<% if(items.courses !== undefined){ %>
+				<% items.courses.forEach( function ( item ){ %>
+					<li><%= item %></li>
+				<% }) %>
+			<% } %>
+			</ul>
 
+			<label>Hochschule:</label> <%= items.university %>
+			<br>
+			<label>Typ:</label> <%= items.type %>
+			<br>
+			<label>Sprache:</label> <%= items.language %>
+			<br>
+			<label>Semster:</label> 
+			<% if(items.wintersemester === 1 && items.sommersemester === 1){ %>
+				Winter- und Sommersemester
+			<%}else if(items.wintersemester === 1){%>
+				Wintersemester
+			<% } else{%>
+				Sommersemester
+			<% } %>			
+			<br>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="umfang"><br>
+			<label>Semsterwochenstunden:</label> <%= items.sws_total %> SWS, davon
+			<ul>
+			<% if( items.sws.vorlesung !== undefined){ %><li>Vorlesung: <%= items.sws.vorlesung %> SWS</li><% } %>
+			<% if( items.sws.seminar !== undefined){ %><li>Seminar: <%= items.sws.seminar %> SWS</li><% } %>
+			<% if( items.sws.ringvorlesung !== undefined){ %><li>Ringvorlesung: <%= items.sws.ringvorlesung %> SWS</li><% } %>
+			<% if( items.sws.ubung !== undefined){ %><li>Übung: <%= items.sws.ubung %> SWS</li><% } %>
+			<% if( items.sws.tutorium !== undefined){ %><li>Tutorium: <%= items.sws.tutorium %> SWS</li><% } %>
+			<% if( items.sws.praktikum !== undefined){ %><li>Praktikum: <%= items.sws.praktikum %> SWS</li><% } %>
+			<% if( items.sws.exkursion !== undefined){ %><li>Exkursion: <%= items.sws.exkursion %> SWS</li><% } %>
+			<% if( items.sws.projekt !== undefined){ %><li>Projekt: <%= items.sws.projekt %> SWS</li><% } %>
+			<% if( items.sws.berufspraktikum !== undefined){ %><li>Berufspraktikum: <%= items.sws.berufspraktikum %> SWS</li><% } %>
+			<% if( items.sws.sprachkurs !== undefined){ %><li>Sprachkurs: <%= items.sws.sprachkurs %> SWS</li><% } %>
+			<% if( items.sws.elearning !== undefined){ %><li>E-Learning: <%= items.sws.elearning %> SWS</li><% } %>
+			<% if( items.sws.ubung_seminar !== undefined){ %><li>Übung/Seminar: <%= items.sws.ubung_seminar %> SWS</li><% } %>
+			</ul>
+			<label>Workload:</label> <%= items.workload %> h
+			<br>
+			<label>Workload im Selbststudium:</label> <%= items.workload_self %> h
+			<br>
+			<label>ECTS:</label> <%= items.ects %>
+			
+			<% if(items.pvl.length === 1){ %>
+			<label>Prüfungsvorleistungen:</label>
+			<ul>
+			<% if( items.pvl.referat !== undefined){ %><li>Referat: <%= items.pvl.referat %></li><% } %>
+			<% if( items.pvl.labor !== undefined){ %><li>Labor: <%= items.pvl.labor %></li><% } %>
+			<% if( items.pvl.beleg !== undefined){ %><li>Beleg: <%= items.pvl.beleg %></li><% } %>
+			<% if( items.pvl.testat !== undefined){ %><li>Testat: <%= items.pvl.testat %></li><% } %>
+			<% if( items.pvl.protokoll !== undefined){ %><li>Protokoll: <%= items.pvl.protokoll %></li><% } %>
+			<% if( items.pvl.moderation !== undefined){ %><li>Moderation: <%= items.pvl.moderation %></li><% } %>
+			</ul>
+			<% } %>
+			<br>
+			<label>Prüfungsleistungen:</label>
+			<ul>
+			<% if( items.pl.klausur !== undefined){ %><li>Klausur: <%= items.pl.klausur %></li><% } %>
+			<% if( items.pl.mdlpruefung !== undefined){ %><li>Mündliche Prüfung: <%= items.pl.mdlpruefung %></li><% } %>
+			<% if( items.pl.referat !== undefined){ %><li>Referat: <%= items.pl.referat %></li><% } %>
+			<% if( items.pl.praesentation !== undefined){ %><li>Präsentation: <%= items.pl.praesentation %></li><% } %>
+			<% if( items.pl.belegarbeit !== undefined){ %><li>Belegarbeit: <%= items.pl.belegarbeit %></li><% } %>
+			<% if( items.pl.seminararbeit !== undefined){ %><li>Seminararbeit: <%= items.pl.seminararbeit %></li><% } %>
+			<% if( items.pl.projektarbeit !== undefined){ %><li>Projektarbeit: <%= items.pl.projektarbeit %></li><% } %>
+			<% if( items.pl.praktikumsprotokoll !== undefined){ %><li>Praktikumsprotokoll: <%= items.pl.praktikumsprotokoll %></li><% } %>
+			<% if( items.pl.praktikumsbericht !== undefined){ %><li>Praktikumsbericht: <%= items.pl.praktikumsbericht %></li><% } %>
+			<% if( items.pl.exkursionsbericht !== undefined){ %><li>Exkursionsbericht: <%= items.pl.exkursionsbericht %></li><% } %>
+			<% if( items.pl.laborarbeit !== undefined){ %><li>Laborarbeit: <%= items.pl.laborarbeit %></li><% } %>
+			<% if( items.pl.forschungsplan !== undefined){ %><li>Forschungsplan: <%= items.pl.forschungsplan %></li><% } %>
+			<% if( items.pl.elearningtest !== undefined){ %><li>E-Learning-Test: <%= items.pl.elearningtest %></li><% } %>
+			</ul>  
+		</div>
+		
 
-<div class="tags">
-	<label><span class="glyphicon glyphicon-tags" aria-hidden="true"></span> Schlüsselworte:</label><br>
-	<% items.tags.forEach( function ( tag ){ %>
-		<a href="/modules/tag/<%=: tag | replace:/\ /g,'-' %>"><%=: tag %></a> 
-	<% }); %>
+    <div role="tabpanel" class="tab-pane" id="verantwortlichkeiten"><br>
+			<label>Modulverantwortlicher:</label> <%= items.modulverantwortlicher %>
+			<br>
+			<% if( items.lecturers !== undefined){ %>
+			<label>Weitere Dozenzen:</label> <%= items.lecturers %>
+			<br>
+			<% } %>
+			
+			<% if( items.struktureinheit !== undefined){ %>
+			<label>Struktureinheit der Hochschule:</label> <%= items.struktureinheit %>
+			<br>
+			<% } %>
+			
+			<label>E-Mail:</label> <% if( items.email !== undefined){ %><%= items.email %> <% }else{ %> k.A.<% } %>
+
+			<% if( items.remarks_general !== undefined){ %>
+				<label>Bemerkingen:</label><br><%= items.remarks_general %>
+				<br>
+			<% } %>
+
+			<% if( items.remarks_internal !== undefined){ %>
+				<label>Interne Bemerkingen:</label><br><%= items.remarks_internal %>
+			<% } %>    
+    </div>
+    
+  </div>
+
 </div>
 
 
-<h4>Umfang</h4>
-<label>Semsterwochenstunden:</label> <%= items.sws_total %> SWS, davon
-<ul>
-<% if( items.sws.vorlesung !== undefined){ %><li>Vorlesung: <%= items.sws.vorlesung %> SWS</li><% } %>
-<% if( items.sws.seminar !== undefined){ %><li>Seminar: <%= items.sws.seminar %> SWS</li><% } %>
-<% if( items.sws.ringvorlesung !== undefined){ %><li>Ringvorlesung: <%= items.sws.ringvorlesung %> SWS</li><% } %>
-<% if( items.sws.ubung !== undefined){ %><li>Übung: <%= items.sws.ubung %> SWS</li><% } %>
-<% if( items.sws.tutorium !== undefined){ %><li>Tutorium: <%= items.sws.tutorium %> SWS</li><% } %>
-<% if( items.sws.praktikum !== undefined){ %><li>Praktikum: <%= items.sws.praktikum %> SWS</li><% } %>
-<% if( items.sws.exkursion !== undefined){ %><li>Exkursion: <%= items.sws.exkursion %> SWS</li><% } %>
-<% if( items.sws.projekt !== undefined){ %><li>Projekt: <%= items.sws.projekt %> SWS</li><% } %>
-<% if( items.sws.berufspraktikum !== undefined){ %><li>Berufspraktikum: <%= items.sws.berufspraktikum %> SWS</li><% } %>
-<% if( items.sws.sprachkurs !== undefined){ %><li>Sprachkurs: <%= items.sws.sprachkurs %> SWS</li><% } %>
-<% if( items.sws.elearning !== undefined){ %><li>E-Learning: <%= items.sws.elearning %> SWS</li><% } %>
-<% if( items.sws.ubung_seminar !== undefined){ %><li>Übung/Seminar: <%= items.sws.ubung_seminar %> SWS</li><% } %>
-</ul>
-<label>Workload:</label> <%= items.workload %>
-<br>
-<label>Workload im Selbststudium:</label> <%= items.workload_self %>
-<br>
-<label>ECTS:</label> <%= items.ects %>
-
-
-<h4>Verantwortlichkeiten</h4>
-<label>Modulverantwortlicher:</label> <%= items.modulverantwortlicher %>
-<br>
-<% if( items.lecturers !== undefined){ %>
-<label>Weitere Dozenzen:</label> <%= items.lecturers %>
-<br>
-<% } %>
-<label>Struktureinheit der Hochschule:</label> <%= items.struktureinheit %>
-<br>
-<label>E-Mail:</label> <%= items.email %>
-
-<% if( items.remarks_general !== undefined){ %>
-	<label>Bemerkingen:</label><br><%= items.remarks_general %>
+</div>
+<div class="pull-right col-md-4">
+	<div class="tags">
+		<label><span class="glyphicon glyphicon-tags" aria-hidden="true"></span> Schlüsselworte:</label><br>
+		<% items.tags.forEach( function ( tag ){ %>
+			<a href="/modules/tag/<%=: tag | replace:/\ /g,'-' %>"><%=: tag %></a> 
+		<% }); %>
+	</div>
 	<br>
-<% } %>
-
-
-<% if( items.remarks_internal !== undefined){ %>
-	<label>Interne Bemerkingen:</label><br><%= items.remarks_internal %>
-<% } %>
-
-
-<h4>Prüfungen / Vorleistungen</h4>
-
-<% if(items.pvl.length === 1){ %>
-<label>Prüfungsvorleistungen:</label>
-<ul>
-<% if( items.pvl.referat !== undefined){ %><li>Referat: <%= items.pvl.referat %></li><% } %>
-<% if( items.pvl.labor !== undefined){ %><li>Labor: <%= items.pvl.labor %></li><% } %>
-<% if( items.pvl.beleg !== undefined){ %><li>Beleg: <%= items.pvl.beleg %></li><% } %>
-<% if( items.pvl.testat !== undefined){ %><li>Testat: <%= items.pvl.testat %></li><% } %>
-<% if( items.pvl.protokoll !== undefined){ %><li>Protokoll: <%= items.pvl.protokoll %></li><% } %>
-<% if( items.pvl.moderation !== undefined){ %><li>Moderation: <%= items.pvl.moderation %></li><% } %>
-</ul>
-<% } %>
-
-<label>Prüfungsleistungen:</label>
-<ul>
-<% if( items.pl.klausur !== undefined){ %><li>Klausur: <%= items.pl.klausur %></li><% } %>
-<% if( items.pl.mdlpruefung !== undefined){ %><li>Mündliche Prüfung: <%= items.pl.mdlpruefung %></li><% } %>
-<% if( items.pl.referat !== undefined){ %><li>Referat: <%= items.pl.referat %></li><% } %>
-<% if( items.pl.praesentation !== undefined){ %><li>Präsentation: <%= items.pl.praesentation %></li><% } %>
-<% if( items.pl.belegarbeit !== undefined){ %><li>Belegarbeit: <%= items.pl.belegarbeit %></li><% } %>
-<% if( items.pl.seminararbeit !== undefined){ %><li>Seminararbeit: <%= items.pl.seminararbeit %></li><% } %>
-<% if( items.pl.projektarbeit !== undefined){ %><li>Projektarbeit: <%= items.pl.projektarbeit %></li><% } %>
-<% if( items.pl.praktikumsprotokoll !== undefined){ %><li>Praktikumsprotokoll: <%= items.pl.praktikumsprotokoll %></li><% } %>
-<% if( items.pl.praktikumsbericht !== undefined){ %><li>Praktikumsbericht: <%= items.pl.praktikumsbericht %></li><% } %>
-<% if( items.pl.exkursionsbericht !== undefined){ %><li>Exkursionsbericht: <%= items.pl.exkursionsbericht %></li><% } %>
-<% if( items.pl.laborarbeit !== undefined){ %><li>Laborarbeit: <%= items.pl.laborarbeit %></li><% } %>
-<% if( items.pl.forschungsplan !== undefined){ %><li>Forschungsplan: <%= items.pl.forschungsplan %></li><% } %>
-<% if( items.pl.elearningtest !== undefined){ %><li>E-Learning-Test: <%= items.pl.elearningtest %></li><% } %>
-</ul>
-	
-
-
-	comments : [Schema.Types.Mixed],
-	updated_at : Date
-
-</div></div></div>
+	<label><span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span> Ähnliche Module:</label><br>
+	<ul id="relatedmodules"></ul>
+	<label><span class="glyphicon glyphicon-time" aria-hidden="true"></span> Erstellt:</label> <span class="">11/2014 - 11.2015</span><br>
+	<label><span class="glyphicon glyphicon-time" aria-hidden="true"></span> Aktualisiert:</label> <span class="date"><%- items.updated_at %></span><br>
+	<label><span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span> Quelle:</label> <a href="/static/files/<%= items.university%>_<%=: items.modulnr1 | replace:' ','_' %>.pdf">Modulbeschreibung</a><br>
+	<label><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> Kommentare:</label> <%=: items.comments | length %>
+</div>
+</div>
+</div>
 
 <script> 
 $(document).ready(function() {
+	// convert dates
+	$('.date').each(function(i, val){ 
+		var t =  moment($(this).text()).format("DD.MM.YYYY"); 
+		$(this).html( t );
+	});
+	
+	// get similar modules
+	var out = '';
+	$.get('/json/modules/similar/<%= items._id %>', function(related){
+		for(var i=0; i < 5; i++){
+			out += '<li><a href="/modules/view/'+related[i]._id+'">'+related[i].title+' ('+related[i].similarity+')</a></li>'
+		}
+		$('#relatedmodules').html(out);
+	});
 });	
+
+
 
 </script>
 

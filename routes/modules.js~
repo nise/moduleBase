@@ -90,46 +90,78 @@ exports.getFieldSchema = function(req,res){
 /*
 Import tags from several csv files
 **/
-exports.importTags = function ( req, res ){
+exports.importTags = function ( req, res ){ 
 	// import tag classification
-			
-	// import tag files 
-	var dir = './data/tags';
-	var files = fs.readdirSync(dir);
-	for(var i in files){
-		if (!files.hasOwnProperty(i)){ 
-			continue;
-		}	
-	  var name = dir+'/'+files[i];
-	  if ( fs.statSync(name).isDirectory() === false){
-	  	// exclude temp files etc.
-	  	if(name.slice(-1) !== '~' && files[i].slice(0,2) !== '.~'){
-	  		//console.log('Start prosessing tags for file: '+ name + '................')
-				importTagFile( { file: name}, res ); 
-	  	}
-	 	}else{  
-			//getFiles(name);
-	 	}
-	}
-}
+	
+	fs.readFile( __dirname+'/../data/keyword_refinement_revisited.csv' , function read(err, data) { // test: data2.csv
+		if(err){
+			console.log(err);
+		} 
+		csv().from.string(data, {comment: '#'} )
+			.to.array( function(replace_tags){
+				// reformat replace_tags
+				var repl = {};
+				for(var i = 0; i < replace_tags.length; i++){
+					var tmp = [];
+					for(var j = 1; j < replace_tags[i].length; j++){
+						if(replace_tags[i][j] !== ''){
+							tmp.push(replace_tags[i][j]);
+						}
+					}
+					repl[ replace_tags[i][0] ] = tmp;
+					//console.log( replace_tags[i] );
+				} 
+				// store replace tags for later use
+				t_replace = repl;		
+				
+				// import tag files 
+				var dir = './data/tags';
+				var files = fs.readdirSync(dir);
+				for(var i in files){
+					if (!files.hasOwnProperty(i)){ 
+						continue;
+					}	
+					var name = dir+'/'+files[i];
+					if ( fs.statSync(name).isDirectory() === false){
+						// exclude temp files etc.
+						if(name.slice(-1) !== '~' && files[i].slice(0,2) !== '.~'){
+							//console.log('Start prosessing tags for file: '+ name + '................')
+							importTagFile( { file: name}, res ); 
+						}
+				 	}else{  
+						//getFiles(name);
+				 	}
+				}
+			});//end toArray
+	});// end fs.read			
+};
 
 var 
 	modules = {},
-	tag_file_count = 0;
-	tag_level1_arr = [];
-	tag_level2_arr = [];
+	tag_file_count = 0,
+	tag_level1_arr = [],
+	tag_level2_arr = [],
+	t_ignored = [
+		'Bevölkerungsgeographie / Sozialgeographie',
+		'Skala / Skalenebenen: Biozönose - Ökosystem',
+		'Teambildung / Teambuilding / Teamfindung',
+		'Versuchsplanung',
+		'Wasserhaushalt (terrestrische Standorte)','deskriptive Statistik'
+		],
+	t_replace = []	
+	;
 
 function importTagFile( req, res ){ 
 	
 	fs.readFile( req.file , function read(err, data) { // test: data2.csv
 		if(err){
 			console.log(err);
-		} 
+		}	
 		csv().from.string(data, {comment: '#'} )
 			.to.array( function(csv){
 				//console.log( csv[0][2] );
 				// 
-				tag_file_count++;
+				tag_file_count++; 
 				for(var i = 1; i < csv.length; i++){ // ignore first row
 					for(var j = 1; j < csv[i].length; j++){ // ignore first column (== tags on level 1)
 						if( csv[i][j] === '1' ){ 	
@@ -139,21 +171,39 @@ function importTagFile( req, res ){
 							}
 							// collect all tags for consitency checks
 							tag_level1_arr.push( csv[i][0] );
-							tag_level2_arr.push( csv[i][1] );
+							
 							if( csv[i][0] === ''){
 								console.log( req.file )
 							}
-							//
-							modules[ csv[0][j] ].push( csv[i][1] );
-						}
-					}
-				}
-				//console.log(modules);
-				if(tag_file_count === 11 ){ // 11 file sin total
+							
+							// tags to be ignored
+							if( t_ignored.indexOf( csv[i][1] ) === -1 ){ //console.log(csv[i][1])
+								// append tag to module
+								if( Object.keys(t_replace).indexOf( csv[i][1] ) !== -1 ){
+									for(var k = 0; k < t_replace[ csv[i][1] ].length; k++){
+										modules[ csv[0][j] ].push( t_replace[ csv[i][1] ][ k ] );
+										//console.log('+ added tag: ' + t_replace[ csv[i][1] ][ k ] )
+										tag_level2_arr.push( csv[i][1] );
+									}
+								}else{
+									modules[ csv[0][j] ].push( csv[i][1] );
+									tag_level2_arr.push( csv[i][1] );
+									//console.log('+ added tag: '+  csv[i][1] )
+								}
+							}// end if	
+							else{
+								//console.log('- deleted tag: '+  csv[i][1] )
+							}
+						}// end if
+					}// end for
+				}// end for
+				//console.log(Object.keys(modules));
+				if(tag_file_count === 11 ){ // 11 files in total
 					res( { tags: modules }, {} );
 				}
-			});
-	});
+			
+		});// end toArray
+	});// end read
 }
 
 
@@ -161,8 +211,9 @@ function importTagFile( req, res ){
 
 
 /*
-Import meta data from single csv
-**/
+ * Import meta data from single csv
+ * status: finished
+ **/
 exports.importMetadata = function ( req, res ){
 	// print the previously collected tags per module:
 	//console.log( req.tags ); 
@@ -264,8 +315,8 @@ exports.importMetadata = function ( req, res ){
 							obj.updated_at = Date.now();
 							
 							// add tags
-							if( req.tags[ obj.modulnr1 ] === undefined ){
-								//console.log('module not found to add tags '+obj.modulnr1);
+							if( Object.keys(req.tags).indexOf( obj.modulnr1 ) === -1 ){
+								console.log('- no tags found for module: '+obj.modulnr1);
 							}else{
 								obj.tags = req.tags[ obj.modulnr1 ];
 							}
@@ -308,6 +359,10 @@ function validate(obj, entry, val, type, not_null){
 /***********************************************************/
 /* ANALYSIS */
 
+
+/*
+ * 
+ **/
 exports.getTagVectors = function( req, res ){
 	var 
 		tagnames = require(__dirname+'/../data/analysis/module-tag-names.json'),
@@ -356,7 +411,7 @@ exports.getJSON = function(req, res) {
 
 
 /*
- *CSV Export
+ * CSV Export
  **/
 expressCSV = require('express-csv')
 exports.getCSV = function(req, res) {
@@ -385,10 +440,55 @@ exports.getJSONbyTag = function ( req, res ){
 };
 
 
+
+
+
 /*
  * Frequency of tags. In how many jj 
  */
-exports.getSimilarJSON = function ( req, res ){
+exports.getSimilarModulesJSON = function(req, res) {
+	var
+		overlap = []
+		;
+	Modules.find()
+		.select('modultitel modulnr1 tags _id')
+		.lean()
+		.exec(function (err, modules) {	
+			Modules
+			.findById( req.params.id )
+			.sort( 'name' )
+			.select('tags')
+			.exec( function ( err, tags ){
+				tags = tags.tags; 
+			console.log(req.params.id)
+				for(var i = 0; i < modules.length; i++){
+					if(modules[i]._id !== req.params.id){			
+						var intersection = tags.filter(function(n) {
+								return modules[i].tags.indexOf(n) != -1
+						});
+						if( intersection.length > 0 ){
+							overlap.push({_id: modules[i]._id, title: modules[i].modultitel, similarity: intersection.length}); 
+						}
+					}	
+				}// end for	
+				
+				// sort
+				overlap.sort(function(a, b){
+				 return b.similarity - a.similarity
+				})
+			
+				
+				res.jsonp(overlap);
+			
+			});		
+	});
+}
+
+
+
+
+
+exports.getSimilarJSONxxx = function ( req, res ){
   Modules
 		.aggregate([
 					{
@@ -420,7 +520,7 @@ exports.getSimilarJSON = function ( req, res ){
 
 /*
  * Render list of all Modules
- */
+ **/
 exports.index = function ( req, res ){
   Modules
 		.find()
@@ -436,7 +536,7 @@ exports.index = function ( req, res ){
 
 /*
  * Render list of Modules that have a certain tag
- */
+ **/
 exports.modulesWithTag = function ( req, res ){
   Modules
 		.find( { tags : req.params.id.replace('_',' ') })
@@ -453,7 +553,7 @@ exports.modulesWithTag = function ( req, res ){
 
 /*
  * Renders single Modules
- */
+ **/
 exports.viewSingle = function ( req, res ){
   Modules
 		.findById( req.params.id )
@@ -466,13 +566,9 @@ exports.viewSingle = function ( req, res ){
 };
 
 
-
-/********************************************************/
-/* Create, Update, Destroy */
-
 /*
  * Store a new Module
- */
+ **/
 exports.create = function ( req, res ){
   new Modules({
     name : req.body.name,
@@ -494,7 +590,7 @@ exports.create = function ( req, res ){
 
 /*
  * Renders form to enter a new Module
- */
+ **/
 exports.new_one = function ( req, res ){
   Modules
 		.find()
@@ -510,7 +606,7 @@ exports.new_one = function ( req, res ){
 
 /*
  * Destroys a Module
- */
+ **/
 exports.destroy = function ( req, res ){
   Modules.findById( req.params.id, function ( err, todo ){
     todo.remove( function ( err, todo ){
@@ -522,7 +618,7 @@ exports.destroy = function ( req, res ){
 
 /*
  * Renders form to edit Module
- */
+ **/
 exports.edit = function ( req, res ){
   Modules.findOne({_id: String(req.params.id)}, function ( err, item ){
   	if(err){
@@ -538,23 +634,12 @@ exports.edit = function ( req, res ){
 
 /*
  * Updates data of an existing Module
- */
+ **/
 exports.update = function ( req, res ){
-  Modules.findById( req.params.id, function ( err, portal ){
-  name : req.body.name,
-    portal.name    = req.body.name;
-    portal.description = req.body.description;
-    portal.provider = req.body.provider;
-		portal.url = req.body.url;
-		portal.accessible = req.body.accessible;
-		portal.availability = req.body.availability;
-    portal.tags = String(req.body.tags).split(','); 
-    portal.patterns = String(req.body.patterns).split(',');
-    portal.updated_at = Date.now();
-    portal.save( function ( err, ix, count ){
-    	if(err){ console.log(err); }
-    	res.redirect( '/modules' );
-    });
+  Modules.update( { '_id':req.params.id}, function ( err, portal ){
+    if(err){ console.log(err); }
+    	res.redirect( '/modules/view/'+req.params.id );
+    
   });
 };
 
@@ -566,7 +651,8 @@ exports.update = function ( req, res ){
 
 
 /*
-**/
+ *
+ **/
 exports.tagSearch = function ( req, res ){ console.log(req.params.query);
 	// prepare query
 	var query = {};
@@ -581,18 +667,20 @@ exports.tagSearch = function ( req, res ){ console.log(req.params.query);
 };
 
 
-exports.makeIndex = function( req, res){
-	
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var searchable = require('mongoose-searchable');
-
+/*
+ * 
+ **/
+exports.makeIndex = function( req, res){	
+	var mongoose = require('mongoose');
+	var Schema = mongoose.Schema;
+	var searchable = require('mongoose-searchable');
 }
+
 
 /*
  *
- */
- exports.searchQuery = function( req, res ){ 
+ **/
+exports.searchQuery = function( req, res ){ 
  console.log( JSON.stringify(req.body.data));
 	Modules
 	 .find( { $and : req.body.data } )
@@ -608,7 +696,8 @@ var searchable = require('mongoose-searchable');
 
 
 /*
-**/
+ * 
+ **/
 exports.fulltextSearch = function ( req, res ){ 
 	var query = decodeURI( req.params.query ).split(' ');
 	console.log(query);
@@ -626,7 +715,8 @@ exports.fulltextSearch = function ( req, res ){
 
 
 /*
-**/
+ * 
+ **/
 exports.tagSearch = function ( req, res ){ 
 	//console.log( decodeURI( req.params.query ) );
 	var query = decodeURI( req.params.query ).split(',');
