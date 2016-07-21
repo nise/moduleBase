@@ -5,9 +5,17 @@
 	<div class="container">
   	<h2>
   		<%= items.modultitel %>
-  		<%%>
-  		<a href="/modules/edit/<%= items._id %>"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+  		<% if( user !== 'null'){ %>
+  		<a href="/modules/edit/<%= items._id %>">
+  		<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+  		<% } %>
   	</h2>
+  	 <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#context" aria-controls="context" role="tab" data-toggle="tab">Einordnung</a></li>
+    <li role="presentation"><a href="#umfang" aria-controls="umfang" role="tab" data-toggle="tab">Umfang</a></li>
+    <li role="presentation"><a href="#verantwortlichkeiten" aria-controls="verantwortlichkeiten" role="tab" data-toggle="tab">Verantwortlichkeiten</a></li>   
+  </ul>
   </div>
 </div>
 <div class="container">
@@ -15,16 +23,11 @@
 <div class="col-md-8">
 
 <div>
-  <!-- Nav tabs -->
-  <ul class="nav nav-tabs" role="tablist">
-    <li role="presentation" class="active"><a href="#context" aria-controls="context" role="tab" data-toggle="tab">Einordnung</a></li>
-    <li role="presentation"><a href="#umfang" aria-controls="umfang" role="tab" data-toggle="tab">Umfang</a></li>
-    <li role="presentation"><a href="#verantwortlichkeiten" aria-controls="verantwortlichkeiten" role="tab" data-toggle="tab">Verantwortlichkeiten</a></li>   
-  </ul>
+ 
 
   <!-- Tab panes -->
   <div class="tab-content">
-    <div role="tabpanel" class="tab-pane active" id="context"><br>
+    <div role="tabpanel" class="tab-pane active" id="context">
 			<label>Modulnummer(n):</label> <%= items.modulnr1%>
 			<% if(items.modulnr2 !== undefined){ %>, <%= items.modulnr2 %><% } %>
 			<br>
@@ -54,7 +57,8 @@
 			<% } %>			
 			<br>
     </div>
-    <div role="tabpanel" class="tab-pane" id="umfang"><br>
+    <!--    -->
+    <div role="tabpanel" class="tab-pane" id="umfang">
 			<label>Semsterwochenstunden:</label> <%= items.sws_total %> SWS, davon
 			<ul>
 			<% if( items.sws.vorlesung !== undefined){ %><li>Vorlesung: <%= items.sws.vorlesung %> SWS</li><% } %>
@@ -106,8 +110,8 @@
 			</ul>  
 		</div>
 		
-
-    <div role="tabpanel" class="tab-pane" id="verantwortlichkeiten"><br>
+		<!--    -->
+    <div role="tabpanel" class="tab-pane" id="verantwortlichkeiten">
 			<label>Modulverantwortlicher:</label> <%= items.modulverantwortlicher %>
 			<br>
 			<% if( items.lecturers !== undefined){ %>
@@ -127,8 +131,10 @@
 				<br>
 			<% } %>
 
-			<% if( items.remarks_internal !== undefined){ %>
-				<label>Interne Bemerkingen:</label><br><%= items.remarks_internal %>
+			<% if( user !== 'null'){ %>
+				<% if( items.remarks_internal !== undefined){ %>
+					<label>Interne Bemerkingen:</label><br><%= items.remarks_internal %>
+				<% } %>
 			<% } %>    
     </div>
     
@@ -148,7 +154,6 @@
 	<br>
 	<label><span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span> Ähnliche Module:</label><br>
 	<ul id="relatedmodules"></ul>
-	<br>
 	<label><span class="glyphicon glyphicon-time" aria-hidden="true"></span> Erstellt:</label> <span class="">11/2014 - 11.2015</span><br>
 	<label><span class="glyphicon glyphicon-time" aria-hidden="true"></span> Aktualisiert:</label> <span class="date"><%- items.updated_at %></span><br>
 	<label><span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span> Quelle:</label> <a href="/static/files/<%= items.university%>_<%=: items.modulnr1 | replace:' ','_' %>.pdf">Modulbeschreibung</a><br>

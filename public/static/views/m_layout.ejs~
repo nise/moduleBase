@@ -24,11 +24,17 @@ margin-top:20px;
 
 .navbar-nav.main > li > a {
 	font-weight:bold;
-	font-size:14pt;
 }
 
 .navbar-nav > li > a {
 	font-size:14pt;
+}
+
+
+.jumbotron {
+    background-color: #fff;
+    padding-top: 100px;
+    padding-bottom:0;
 }
 
 .mbase-search-container {
@@ -51,6 +57,30 @@ margin-top:20px;
 .tags a:hover{
 	background-color: #87d0e8;
 	color: #003366;
+}
+
+.control-label{
+	padding-top:20px;
+	padding-bottom:0px;
+	margin-bottom:0;
+	font-size:12pt;
+}
+
+label.radio, label.checkbox{
+	margin-top:2px;
+}
+
+label.radio span, label.checkbox span{
+	font-weight:normal;
+	padding-left:6px;
+}
+
+.controls{
+	padding-left:20px;
+}
+
+.help-inline{
+	display:block;
 }
 
 </style>
@@ -100,88 +130,6 @@ $.i18n.init({
 }); 
 
 
-/*******************/
-/* INDEXDB
-
-
-	// indexdb via db.js
-	var playlist = [];
-	var server = 0;
-	db.open( {
-		  server: 'video-patterns',
-		  version: 1,
-		  schema: {
-		      pattern: {
-		          key: { keyPath: 'id' , autoIncrement: true },
-		          // Optionally add indexes
-		          indexes: {
-		              name: { unique: true },
-		              answer: { unique: true }
-		          }
-		      }
-		  }
-	} ).then( function ( s ) {
-		  server = s;    
-	} );
-
-
-
-//Add pattern to index db
-
-function addToFav(pattern){
-	server.pattern.add( {  name: pattern } ).then( function ( item ) {
-		// add to  
-		//playlist.push( item.replace(/\ /g,'-').toLowerCase() );  
-	} );
-}
-
-
-//Remove pattern from index db
-
-function removeFav(key){
-	server.pattern.remove( 1 ).done( function ( key ) {
-      alert('removed '+key)
-  } );
-}
-
-
-function clear(){ 
-	server.pattern.clear().execute()
-    .then(function() { 
-			alert('cleared index db')
-    });
-}    
-
-
-
-
-//Fetch all patterns from index db
-status: ok
-
-function fetchAll(){ 
-	server.pattern.query().all()
-      .execute()
-      .then( function ( results ) { 
-      	var playlst = {}, playlist = [];
-      	for(var i=0; i < results.length; i++){
-      		playlst[ results[i].name.replace(/\ /g, '-').toLowerCase() ] = results[i].name.replace(/\ /g, '-').toLowerCase();
-      	}
-      	for(var el in playlst){
-      		if(playlst.hasOwnProperty(el)){
-      			playlist.push( el );	
-      		}
-      	}
-      	
-      	alert(JSON.stringify(playlst));
-      	$('.portfolio-item').each(function(i,val){ //alert( $(val).attr('id') )
-      		if( playlist.indexOf( $(val).attr('id') ) == -1 ){
-      			$(val).hide();
-      		}
-      	});
-        
-      });
-}
-*/
 
 /*
 The following line need to be changed regarding the underlaying server
@@ -189,41 +137,6 @@ The following line need to be changed regarding the underlaying server
 var server = '';
 
 
-
-
-/*
-// guided tour
-function startIntro(){
-        var intro = introJs();
-          intro.setOptions({
-            steps: [
-              {intro: "Herzlich willkommen zur Tour"},
-              {
-                element: document.querySelector('h1')[0],
-                intro: "Willkommen bei der E-Tutoren Qualifizierung!"
-              },
-              {
-                element: document.querySelectorAll('.user-menu')[0],
-                intro: "Dies hier ist Ihr Icon. Durch einen Klick können Sie ihr Profil einsehen oder sich ausloggen.",
-                position: 'left'
-              },
-              {
-                element: document.querySelectorAll('.scene-view')[0],
-                intro: "Hier gehts zum ersten Video der E-Tutoren Qualifizierung",
-                position: 'top'
-              }
-            ]
-          }).setOption('doneLabel', 'Nächste Seite').oncomplete(function() {
-          	window.location.href = '/videos/view/52a13d2e2aa9d35f24000074';
-        	});
-
-          intro.start();
-      } 
-      	//introJs().setOption('doneLabel', 'Next page').start().oncomplete(function() {
-          //window.location.href = 'second.html?multipage=true';
-        //});
-   //};
-*/
 </script> 	
 
 </head>
@@ -253,19 +166,6 @@ function startIntro(){
 				    <li>
 				    <a href="/modules/search">Suche<span class="sr-only"></span></a>
 				    </li>
-				    
-				    <!--
-				    <li class="dropdown">
-				      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Get involved<span class="caret"></span></a>
-				      <ul hidden class="dropdown-menu" role="menu">
-								
-				        <li class="divider"></li>
-				        <li><a href="/proto-patterns/list">Pattern Proposals</a></li>
-				        <li class="divider"></li>
-				        <li><a href="/vi-two">Apply Patterns</a></li>
-				       <li><a href="/api">Data API</a></li>
-				      </ul>
-				    </li>-->
 				  </ul>
 				  <form hidden class="navbar-form navbar-left" role="search">
 				    <div class="form-group">
@@ -276,18 +176,13 @@ function startIntro(){
 				  <ul class="nav navbar-nav navbar-right">
 				    <li><a href="/api">Daten API</a></li>
 				    <li><a href="/about">Über diese Seite</a></li>
+				    <%: if(user === 'null'){%>
+				    <li><a href="/login">Login</a></li>
+				    <%: }else{ %>
+				    <li><a href="/login"><%= user %></a></li>
+				    <%: } %>
 				    <li class="group-area"></li>
 						<li class="user-area"></li>
-				    <!--<li class="dropdown">
-				      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
-				      <ul class="dropdown-menu" role="menu">
-				        <li><a href="#">Action</a></li>
-				        <li><a href="#">Another action</a></li>
-				        <li><a href="#">Something else here</a></li>
-				        <li class="divider"></li>
-				        <li><a href="#">Separated link</a></li>
-				      </ul>
-				    </li>-->
 				  </ul>
 				</div><!-- /.navbar-collapse -->
 			</div><!-- /.container-fluid -->

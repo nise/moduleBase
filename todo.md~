@@ -1,10 +1,9 @@
 
 # todo
 
-- edit form
+- sws-form
 - new mod form
 - user mgmt
-- Feedback/Kommentar ... 
 
 # Kleinkram
 
@@ -25,6 +24,7 @@
 - fuzzy search
 - visual analytics
 - pdfs im browser: https://github.com/mozilla/pdf.js
+- Feedback/Kommentar ... 
 
 
 

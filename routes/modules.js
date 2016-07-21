@@ -559,7 +559,8 @@ exports.viewSingle = function ( req, res ){
 		.sort( 'name' )
 		.exec( function ( err, module ){ 
 			res.render( 'm_modules_single', {
-			  items : module
+			  items : module,
+			  user: req.user !== undefined ? req.user : 'null'
 			});
 		});
 };

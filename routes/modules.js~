@@ -460,9 +460,8 @@ exports.getSimilarModulesJSON = function(req, res) {
 			.select('tags')
 			.exec( function ( err, tags ){
 				tags = tags.tags; 
-			console.log(req.params.id)
 				for(var i = 0; i < modules.length; i++){
-					if(modules[i]._id !== req.params.id){			
+					if(String(modules[i]._id) !== String(req.params.id)){			
 						var intersection = tags.filter(function(n) {
 								return modules[i].tags.indexOf(n) != -1
 						});
@@ -560,7 +559,8 @@ exports.viewSingle = function ( req, res ){
 		.sort( 'name' )
 		.exec( function ( err, module ){ 
 			res.render( 'm_modules_single', {
-			  items : module
+			  items : module,
+			  user: req.user !== undefined ? req.user : ''
 			});
 		});
 };

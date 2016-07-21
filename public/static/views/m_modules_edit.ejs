@@ -3,13 +3,15 @@
 
 <div class="jumbotron">
 	<div class="container">
-  <h2>Module: <%= item.modultitel %> (<%= item.modulnr1 %>)</h2>
+  <h2>Bearbeite Modul: <%= item.modultitel %> (<%= item.modulnr1 %>)</h2>
   </div>
 </div>
 
 <div class="container">
+	<div class="col-md-8">
     <form class="modules-edit" action="/modules/save" method="post"></form>
     <div id="res" class="alert"></div>
+   </div> 
 </div>
    
     <script src='/static/js/jquery.min.js' type='text/javascript'></script>
@@ -22,24 +24,403 @@
     <script type="text/javascript">
       $('form.modules-edit').jsonForm({
         schema: {
-          modultitel: {
+          "modultitel": {
             type: 'string',
             title: 'Modultitel',
             default: '<%= item.modultitel %>',
             required: true
           },
-          university: {
+           "modulnr1": {
+            type: 'string',
+            title: 'Modulnummer (1)',
+            default: '<%= item.modulnr1 %>',
+            required: true
+          },
+           "modulnr2": {
+            type: 'string',
+            title: 'Modulnummer (2)',
+            default: '<%: if(item.modulnr2 !== undefined){ %><%= item.modulnr2 %><%: }%>',
+            allowEmpty: true,
+            required: false
+          },
+           "courses": {
+            type: 'string',
+            title: 'Studiengänge',
+            default: '<%= item.courses %>',
+            description: "Bei Angabe mehrerer Studiengänge sollten diese durch ein Komma voneinander getrennt werden",
+            required: true,
+            minLength: 4
+          },
+          "university": {
             type: 'number',
             title: 'Hochschule',
-            default:  '<%= item.university %>'
-          },
-          sws: {
-            type: 'select',
-            title: 'SWS',
-            default: '<%= item.sws %>',
+            default:  '<%= item.university %>',
+            "enum": [
+							"TUD",
+							"HSZG",
+							"TUD/IHI"
+						],
             required: true
+          },
+          "type": {
+						"title": "Typ",
+						//"description": "Your gender",
+						"type": "string",
+						default: '<%= item.type %>',
+						"enum": [
+							"Bachelor",
+							"Master",
+							"Diplom",
+							"Diplom/Bachelor"
+						],
+						required: true
+					},	
+					"language": {
+						"title": "Sprache",
+						//"description": "Your gender",
+						"type": "string",
+						default: '<%= item.language %>',
+						"enum": [
+							"Deutsch",
+							"Englisch",
+							"Deutsch/Englisch"
+						],
+						required: true
+					},	
+          "summer_winter": {
+						"title": "WS/SS",
+						default: '<%= item.summer_winter %>',
+						"type": "string",
+						"enum": [
+							"Sommersemester",
+							"Wintersemester"
+						],
+						required: true
+					}, 
+					/**************************/
+					"sws_total": {
+            type: 'number',
+            title: 'Semesterwochenstunden',
+            default: '<%: if(item.sws_total !== undefined){ %><%= item.sws_total %><%: }%>',
+            required: true
+          },
+          "sws": {
+						"type": "fieldset",
+						"title": "Aufteilung der Semesterwochenstunden",
+						"items": [
+							{
+								"type": "number",
+								"title": "Vorlesung",
+								"key":"vorlesung"
+						  },
+						  {
+								"type": "number",
+								"title": "Vorlesung",
+								"key":"seminar"
+						  },
+						  {
+								"type": "number",
+								"title": "Vorlesung",
+								"key":"ringvorlesung"
+						  },
+						  {
+								"type": "number",
+								"title": "Vorlesung",
+								"key":"ubung"
+						  },
+						  {
+								"type": "number",
+								"title": "Vorlesung",
+								"key":"tutorium"
+						  },
+						  {
+								"type": "number",
+								"title": "Vorlesung",
+								"key":"praktikum"
+						  },
+						  {
+								"type": "number",
+								"title": "Vorlesung",
+								"key":"exkursion"
+						  },
+						  {
+								"type": "number",
+								"title": "Vorlesung",
+								"key":"projekt"
+						  },
+						  {
+								"type": "number",
+								"title": "Vorlesung",
+								"key":"berufspraktikum"
+						  },
+						  {
+								"type": "number",
+								"title": "Vorlesung",
+								"key":"sprachkurs"
+						  },
+						  {
+								"type": "number",
+								"title": "Vorlesung",
+								"key":"elearning"
+						  },
+						  {
+								"type": "number",
+								"title": "Vorlesung",
+								"key":"ubung_seminar"
+						  }
+						  ]
+						}
+					},
+          "workload": {
+            type: 'number',
+            title: 'Workload (h)',
+            default: '<%: if(item.workload !== undefined){ %><%= item.workload %><%: }%>',
+            required: true
+          },
+          "workload_self": {
+            type: 'number',
+            title: 'Workload im Selbststudium',
+            default: '<%: if(item.workload_self !== undefined){ %><%= item.workload_self %><%: }%>',
+            required: true
+          },
+          "ects": {
+            type: 'number',
+            title: 'ECTS',
+            default: '<%: if(item.ects !== undefined){ %><%= item.ects %><%: }%>',
+            required: true
+          },
+          "pvl": {
+						"type": "array",
+						"title": "Prüfungsvorleistungen",
+						"items": {
+						  "type": "number",
+						  "title": "Option",
+						  "enum": [
+						  	"referat",
+						    "labor",
+						    "beleg",
+						    "testat",
+						    "protokoll",
+						    "moderation"
+						  ]
+						}
+					},
+					"pl": {
+						"type": "array",
+						"title": "Prüfungsleistungen",
+						"items": {
+						  "type": "number",
+						  "title": "Option",
+						  "enum": [
+						  	"klausur",
+						    "mdlpruefung",
+						    "referat",
+						    "praesentation",
+						    "belegarbeit",
+						    "seminararbeit",
+						    "projektarbeit",
+						    "praktikumsprotokoll",
+						    "praktikumsbericht",
+						    "exkursionsbericht",
+						    "laborarbeit",
+						    "forschungsplan",
+						    "elearningtest"
+						  ]
+						}
+					},
+					/***************************/
+					"struktureinheit": {
+            type: 'string',
+            title: 'Struktureinheit der Hochschule',
+            default: '<%: if(item.struktureinheit !== undefined){ %><%= item.struktureinheit %><%: }%>',
+            allowEmpty: true,
+            required: false
+          },
+					"modulverantwortlicher": {
+            type: 'string',
+            title: 'Modulverantwortliche',
+            default: '<%: if(item.modulverantwortlicher !== undefined){ %><%= item.modulverantwortlicher %><%: }%>',
+            allowEmpty: true,
+            required: false
+          },
+          "email": {
+            type: 'email',
+            title: 'E-Mail',
+            default: '<%: if(item.email !== undefined){ %><%= item.email %><%: }%>',
+            allowEmpty: true,
+            required: false
+          },
+          "lecturers": {
+            type: 'string',
+            title: 'Weitere Dozenten',
+            default: '<%: if(item.lecturers !== undefined){ %><%= item.lecturers %><%: }%>',
+            allowEmpty: true,
+            required: false
+          },
+          "remarks_general": {
+            type: 'textarea',
+            title: 'Allgemeine Bemerkungen',
+            default: '<%: if(item.remarks_general !== undefined){ %><%= item.remarks_general %><%: }%>',
+            description: "(öffentlich sichtbar)",
+            allowEmpty: true,
+            required: false
+          },
+          "remarks_internal": {
+            type: 'textarea',
+            title: 'Interne Bemerkungen',
+            default: '<%: if(item.remarks_internal !== undefined){ %><%= item.remarks_internal %><%: }%>',
+            allowEmpty: true,
+            required: false
           }
+			
+		
+					/***************************/
         },
+        //
+        "form": [
+        	{
+						"key": "modultitel",
+						"type": "text"
+					},
+        	{
+						"key": "modulnr1",
+						"type": "text"
+					},
+        	{
+						"key": "modulnr2",
+						"type": "text"
+					},
+        	{
+						"key": "courses",
+						"type": "text"
+					},
+        	{
+						"key": "university",
+						"type": "radios",
+						"titleMap": {
+						  "TUD": "TU Dresden",
+						  "TUD/IHI": "TU Dresden / Internationales Hochschulinstitut",
+						  "HSZG": "Hochschule Zittau/Görlitz"
+						}
+					},
+        	{
+						"key": "type",
+						"type": "radios",
+						"titleMap": {
+						  "Bachelor": "Bachelor",
+						  "Bachelor/Diplom": "Bachelor/Diplom",
+						  "Master": "Master",
+						  "Diplom":"Diplom"
+						}
+					},
+        	{
+						"key": "language",
+						"type": "radios"
+					},
+        	{
+						"key": "summer_winter",
+						"type": "radios"
+					},
+        	{
+						"key": "sws_total",
+						"type": "text"
+					},
+					{
+						"key": "sws",
+						"type": "fieldset",
+						"items": {
+						  "vorlesung":"Vorlesung",
+					    "seminar":"Seminar",
+					    "ringvorlesung":"Ringvorlesung",
+					    "ubung":"Übung",
+					    "tutorium":"Tutorium",
+					    "praktikum":"Praktikum",
+					    "exkursion":"Exkursion",
+					    "projekt":"Projekt",
+					    "berufspraktikum":"Berufspraktikum",
+					    "sprachkurs":"Sprachkurs",
+					    "elearning":"E-Learning",
+					    "ubung_seminar":"Übung/Seminar"
+						}
+					},
+					{
+						"key": "workload",
+						"type": "text"
+					},
+					{
+						"key": "workload_self",
+						"type": "text"
+					},
+					{
+						"key": "ects",
+						"type": "text"
+					},
+        	{
+						"key": "pvl",
+						"type": "checkboxes",
+						"titleMap": {
+						  "referat":"Referat",
+					    "labor":"Labor",
+					    "beleg":"Beleg",
+					    "testat":"Testtat",
+					    "protokoll":"Protokoll",
+					    "moderation":"Moderation"
+						}
+					},
+					{
+						"key": "pl",
+						"type": "checkboxes",
+						"titleMap": {
+						  	"klausur":"Klausur",
+						    "mdlpruefung":"Mündliche Prüfung",
+						    "referat":"Referat",
+						    "praesentation":"Präsentation",
+						    "belegarbeit":"Belegarbeit",
+						    "seminararbeit":"Seminararbeit",
+						    "projektarbeit":"Projektarbeit",
+						    "praktikumsprotokoll":"Praktikumsprotokoll",
+						    "praktikumsbericht":"Praktikumsbericht",
+						    "exkursionsbericht":"Exkursionsbericht",
+						    "laborarbeit":"Laborarbeit",
+						    "forschungsplan":"Forschungsplan",
+						    "elearningtest":"E-Learning Test"
+						}
+					},
+					{
+						"key": "struktureinheit",
+						"type": "text"
+					},
+						{
+						"key": "modulverantwortlicher",
+						"type": "text"
+					},
+					{
+						"key": "email",
+						"type": "text"
+					},
+					{
+						"key": "lecturers",
+						"type": "text"
+					},	
+					{
+						"key": "remarks_general",
+						"type": "textarea"
+					},	
+					{
+						"key": "remarks_internal",
+						"type": "textarea"
+					},
+					///
+					{
+						"type": "submit",
+						"title": "Speichern"
+					},
+					{
+		        "type": "button",
+		        "title": "Abbrechen"
+		      }   	
+				],
+        //
         onSubmit: function (errors, values) {
           if (errors) {
             $('#res').html('<p>I beg your pardon?</p>');

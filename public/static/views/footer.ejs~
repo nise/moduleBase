@@ -1,23 +1,17 @@
 
-<script>
-  $(function() {
-    //$( "#tabs" ).tabs();
-  });
- </script>
-
 <div class="footer">
 	<div class="container">
 		<div class="logos">
-			<img src="/static/img/logos/logo_tud.gif" />
-			<img src="/static/img/logos/logo_hszg.png" />
-			<img src="/static/img/logos/logo_senkenberg.gif" />
-			<img src="/static/img/logos/logo_ioer.gif" />
-			<img src="/static/img/logos/logo_izs.png" />
+			<a href="http://www.tu-dresden.de/"><img src="/static/img/logos/logo_tud.gif" /></a>
+			<a href="http://www.hszg.de/"><img src="/static/img/logos/logo_hszg.png" /></a>
+			<a href="http://www.senckenberg.de/root/index.php?page_id=5254&preview=true"><img src="/static/img/logos/logo_senkenberg.gif" /></a>
+			<a href="https://www.ioer.de/"><img src="/static/img/logos/logo_ioer.gif" /></a>
+			<a href="https://izs-goerlitz.ioer.de/zentrum/"><img src="/static/img/logos/logo_izs.png" /></a>
 		</div>
 	</div>	
 	<div class="container mark">
 
-[Impressum](/impressum) | [Admin](/admin) | powered by [nise81](http://www.nise81.com/) 
+[Impressum](/impressum) | powered by [nise81](http://www.nise81.com/) 
 	</div>
  
 </div>
