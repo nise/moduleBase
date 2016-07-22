@@ -3,7 +3,7 @@
 
 - sws-form
 - new mod form
-- user mgmt
+
 
 # Kleinkram
 
@@ -12,7 +12,7 @@
 - suche nach allen modulnummern
 
 # minor bugs
-- @modul index: $('.bootstrap-table > input.form-control').attr('placeholder','Suchen');
+- @modul index: transalte "search" into "Suchen" => $('.bootstrap-table > input.form-control').attr('placeholder','Suchen');
 
 
 # Immer noch offen

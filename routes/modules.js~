@@ -520,14 +520,15 @@ exports.getSimilarJSONxxx = function ( req, res ){
 /*
  * Render list of all Modules
  **/
-exports.index = function ( req, res ){
+exports.index = function ( req, res ){ 
   Modules
 		.find()
 		.sort( 'modultitel' )
 		.exec( function ( err, docs ){ 
 			res.render( 'm_modules_index', {
 			  title : 'Modules',
-			  items : docs
+			  items : docs,
+			  user: req.user !== undefined ? req.user : 'null'
 			});
 		});
 };
@@ -544,7 +545,8 @@ exports.modulesWithTag = function ( req, res ){
 		.exec( function ( err, docs ){ 
 			res.render( 'm_modules_index', {
 			 	title : 'Module mit dem Schlüsselwort '+req.params.id.replace('_',' '),
-			  items : docs
+			  items : docs,
+			  user: req.user !== undefined ? req.user : 'null'
 			});
 		});
 };
@@ -560,7 +562,7 @@ exports.viewSingle = function ( req, res ){
 		.exec( function ( err, module ){ 
 			res.render( 'm_modules_single', {
 			  items : module,
-			  user: req.user !== undefined ? req.user : ''
+			  user: req.user !== undefined ? req.user : 'null'
 			});
 		});
 };
@@ -598,7 +600,7 @@ exports.new_one = function ( req, res ){
 		.exec( function ( err, todos ){ 
 			res.render( 'modules-new', {
 			  title : 'Express Modules Example',
-			  todos : todos
+			  user: req.user !== undefined ? req.user : 'null'
 			});
 		});
 };
@@ -626,7 +628,8 @@ exports.edit = function ( req, res ){
   	} console.log(req.params.id)
     res.render( 'm_modules_edit', {
         item   : item,
-        current : req.params.id
+        current : req.params.id,
+			  user: req.user !== undefined ? req.user : 'null'
     });
   });
 };

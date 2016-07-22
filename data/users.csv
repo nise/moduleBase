@@ -1,3 +1,3 @@
-"vorname","name","pass","HS","Einwilligung","Altgruppe","Gruppe-P1","Gruppe-P2","Gruppe-P3","Gruppe-P4","Gruppe-5","mail","role","user","course","nationality","null","xmail"
-"Joe","Birthday","birthday","Z",1,0,1000,1000,1000,1000,1000,"joe@example.com","editor","joe",,,,
-"Robert","Bob","secret","Z",1,0,1000,1000,1000,1000,1000,"bob@example.com","student","bob",,,,
+"vorname","name","user","pass","HS","mail","role"
+"Johannes","Birthday","joe","birthday","Z","joe@example.com","editor"
+"Roberto","Bob","bob","secret","Z","bob@example.com","student"

@@ -131,7 +131,7 @@
 				<br>
 			<% } %>
 
-			<% if( user !== 'null'){ %>
+			<% if( user !== 'user'){ %>
 				<% if( items.remarks_internal !== undefined){ %>
 					<label>Interne Bemerkingen:</label><br><%= items.remarks_internal %>
 				<% } %>

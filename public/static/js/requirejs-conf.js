@@ -1,4 +1,4 @@
 require.config({
-  baseUrl: "/vi-lab/js/", // 
+  baseUrl: "/static/js/", // 
   waitSeconds: 10
 });

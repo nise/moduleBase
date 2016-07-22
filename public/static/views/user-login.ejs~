@@ -1,24 +1,31 @@
 <% layout('m_layout') -%>
 
-<h2>Login<!-- oder <a href="/users/register">neu registrieren</a>--></h2>
+<div class="jumbotron">
+	<div class="container">
+		<h2>Login<!-- oder <a href="/users/register">neu registrieren</a>--></h2>
+	</div>
+</div>
 
-<% if (message) { %>
-<p><%= message %></p>
-<% } %>
 
-  <p>
-    <div class="edit-form">
+
+<div class="container">
+<% if (message.length > 0) { %>
+	<p class="warning"><%= message %></p>
+	<% } %>
+    <div class="edit-form" style="width:420px;">
 			<form action="/login" method="post">
-				<label>Benutzername/E-Mail:</label>
+				<p style="float:right;">
+				<label>Benutzername:</label>
 				<input type="text" name="username" value="<% if (username) { %><%= username %><% } %>"/><br/>
-				<br>
+				</p>
+				<p style="float:right;">
 				<label>Passwort:</label>
 				<input type="password" name="password" value="<% if (password) { %><%= password %><% } %>"/>
-				<br>
-				<div class="buttons full">
-        	<button style="width:510px;float:right;" class="edit-btn" type="submit">login</button><!--<a href="/videos/">cancel</a>-->
+				</p>
+				<div class="buttons full"  style="float:right;">
+        	<button style="width:310px;" class="edit-btn" type="submit">login</button><!--<a href="/videos/">cancel</a>-->
         </div>
 			</form>
 		</div>
-	</p>	
+</div>
 

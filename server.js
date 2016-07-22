@@ -15,14 +15,15 @@ var
 	path = require('path'),
 	flash = require('connect-flash'),
 	server = require('http').createServer(app),
-	fs = require('node-fs')
+	fs = require('node-fs'),
+	m = require('./routes/modules')
+	users = require('./routes/users')
 	;
 	
-	//io.set('transports', ['websocket', 'htmlfile', 'xhr-polling', 'jsonp-polling']);
 	var port = 3003;
 	server.listen(port);
-	server.setMaxListeners(0); // xxx: untested: unfinite number of listeners, default: 10;
-	// http://nodejs.org/docs/latest/api/events.html#events_emitter_setmaxlisteners_n
+	server.setMaxListeners(0); 
+
 	
 console.log('\n\n************************************************');
 console.log('Started server on port: '+ port);	
@@ -42,10 +43,10 @@ console.log('************************************************\n\n');
 	app.set('views', __dirname + '/public/static/views');
 	app.set('view engine', 'ejs');
 	app.engine('ejs', require('ejs-locals'));
-		
+	
 	var cookieParser = require('cookie-parser');
 	app.use(cookieParser());
-//	app.use(express.cookieSession({ secret: 'tobo!', maxAge: 360*5 }));
+	//	app.use(express.cookieSession({ secret: 'tobo!', maxAge: 360*5 }));
 		
 	var json = require('express-json');
 	app.use( json());
@@ -63,15 +64,14 @@ console.log('************************************************\n\n');
 	  secret: 'keyb22oar4d cat', 
 	  saveUninitialized: true,
 	  resave: true
-    }));
+   }));
 	
 	app.use(flash());
-//	app.use(users.passport.initialize());
-//	app.use(users.passport.session());
-	//app.use(app.router);
-	app.set("jsonp callback", true); // ?????
+	app.use(users.passport.initialize());
+	app.use(users.passport.session());
+	app.set("jsonp callback", true); 
 
-	
+
 
 
 /* ACL */
@@ -83,16 +83,23 @@ var conn = mongoose.connect( 'mongodb://localhost/moduleBase' , function(err, db
 		/*
 		Import data
 		**/
-		m = require('./routes/modules');
 		//m.importTags({}, m.importMetadata );
 		//m.getTagVectors(); // builts matrix of tags and module numbers
+		//users.csvImport();
 		
-		// routes
-		app.get(	'/', function ( req, res ){ res.render( 'index', { title : '' }); });
-		app.get(	'/home', function ( req, res ){ res.render( 'index', { title : '' }); });
-		app.get(	'/api', function ( req, res ){ res.render( 'api', { title : '' }); });
-		app.get(	'/about', function ( req, res ){ res.render( 'about', { title : 'About' }); });
-		app.get(	'/impressum', function ( req, res ){ res.render( 'impressum', { title : 'Impressum' }); });
+		/*
+		 * Define HTTP routes
+		 **/ 
+		app.get(	'/', function ( req, res ){ res.render( 'index', { title : '',
+			  user: req.user !== undefined ? req.user : 'null' }); });
+		app.get(	'/home', function ( req, res ){ res.render( 'index', { title : '',
+			  user: req.user !== undefined ? req.user : 'null' }); });
+		app.get(	'/api', function ( req, res ){ res.render( 'api', { title : '',
+			  user: req.user !== undefined ? req.user : 'null' }); });
+		app.get(	'/about', function ( req, res ){ res.render( 'about', { title : 'About',
+			  user: req.user !== undefined ? req.user : 'null' }); });
+		app.get(	'/impressum', function ( req, res ){ res.render( 'impressum', { title : 'Impressum',
+			  user: req.user !== undefined ? req.user : 'null' }); });
 		app.get(	'/data/json/modules', m.getJSON );
 		app.get(	'/data/json/modules/tag/:id', m.getJSONbyTag );
 		app.get(	'/json/modules/field-schema', m.getFieldSchema );
@@ -101,14 +108,37 @@ var conn = mongoose.connect( 'mongodb://localhost/moduleBase' , function(err, db
 		app.get(	'/modules/tag-schema', m.getTagSchema );
 		app.get(	'/modules/list', m.index );
 		app.get(	'/modules/view/:id', m.viewSingle );
-		app.get(	'/modules/edit/:id', m.edit );
-		app.post(	'/modules/update/:id', m.update );
+		app.get(	'/modules/edit/:id', users.ensureAuthenticated, m.edit );
+		app.post(	'/modules/update/:id', users.ensureAuthenticated, m.update );
 		app.get(	'/modules/tag/:id', m.modulesWithTag );
-		app.get(	'/modules/search', function ( req, res ){ res.render( 'm_search', { title : '' }); });
+		app.get(	'/modules/search', function ( req, res ){ res.render( 'm_search', { title : '',
+			  user: req.user !== undefined ? req.user : 'null' }); });
 		app.get(	'/modules/search/fulltext/:query', m.fulltextSearch );
 		app.get(	'/modules/search/tags/:query', m.tagSearch );
 		app.post(	'/modules/search', m.searchQuery );
 		
+		// users	
+		app.get('/admin/users', users.ensureAuthenticated,	users.renderIndex );
+		app.get('/admin/users/create', users.ensureAuthenticated, users.renderCreate );
+		app.post('/admin/users/create', users.ensureAuthenticated, users.create ); // opens input form
+		app.get('/admin/users/edit/:id', users.ensureAuthenticated, users.renderEdit );
+		app.post(	'/admin/users/update/:id', users.ensureAuthenticated, users.update );//users.updateUsers);	
+		app.get('/admin/users/destroy/:id',	users.ensureAuthenticated,	users.destroy );
+
+
+		app.get(	'/users/view/:username', users.ensureAuthenticated,	users.renderByUsername );
+		app.get(	'/users/register', users.ensureAuthenticated, users.registrationForm ); // opens input form
+		app.post(	'/users/register', users.ensureAuthenticated, users.registerUser ); // saves user
+		app.post(	'/users/create', users.ensureAuthenticated, users.create ); // saves user
+
+		app.get('/json/users', users.ensureAuthenticated, users.getJSON);
+		app.get('/json/user-data', users.ensureAuthenticated, users.getUserData );
+
+		// login
+		app.get('/logout', users.ensureAuthenticated, users.handleLogout );
+		app.get('/login',  users.openLoginPage );
+		app.post('/login', users.authenticate );
+		//app.get('/login-guest', users.authenticateGuest );
 	}	
 });
 

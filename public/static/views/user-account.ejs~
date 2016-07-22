@@ -1,4 +1,4 @@
-<% layout('layout') -%>
+<% layout('m_layout') -%>
 <p>Username: <%= user.username %></p>
 <p>Email: <%= user.email %></p>
 
