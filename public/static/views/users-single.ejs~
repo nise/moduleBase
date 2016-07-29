@@ -14,17 +14,3 @@
 </div>  
 
 
-<div class="container" style="overflow:auto;">
-	<div class="row">
-		<div class="col-sm-6 col-md-4">
-			<label>Group members</label><br/>
-			<div class="group-area2"></div>
-		</div>
-		<div class="col-sm-6 col-md-4">
-			<label>Activities:</label>
-			<div class="activity-log">(comming soon)</div>
-		</div>	
-	</div>
-</div>
-
-

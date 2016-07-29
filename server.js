@@ -109,6 +109,7 @@ var conn = mongoose.connect( 'mongodb://localhost/moduleBase' , function(err, db
 		app.get(	'/modules/list', m.index );
 		app.get(	'/modules/view/:id', m.viewSingle );
 		app.get(	'/modules/edit/:id', users.ensureAuthenticated, m.edit );
+		app.get(	'/modules/new/:id', users.ensureAuthenticated, m.newModule );
 		app.post(	'/modules/update/:id', users.ensureAuthenticated, m.update );
 		app.get(	'/modules/tag/:id', m.modulesWithTag );
 		app.get(	'/modules/search', function ( req, res ){ res.render( 'm_search', { title : '',

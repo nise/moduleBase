@@ -9,10 +9,7 @@ var
 	tag_schema = {}
 	;
 
-/***/
-exports.getTagSchema = function(req,res){
- res.jsonp( tag_schema );
-}
+
 
 
 
@@ -30,7 +27,7 @@ exports.getFieldSchema = function(req,res){
 								Modules.find().distinct('sws', function(error, sws) {
 									
 									//Modules.find().distinct('tags', function(error, tags) {
-									fs.readFile( './data/data-tag-level-relations.csv' , function read(err, data) { 
+									fs.readFile( './data/analysis/data-tag-level-relations.csv' , function read(err, data) { 
 										if(err){
 											console.log(err);
 										} 
@@ -61,7 +58,6 @@ exports.getFieldSchema = function(req,res){
 														return self.indexOf(value) === index;
 												}
 											
-											
 												res.jsonp( {
 													university: university,
 													language: language,
@@ -86,6 +82,12 @@ exports.getFieldSchema = function(req,res){
 		});
 	}); 
 }
+
+
+
+/*********************************************************************************/
+/* TAGS */
+
 
 /*
 Import tags from several csv files
@@ -152,7 +154,7 @@ var
 	;
 
 function importTagFile( req, res ){ 
-	
+	var tagRelations = '2nd-level,1st-level\n';
 	fs.readFile( req.file , function read(err, data) { // test: data2.csv
 		if(err){
 			console.log(err);
@@ -184,10 +186,12 @@ function importTagFile( req, res ){
 										modules[ csv[0][j] ].push( t_replace[ csv[i][1] ][ k ] );
 										//console.log('+ added tag: ' + t_replace[ csv[i][1] ][ k ] )
 										tag_level2_arr.push( csv[i][1] );
+										tagRelations += csv[i][1] + ',' + csv[i][0] + '\n';
 									}
 								}else{
 									modules[ csv[0][j] ].push( csv[i][1] );
 									tag_level2_arr.push( csv[i][1] );
+									tagRelations += csv[i][1] + ',' + csv[i][0] + '\n';
 									//console.log('+ added tag: '+  csv[i][1] )
 								}
 							}// end if	
@@ -199,6 +203,11 @@ function importTagFile( req, res ){
 				}// end for
 				//console.log(Object.keys(modules));
 				if(tag_file_count === 11 ){ // 11 files in total
+					tagRelations = tagRelations.split('\n')
+					var uniqueTagRelations = tagRelations.filter(function(item, pos) {
+							return tagRelations.indexOf(item) == pos;
+					});
+					write2file('data-tag-level-relations.csv', uniqueTagRelations.join('\n'));
 					res( { tags: modules }, {} );
 				}
 			
@@ -208,6 +217,85 @@ function importTagFile( req, res ){
 
 
 
+/*
+ * Get the schema of all tags. The schema has tags on two levels. Each tag on the first level is related to several tags on the second level.
+ **/
+exports.getTagSchema = function(req,res){
+ res.jsonp( tag_schema );
+}
+
+/*
+ * Render list of Modules that have a certain tag
+ **/
+exports.modulesWithTag = function ( req, res ){
+  Modules
+		.find( { tags : req.params.id.replace('_',' ') })
+//		.select( ' modultitel  ' )
+		.sort( 'modultitel' )
+		.exec( function ( err, docs ){ 
+			res.render( 'm_modules_index', {
+			 	title : 'Module mit dem Schlüsselwort '+req.params.id.replace('_',' '),
+			  items : docs,
+			  user: req.user !== undefined ? req.user : undefined
+			});
+		});
+};
+
+
+/*
+ * Return JSON of Modules that have a certain tag
+ */
+exports.getJSONbyTag = function ( req, res ){
+  Modules
+		.find( { tags : req.params.id.replace('_',' ') })
+//		.select( ' modultitel  ' )
+		.sort( 'modultitel' )
+		.exec( function ( err, modules ){ 
+			res.jsonp(modules);
+		});
+};
+
+
+/*
+ * 
+ **/
+exports.getTagVectors = function( req, res ){
+	var 
+		tagnames = require(__dirname+'/../data/analysis/module-tag-names.json'),
+		tmp = [],
+		out = ',' +  tagnames.toString() + '\n' 
+		;
+	Modules.find()
+	.select('modulnr1 tags')
+	.lean()
+	.exec( function ( err, modules ){
+		if(err){ console.log( err ); }
+		for(var i = 0; i < modules.length; i++){
+			// init array
+			for(var j = 0; j < 570; j++){ tmp[j] = 0; }	
+			// travers tags of current module
+			for(var k = 0; k < modules[i].tags.length; k++ ){
+				// flip vector bit
+				if(tagnames.indexOf( modules[i].tags[k] ) !== -1 ){
+					tmp[ tagnames.indexOf( modules[i].tags[k] ) ] = 1; //console.log( modules[i].tags[k] )
+				}
+			}
+			out += modules[i].modulnr1 + ',' + tmp.toString() + '\n';
+		}
+		//console.log(out);
+		write2file('tag-vectors.csv', out );
+	});
+}
+
+
+
+
+
+
+
+
+/*********************************************************************************/
+/* MODULES */
 
 
 /*
@@ -360,36 +448,7 @@ function validate(obj, entry, val, type, not_null){
 /* ANALYSIS */
 
 
-/*
- * 
- **/
-exports.getTagVectors = function( req, res ){
-	var 
-		tagnames = require(__dirname+'/../data/analysis/module-tag-names.json'),
-		tmp = [],
-		out = ',' +  tagnames.toString() + '\n' 
-		;
-	Modules.find()
-	.select('modulnr1 tags')
-	.lean()
-	.exec( function ( err, modules ){
-		if(err){ console.log( err ); }
-		for(var i = 0; i < modules.length; i++){
-			// init array
-			for(var j = 0; j < 570; j++){ tmp[j] = 0; }	
-			// travers tags of current module
-			for(var k = 0; k < modules[i].tags.length; k++ ){
-				// flip vector bit
-				if(tagnames.indexOf( modules[i].tags[k] ) !== -1 ){
-					tmp[ tagnames.indexOf( modules[i].tags[k] ) ] = 1; //console.log( modules[i].tags[k] )
-				}
-			}
-			out += modules[i].modulnr1 + ',' + tmp.toString() + '\n';
-		}
-		//console.log(out);
-		write2file('tag-vectors.csv', out );
-	});
-}
+
 
 
 
@@ -426,18 +485,7 @@ exports.getCSV = function(req, res) {
 };
 
 
-/*
- * Return JSON of Modules that have a certain tag
- */
-exports.getJSONbyTag = function ( req, res ){
-  Modules
-		.find( { tags : req.params.id.replace('_',' ') })
-//		.select( ' modultitel  ' )
-		.sort( 'modultitel' )
-		.exec( function ( err, modules ){ 
-			res.jsonp(modules);
-		});
-};
+
 
 
 
@@ -528,28 +576,13 @@ exports.index = function ( req, res ){
 			res.render( 'm_modules_index', {
 			  title : 'Modules',
 			  items : docs,
-			  user: req.user !== undefined ? req.user : 'null'
+			  user: req.user !== undefined ? req.user : undefined
 			});
 		});
 };
 
 
-/*
- * Render list of Modules that have a certain tag
- **/
-exports.modulesWithTag = function ( req, res ){
-  Modules
-		.find( { tags : req.params.id.replace('_',' ') })
-//		.select( ' modultitel  ' )
-		.sort( 'modultitel' )
-		.exec( function ( err, docs ){ 
-			res.render( 'm_modules_index', {
-			 	title : 'Module mit dem Schlüsselwort '+req.params.id.replace('_',' '),
-			  items : docs,
-			  user: req.user !== undefined ? req.user : 'null'
-			});
-		});
-};
+
 
 
 /*
@@ -562,7 +595,7 @@ exports.viewSingle = function ( req, res ){
 		.exec( function ( err, module ){ 
 			res.render( 'm_modules_single', {
 			  items : module,
-			  user: req.user !== undefined ? req.user : 'null'
+			  user: req.user !== undefined ? req.user : undefined
 			});
 		});
 };
@@ -600,7 +633,7 @@ exports.new_one = function ( req, res ){
 		.exec( function ( err, todos ){ 
 			res.render( 'modules-new', {
 			  title : 'Express Modules Example',
-			  user: req.user !== undefined ? req.user : 'null'
+			  user: req.user !== undefined ? req.user : undefined
 			});
 		});
 };
@@ -629,9 +662,18 @@ exports.edit = function ( req, res ){
     res.render( 'm_modules_edit', {
         item   : item,
         current : req.params.id,
-			  user: req.user !== undefined ? req.user : 'null'
+			  user: req.user !== undefined ? req.user : undefined;
     });
   });
+};
+
+exports.newModule = function ( req, res ){
+  res.render( 'm_modules_new', {
+      item   : item,
+      current : req.params.id,
+		  user: req.user !== undefined ? req.user : undefined;
+  });
+
 };
 
 
@@ -685,8 +727,21 @@ exports.makeIndex = function( req, res){
  **/
 exports.searchQuery = function( req, res ){ 
  console.log( JSON.stringify(req.body.data));
+ var query = [];
+ for(var i = 0; i < req.body.data.length; i++){
+ 	var key = Object.keys(req.body.data[i])[0];
+ 	if(req.body.data[i][key].expr === undefined){
+ 		query.push(req.body.data[i])
+ 	}else{
+ 		var o = {};
+ 		o[key] = new RegExp(req.body.data[i][key].expr,"i")
+ 		query.push(o); // e.g. [{"modultitel" : new RegExp("umwelt","i") }]
+ 	}
+ }
+ console.log(query)
+ 
 	Modules
-	 .find( { $and : req.body.data } )
+	 .find( { $and : query } )// req.body.data
 	 .exec( function ( err, modules ){
 			if(err){
 				console.log(err);
@@ -734,7 +789,6 @@ exports.tagSearch = function ( req, res ){
 			}
 		});
 };
-
 
 
 

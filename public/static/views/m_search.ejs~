@@ -12,29 +12,34 @@
 				<option>AND</option>
 				<option>OR</option>
 				<option>NOT</option>
+				<option>FUZZY</option>
 			</select>
 			<select id="row-0-field" class="select select-field">
-				<option selected disabled hidden value='' data-key=""></option>
-				<option data-multi="true" data-key="tags" >Schlüsselwörter</option><!-- multi -->
-				<option data-multi="false" data-key="modulnr1">Modulnummer</option>
-				<option data-multi="false" data-key="modultitel">Modultitel</option>
-				<option data-multi="true" data-key="courses" >Studiengang</option><!-- multi -->
-				<option data-multi="true" data-key="type" >Type</option><!-- multi -->
-				<option data-multi="true" data-key="university" >Hochschule</option><!-- multi -->
-				<option data-multi="true" data-key="language" >Sprache</option><!-- multi -->
-				<option data-multi="true" data-key="sws" >Lehrform</option><!-- multi -->
-				<option data-multi="false" data-key="sws_total">SWS</option>
-				<option data-multi="false" data-key="sws">SWS Selbststudium</option>
-				<option data-multi="false" data-key="workload">Workload</option>
-				<option data-multi="false" data-key="workload_self">Workload Selbststudium</option>
-				<option data-multi="false" data-key="ects">ECTS</option>
-				<option data-multi="true" data-key="pvl" >Prüfungsvorleistung</option><!-- multi -->
-				<option data-multi="true" data-key="pl" >Prüfungsleistung</option><!-- multi -->
-				<option data-multi="true" data-key="summer_winter" >WS/SS</option><!-- multi -->
-				<option data-multi="false" data-key="modulverantwortlicher">Modulverantwortlicher</option>
-				<option data-multi="false" data-key="struktureinheit">Verantw. Struktureinheit</option>
-				<option data-multi="false" data-key="lecturers">Weitere Lehrende</option>
-				<option data-multi="false" data-key="remarks_general">Bemerkungen</option>		
+				<option disabled hidden value='' data-key=""></option>
+				<optgroup>
+				<option data-multi="false" selected data-type="string" data-key="modultitel">Modultitel</option>
+				<option data-multi="false" data-type="string" data-key="modulnr1">Modulnummer</option>
+				<option data-multi="true"  data-type="array"  data-key="tags" >Schlüsselwörter</option><!-- multi -->
+				<option data-multi="true"  data-type="array"  data-key="university" >Hochschule</option><!-- multi -->
+				<option data-multi="false" data-type="string" data-key="struktureinheit">Verantw. Struktureinheit</option>
+				<option data-multi="true"  data-type="array"  data-key="courses" >Studiengang</option><!-- multi -->
+				<option data-multi="true"  data-type="array"  data-key="type" >Type</option><!-- multi -->
+				<option data-multi="true"  data-type="array"  data-key="language" >Sprache</option><!-- multi -->
+				<option data-multi="true"  data-type="array"  data-key="summer_winter" >WS/SS</option><!-- multi -->
+				<option data-multi="false" data-type="string" data-key="modulverantwortlicher">Modulverantwortlicher</option>
+				</optgroup>
+				<optgroup label="- - - - - - - - - - - - - - - - - - ">
+				<option data-multi="true"  data-type="array"  data-key="sws" >Lehrform</option><!-- multi -->
+				<option data-multi="false" data-type="number" data-key="sws_total">SWS</option><!-- number -->
+				<option data-multi="false" data-type="number" data-key="sws">SWS Selbststudium</option><!-- number -->
+				<option data-multi="false" data-type="number" data-key="workload">Workload</option><!-- number -->
+				<option data-multi="false" data-type="number" data-key="workload_self">Workload Selbststudium</option><!-- number -->
+				<option data-multi="false" data-type="number" data-key="ects">ECTS</option><!-- number -->
+				<option data-multi="true"  data-type="array"  data-key="pvl" >Prüfungsvorleistung</option><!-- multi -->
+				<option data-multi="true"  data-type="array"  data-key="pl" >Prüfungsleistung</option><!-- multi -->
+				</optgroup>
+<!--				<option data-multi="false" data-key="lecturers">Weitere Lehrende</option>
+				<option data-multi="false" data-key="remarks_general">Bemerkungen</option>		-->
 		
 			</select>
 			<span id="row-0-input" class="select-input">
@@ -106,8 +111,16 @@ $(document).ready(function() {
 			});
   });
   
-  
-  
+  // auto-select first field
+ 	var sel = $('#row-0 > .select-field');
+	var obj = {
+			id : $(sel).find(':selected').attr('id'), 
+			key: $(sel).find(':selected').data('key'), 
+			multiselect: $(sel).find(':selected').data('multi'),
+			selector : '#' + $(sel).attr('id').replace('-field','') + '-input'
+	}; 
+	setDataSchema( obj );
+			
 });
 
 
@@ -230,22 +243,33 @@ $(document).ready(function() {
  			var field = $(val).find('.select-field option:selected').data('key');
  			var input = $(val).find('select.select-fields, input.select-fields').val();
  			
- 			if(typeof input === 'string'){
+ 			//if(typeof input === 'string'){
+ 			if($(val).find('.select-field option:selected').data('type') === 'string'){
  				var tmp = input;
  				input = [];
  				input[0] = tmp;
+ 			}else if($(val).find('.select-field option:selected').data('type') === 'number'){
+ 				if(input.split('-').length > 1){
+ 					// treat number ranges (todo: xxx)
+ 				// mongoose ::  .where('id').gt(0).lt(10)
+ 				}else if(input.split(' ').length > 1){
+ 					// treat multiple numbers
+ 					input = input.split(' ');
+ 				}else{
+ 					input[0] = input;
+ 				}
  			}
- 			// build query
+ 			// build query (todo: fuzzy search xxx : cities.find({name: new RegExp(input, "i")} )
  			if( field  !== undefined && input !== '' && input !== undefined ){ 
  				var el = {};
- 				if( operator === 'AND' ){ el[ field ] = { $all:  input };	 }
- 				if( operator === 'OR' ){  el[ field ] = { $in:  input };	 }
+ 				if( operator === 'AND' ){ el[ field ] = { $all: input };	 } // e.g. [{"university":{"$all":["TUD/IHI"]}}]
+				if( operator === 'OR' ){  el[ field ] = { $in:  input };	 }
  				if( operator === 'NOT' ){ el[ field ] = { $nin: input };	 } 
- 				// exception for modulnr
+ 				if( operator === 'FUZZY' ){ el[ field ] = { expr: input };   }
+
  				query.push( el );				 				
  			}
  		});
- 		//alert( JSON.stringify(query) )
  		// send query
  		$.post('/modules/search', { data: query }, function(data){	
  			$('.search-results-head')
@@ -302,11 +326,7 @@ function showSearchResults( data, fresh ){
     detailFormatter : function(index, row) {
 			return '<a href="/modules/view/' + row._id + '">Detailansicht</a> | <a href="/data/pdf/' + row._id + '">Modulbeschreibung (PDF)</a> | <a href="/modules/edit/' + row._id + '">bearbeiten</a>'//''+index+'__'+row._id;
 		},
-		//onClickRow : function(row, el){ alert(row._id); },
-    onClickCell : function(field, value, row, el){ if(field==='modultitel'){ 
-    	alert(row._id);
-    } },
-    columns: [
+		columns: [
 		  { field: 'modultitel', title: 'Modulbezeichnung', sortable : true, order: 'asc',searchable : true }, 
 		 	{ field: 'modulnr1', title: 'Modulnummer', visible:false, sortable : true, order: 'asc',searchable : true }, 
 		  { field: 'modulnr2', title: 'Modulnummer 2', visible:false, sortable : true, order: 'asc',searchable : true }, 
@@ -383,10 +403,6 @@ function initModuleTable(){
 				detailFormatter : function(index, row) {
 					return '<a href="/modules/view/' + row._id + '">Detailansicht</a> | <a href="/data/pdf/' + row._id + '">Modulbeschreibung (PDF)</a> | <a href="/modules/edit/' + row._id + '">bearbeiten</a>'//''+index+'__'+row._id;
 				},
-				//onClickRow : function(row, el){ alert(row._id); },
-				onClickCell : function(field, value, row, el){ if(field==='modultitel'){ 
-					alert(row._id);
-				} },
 				columns: [
 					{ field: 'modultitel', title: 'Modulbezeichnung', sortable : true, order: 'asc',searchable : true }, 
 					{ field: 'modulnr1', title: 'Modulnummer', visible:false, sortable : true, order: 'asc',searchable : true }, 

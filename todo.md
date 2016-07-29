@@ -1,15 +1,16 @@
 
 # todo
 
-- sws-form
-- new mod form
 
+- form for new modules
+- manage tags
+- @search: deactivate fuzzy for multi-select search
+- edit form => sws
 
-# Kleinkram
 
 
 # bugs
-- suche nach allen modulnummern
+- tags ohne modul
 
 # minor bugs
 - @modul index: transalte "search" into "Suchen" => $('.bootstrap-table > input.form-control').attr('placeholder','Suchen');
@@ -59,6 +60,8 @@ Arbeitszeit:
 03.12.15  3h
 17.02.16	2h
 20.07.16	9h
+21.07.16	9h__40.5h
+22.07.16
 SUMME:
 
 

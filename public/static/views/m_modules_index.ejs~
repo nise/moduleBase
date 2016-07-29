@@ -4,7 +4,9 @@
 <div  class="jumbotron">
 	<div class="container">
   <h2>Module</h2>
-  <p class="mark"></p>
+  <% if(user !== undefined){ %>
+  <a href="/modules/users/create" class="label label-primary"><span class="glyphicon glyphicon-plus"></span> Create new</a>
+  <% } %>
   </div>
 </div>
 <div class="container">
