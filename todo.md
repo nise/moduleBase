@@ -1,8 +1,6 @@
 
 # todo
-
-
-- form for new modules
+- test save / update
 - manage tags
 - @search: deactivate fuzzy for multi-select search
 - edit form => sws

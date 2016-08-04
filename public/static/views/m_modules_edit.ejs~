@@ -105,71 +105,70 @@
             required: true
           },
           "sws": {
-						"type": "fieldset",
-						"title": "Aufteilung der Semesterwochenstunden",
-						"items": [
-							{
-								"type": "number",
-								"title": "Vorlesung",
-								"key":"vorlesung"
-						  },
-						  {
-								"type": "number",
-								"title": "Vorlesung",
-								"key":"seminar"
-						  },
-						  {
-								"type": "number",
-								"title": "Vorlesung",
-								"key":"ringvorlesung"
-						  },
-						  {
-								"type": "number",
-								"title": "Vorlesung",
-								"key":"ubung"
-						  },
-						  {
-								"type": "number",
-								"title": "Vorlesung",
-								"key":"tutorium"
-						  },
-						  {
-								"type": "number",
-								"title": "Vorlesung",
-								"key":"praktikum"
-						  },
-						  {
-								"type": "number",
-								"title": "Vorlesung",
-								"key":"exkursion"
-						  },
-						  {
-								"type": "number",
-								"title": "Vorlesung",
-								"key":"projekt"
-						  },
-						  {
-								"type": "number",
-								"title": "Vorlesung",
-								"key":"berufspraktikum"
-						  },
-						  {
-								"type": "number",
-								"title": "Vorlesung",
-								"key":"sprachkurs"
-						  },
-						  {
-								"type": "number",
-								"title": "Vorlesung",
-								"key":"elearning"
-						  },
-						  {
-								"type": "number",
-								"title": "Vorlesung",
-								"key":"ubung_seminar"
-						  }
-						  ]
-						}
+		        "type": "object",
+							"title": "SWS",
+							"properties": {
+								"vorlesung": {
+									"type": "number",
+									"title":"Vorlesung",
+									default: '<%: if(item.sws.vorlesung !== undefined){ %><%= item.sws.vorlesung %><%: }%>',
+								},
+								"seminar": {
+									"type": "number",
+									"title":"Seminar",
+									default: '<%: if(item.sws.seminar !== undefined){ %><%= item.sws.seminar %><%: }%>',
+								},
+								"ringvorlesung": {
+									"type": "number",
+									"title":"Ringvorlesung",
+									default: '<%: if(item.sws.ringvorlesung !== undefined){ %><%= item.sws.ringvorlesung %><%: }%>',
+								},
+								"ubung": {
+									"type": "number",
+									"title":"Übung",
+									default: '<%: if(item.sws.ubung !== undefined){ %><%= item.sws.ubung %><%: }%>',
+								},
+								"tutorium": {
+									"type": "number",
+									"title":"Tutorium",
+									default: '<%: if(item.sws.tutorium !== undefined){ %><%= item.sws.tutorium %><%: }%>',
+								},
+								"praktikum": {
+									"type": "number",
+									"title":"Praktikum",
+									default: '<%: if(item.sws.praktikum !== undefined){ %><%= item.sws.praktikum %><%: }%>',
+								},
+								"exkursion": {
+									"type": "number",
+									"title":"Exkursion",
+									default: '<%: if(item.sws.exkursion !== undefined){ %><%= item.sws.exkursion %><%: }%>',
+								},
+								"projekt": {
+									"type": "number",
+									"title":"Projekt",
+									default: '<%: if(item.sws.projekt !== undefined){ %><%= item.sws.projekt %><%: }%>',
+								},
+								"berufspraktikum": {
+									"type": "number",
+									"title":"Berufspraktikum",
+									default: '<%: if(item.sws.berufspraktikum !== undefined){ %><%= item.sws.berufspraktikum %><%: }%>',
+								},
+								"sprachkurs": {
+									"type": "number",
+									"title":"Sprachkurs",
+									default: '<%: if(item.sws.sprachkurs !== undefined){ %><%= item.sws.sprachkurs %><%: }%>',
+								},
+								"elearning": {
+									"type": "number",
+									"title":"E-Learning",
+									default: '<%: if(item.sws.elearning !== undefined){ %><%= item.sws.elearning %><%: }%>',
+								},
+								"ubung_seminar": {
+									"type": "number",
+									"title":"Übungen/Seminar",
+									default: '<%: if(item.sws.ubung_seminar !== undefined){ %><%= item.sws.ubung_seminar %><%: }%>',
+								}
+							}
 					},
           "workload": {
             type: 'number',
@@ -272,9 +271,6 @@
             allowEmpty: true,
             required: false
           }
-			
-		
-					/***************************/
         },
         //
         "form": [

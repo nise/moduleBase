@@ -662,18 +662,30 @@ exports.edit = function ( req, res ){
     res.render( 'm_modules_edit', {
         item   : item,
         current : req.params.id,
-			  user: req.user !== undefined ? req.user : undefined;
+			  user: req.user !== undefined ? req.user : undefined
     });
   });
 };
 
 exports.newModule = function ( req, res ){
   res.render( 'm_modules_new', {
-      item   : item,
+      item   : {},
       current : req.params.id,
-		  user: req.user !== undefined ? req.user : undefined;
+		  user: req.user !== undefined ? req.user : undefined
   });
+};
 
+
+/*
+ * Creates a new Module
+ **/
+exports.create = function ( req, res ){
+  Modules.save( req.params, function ( err, module ){
+    if(err){ 
+    	console.log(err); 
+    }
+    res.redirect( '/modules/view/'+module.id );
+  });
 };
 
 
@@ -681,7 +693,7 @@ exports.newModule = function ( req, res ){
  * Updates data of an existing Module
  **/
 exports.update = function ( req, res ){
-  Modules.update( { '_id':req.params.id}, function ( err, portal ){
+  Modules.update( { '_id':req.params.id}, function ( err, module ){
     if(err){ console.log(err); }
     	res.redirect( '/modules/view/'+req.params.id );
     

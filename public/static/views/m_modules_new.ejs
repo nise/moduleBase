@@ -3,7 +3,7 @@
 
 <div class="jumbotron">
 	<div class="container">
-  <h2>Bearbeite Modul: <%= item.modultitel %> (<%= item.modulnr1 %>)</h2>
+  <h2>Neues Modul</h2>
   </div>
 </div>
 
@@ -27,26 +27,23 @@
           "modultitel": {
             type: 'string',
             title: 'Modultitel',
-            default: '<%= item.modultitel %>',
-            required: true
+            default:'',
+           	required: true
           },
            "modulnr1": {
             type: 'string',
             title: 'Modulnummer (1)',
-            default: '<%= item.modulnr1 %>',
             required: true
           },
            "modulnr2": {
             type: 'string',
             title: 'Modulnummer (2)',
-            default: '<%: if(item.modulnr2 !== undefined){ %><%= item.modulnr2 %><%: }%>',
             allowEmpty: true,
             required: false
           },
            "courses": {
             type: 'string',
             title: 'Studiengänge',
-            default: '<%= item.courses %>',
             description: "Bei Angabe mehrerer Studiengänge sollten diese durch ein Komma voneinander getrennt werden",
             required: true,
             minLength: 4
@@ -54,7 +51,6 @@
           "university": {
             type: 'number',
             title: 'Hochschule',
-            default:  '<%= item.university %>',
             "enum": [
 							"TUD",
 							"HSZG",
@@ -66,7 +62,6 @@
 						"title": "Typ",
 						//"description": "Your gender",
 						"type": "string",
-						default: '<%= item.type %>',
 						"enum": [
 							"Bachelor",
 							"Master",
@@ -79,7 +74,6 @@
 						"title": "Sprache",
 						//"description": "Your gender",
 						"type": "string",
-						default: '<%= item.language %>',
 						"enum": [
 							"Deutsch",
 							"Englisch",
@@ -89,7 +83,6 @@
 					},	
           "summer_winter": {
 						"title": "WS/SS",
-						default: '<%= item.summer_winter %>',
 						"type": "string",
 						"enum": [
 							"Sommersemester",
@@ -101,7 +94,6 @@
 					"sws_total": {
             type: 'number',
             title: 'Semesterwochenstunden',
-            default: '<%: if(item.sws_total !== undefined){ %><%= item.sws_total %><%: }%>',
             required: true
           },
           "sws": {
@@ -110,82 +102,67 @@
 							"properties": {
 								"vorlesung": {
 									"type": "number",
-									"title":"Vorlesung",
-									default: '<%: if(item.sws.vorlesung !== undefined){ %><%= item.sws.vorlesung %><%: }%>',
+									"title":"Vorlesung"
 								},
 								"seminar": {
 									"type": "number",
-									"title":"Seminar",
-									default: '<%: if(item.sws.seminar !== undefined){ %><%= item.sws.seminar %><%: }%>',
+									"title":"Seminar"
 								},
 								"ringvorlesung": {
 									"type": "number",
-									"title":"Ringvorlesung",
-									default: '<%: if(item.sws.ringvorlesung !== undefined){ %><%= item.sws.ringvorlesung %><%: }%>',
+									"title":"Ringvorlesung"
 								},
 								"ubung": {
 									"type": "number",
-									"title":"Übung",
-									default: '<%: if(item.sws.ubung !== undefined){ %><%= item.sws.ubung %><%: }%>',
+									"title":"Übung"
 								},
 								"tutorium": {
 									"type": "number",
-									"title":"Tutorium",
-									default: '<%: if(item.sws.tutorium !== undefined){ %><%= item.sws.tutorium %><%: }%>',
+									"title":"Tutorium"
 								},
 								"praktikum": {
 									"type": "number",
-									"title":"Praktikum",
-									default: '<%: if(item.sws.praktikum !== undefined){ %><%= item.sws.praktikum %><%: }%>',
+									"title":"Praktikum"
 								},
 								"exkursion": {
 									"type": "number",
-									"title":"Exkursion",
-									default: '<%: if(item.sws.exkursion !== undefined){ %><%= item.sws.exkursion %><%: }%>',
+									"title":"Exkursion"
 								},
 								"projekt": {
 									"type": "number",
-									"title":"Projekt",
-									default: '<%: if(item.sws.projekt !== undefined){ %><%= item.sws.projekt %><%: }%>',
+									"title":"Projekt"
 								},
 								"berufspraktikum": {
 									"type": "number",
-									"title":"Berufspraktikum",
-									default: '<%: if(item.sws.berufspraktikum !== undefined){ %><%= item.sws.berufspraktikum %><%: }%>',
+									"title":"Berufspraktikum"
 								},
 								"sprachkurs": {
 									"type": "number",
-									"title":"Sprachkurs",
-									default: '<%: if(item.sws.sprachkurs !== undefined){ %><%= item.sws.sprachkurs %><%: }%>',
+									"title":"Sprachkurs"
 								},
 								"elearning": {
 									"type": "number",
-									"title":"E-Learning",
-									default: '<%: if(item.sws.elearning !== undefined){ %><%= item.sws.elearning %><%: }%>',
+									"title":"E-Learning"
 								},
 								"ubung_seminar": {
 									"type": "number",
-									"title":"Übungen/Seminar",
-									default: '<%: if(item.sws.ubung_seminar !== undefined){ %><%= item.sws.ubung_seminar %><%: }%>',
+									"title":"Übungen/Seminar"
 								}
 							}
 					},
           "workload": {
             type: 'number',
             title: 'Workload (h)',
-            default: '<%: if(item.workload !== undefined){ %><%= item.workload %><%: }%>',
             required: true
           },
           "workload_self": {
             type: 'number',
             title: 'Workload im Selbststudium',
-            default: '<%: if(item.workload_self !== undefined){ %><%= item.workload_self %><%: }%>',
             required: true
           },
           "ects": {
             type: 'number',
             title: 'ECTS',
-            default: '<%: if(item.ects !== undefined){ %><%= item.ects %><%: }%>',
             required: true
           },
           "pvl": {
@@ -231,35 +208,30 @@
 					"struktureinheit": {
             type: 'string',
             title: 'Struktureinheit der Hochschule',
-            default: '<%: if(item.struktureinheit !== undefined){ %><%= item.struktureinheit %><%: }%>',
             allowEmpty: true,
             required: false
           },
 					"modulverantwortlicher": {
             type: 'string',
             title: 'Modulverantwortliche',
-            default: '<%: if(item.modulverantwortlicher !== undefined){ %><%= item.modulverantwortlicher %><%: }%>',
             allowEmpty: true,
             required: false
           },
           "email": {
             type: 'email',
             title: 'E-Mail',
-            default: '<%: if(item.email !== undefined){ %><%= item.email %><%: }%>',
             allowEmpty: true,
             required: false
           },
           "lecturers": {
             type: 'string',
             title: 'Weitere Dozenten',
-            default: '<%: if(item.lecturers !== undefined){ %><%= item.lecturers %><%: }%>',
             allowEmpty: true,
             required: false
           },
           "remarks_general": {
             type: 'textarea',
             title: 'Allgemeine Bemerkungen',
-            default: '<%: if(item.remarks_general !== undefined){ %><%= item.remarks_general %><%: }%>',
             description: "(öffentlich sichtbar)",
             allowEmpty: true,
             required: false
@@ -267,11 +239,10 @@
           "remarks_internal": {
             type: 'textarea',
             title: 'Interne Bemerkungen',
-            default: '<%: if(item.remarks_internal !== undefined){ %><%= item.remarks_internal %><%: }%>',
             allowEmpty: true,
             required: false
           }
-        },
+				},
         //
         "form": [
         	{
