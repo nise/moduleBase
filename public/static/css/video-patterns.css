@@ -216,5 +216,22 @@ border-top: solid 1px #ccc;
 	color:red;
 }
 
+/* jsonform */
+
+fieldset.control-group{
+	margin-top:20px;
+}
+
+fieldset.control-group > div {
+	margin-left:20px;
+	color: #444;
+}
+
+fieldset.control-group > div > label {
+	display:inline;
+	font-size:10pt;
+	color: #444;
+}
+
 
 

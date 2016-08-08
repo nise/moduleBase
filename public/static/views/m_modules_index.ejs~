@@ -3,9 +3,15 @@
 
 <div  class="jumbotron">
 	<div class="container">
-  <h2>Module</h2>
+  <h2>
+  <% if(title === undefined){ %>
+  	Module
+  <% }else{ %>
+  <%= title %>
+  <% } %>	
+  </h2>
   <% if(user !== undefined){ %>
-  <a href="/modules/create" class="label label-primary"><span class="glyphicon glyphicon-plus"></span> Create new</a>
+  <a href="/modules/new" class="label label-primary"><span class="glyphicon glyphicon-plus"></span> Create new</a>
   <% } %>
   </div>
 </div>

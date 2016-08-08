@@ -48,9 +48,9 @@
 			<label>Sprache:</label> <%= items.language %>
 			<br>
 			<label>Semster:</label> 
-			<% if(items.wintersemester === 1 && items.sommersemester === 1){ %>
+			<% if(items.summer_winter === "WS + SS"){ %>
 				Winter- und Sommersemester
-			<%}else if(items.wintersemester === 1){%>
+			<%}else if(items.summer_winter === "WS"){%>
 				Wintersemester
 			<% } else{%>
 				Sommersemester

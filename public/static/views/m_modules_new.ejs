@@ -9,7 +9,8 @@
 
 <div class="container">
 	<div class="col-md-8">
-    <form class="modules-edit" action="/modules/save" method="post"></form>
+		<div id="errors"></div>
+    <form class="modules-edit" id="form"></form><!--  action="/modules/update/<%= item._id %>" type="POST"-->
     <div id="res" class="alert"></div>
    </div> 
 </div>
@@ -22,45 +23,43 @@
   
  
     <script type="text/javascript">
-      $('form.modules-edit').jsonForm({
+      var formObject = {
         schema: {
           "modultitel": {
-            type: 'string',
-            title: 'Modultitel',
-            default:'',
-           	required: true
+            "type": 'string',
+            "title": 'Modultitel',
+            "required": true
           },
            "modulnr1": {
-            type: 'string',
-            title: 'Modulnummer (1)',
-            required: true
+            "type": 'string',
+            "title": 'Modulnummer (1)',
+            "required": true
           },
            "modulnr2": {
-            type: 'string',
-            title: 'Modulnummer (2)',
-            allowEmpty: true,
-            required: false
+            "type": 'string',
+            "title": 'Modulnummer (2)',
+            "allowEmpty": true,
+            "required": false
           },
            "courses": {
-            type: 'string',
-            title: 'Studiengänge',
-            description: "Bei Angabe mehrerer Studiengänge sollten diese durch ein Komma voneinander getrennt werden",
-            required: true,
-            minLength: 4
+            "type": 'string',
+            "title": 'Studiengänge',
+            "description": "Bei Angabe mehrerer Studiengänge sollten diese durch ein Komma voneinander getrennt werden",
+            "required": true,
+            "minLength": 4
           },
           "university": {
-            type: 'number',
-            title: 'Hochschule',
+            "type": 'string',
+            "title": 'Hochschule',
             "enum": [
 							"TUD",
 							"HSZG",
 							"TUD/IHI"
 						],
-            required: true
+            "required": true
           },
           "type": {
 						"title": "Typ",
-						//"description": "Your gender",
 						"type": "string",
 						"enum": [
 							"Bachelor",
@@ -68,33 +67,38 @@
 							"Diplom",
 							"Diplom/Bachelor"
 						],
-						required: true
+						"required": true
 					},	
 					"language": {
 						"title": "Sprache",
-						//"description": "Your gender",
 						"type": "string",
 						"enum": [
 							"Deutsch",
 							"Englisch",
 							"Deutsch/Englisch"
 						],
-						required: true
+						"required": true
 					},	
           "summer_winter": {
 						"title": "WS/SS",
 						"type": "string",
 						"enum": [
-							"Sommersemester",
-							"Wintersemester"
+							"SS",
+							"WS",
+							"WS + SS"
 						],
-						required: true
+						"required": true
+					}, 
+					"tags": {
+						"title": "Schlüsselwörter",
+						"type": "string",
+						"required": false
 					}, 
 					/**************************/
 					"sws_total": {
-            type: 'number',
-            title: 'Semesterwochenstunden',
-            required: true
+            "type": 'number',
+            "title": 'Semesterwochenstunden',
+            "required": true
           },
           "sws": {
 		        "type": "object",
@@ -102,68 +106,107 @@
 							"properties": {
 								"vorlesung": {
 									"type": "number",
-									"title":"Vorlesung"
+									"title":"Vorlesung",
+									"minimum": 0,
+									"maximum": 30,
+									"step":1
 								},
 								"seminar": {
 									"type": "number",
-									"title":"Seminar"
+									"title":"Seminar",
+									"minimum": 0,
+									"maximum": 30,
+									"step":1
 								},
 								"ringvorlesung": {
 									"type": "number",
-									"title":"Ringvorlesung"
+									"title":"Ringvorlesung",
+									"minimum": 0,
+									"maximum": 30,
+									"step":1
 								},
 								"ubung": {
 									"type": "number",
-									"title":"Übung"
+									"title":"Übung",
+									"minimum": 0,
+									"maximum": 30,
+									"step":1
 								},
 								"tutorium": {
 									"type": "number",
-									"title":"Tutorium"
+									"title":"Tutorium",
+									"minimum": 0,
+									"maximum": 30,
+									"step":1
 								},
 								"praktikum": {
 									"type": "number",
-									"title":"Praktikum"
+									"title":"Praktikum",
+									"minimum": 0,
+									"maximum": 30,
+									"step":1
 								},
 								"exkursion": {
 									"type": "number",
-									"title":"Exkursion"
+									"title":"Exkursion",
+									"minimum": 0,
+									"maximum": 30,
+									"step":1
 								},
 								"projekt": {
 									"type": "number",
-									"title":"Projekt"
+									"title":"Projekt",
+									"minimum": 0,
+									"maximum": 30,
+									"step":1
 								},
 								"berufspraktikum": {
 									"type": "number",
-									"title":"Berufspraktikum"
+									"title":"Berufspraktikum",
+									"minimum": 0,
+									"maximum": 30,
+									"step":1
 								},
 								"sprachkurs": {
 									"type": "number",
-									"title":"Sprachkurs"
+									"title":"Sprachkurs",
+									"minimum": 0,
+									"maximum": 30,
+									"step":1
 								},
 								"elearning": {
 									"type": "number",
-									"title":"E-Learning"
+									"title":"E-Learning",
+									"minimum": 0,
+									"maximum": 30,
+									"step":1
 								},
 								"ubung_seminar": {
 									"type": "number",
-									"title":"Übungen/Seminar"
+									"title":"Übungen/Seminar",
+									"minimum": 0,
+									"maximum": 30,
+									"step":1
 								}
 							}
 					},
           "workload": {
-            type: 'number',
-            title: 'Workload (h)',
-            required: true
+            "type": 'number',
+            "title": 'Workload (h)',
+            "required": true
           },
           "workload_self": {
-            type: 'number',
-            title: 'Workload im Selbststudium',
-            required: true
+            "type": 'number',
+            "title": 'Workload im Selbststudium',
+            "required": true
           },
           "ects": {
-            type: 'number',
-            title: 'ECTS',
-            required: true
+            "type": 'number',
+            "title": 'ECTS',
+            "required": true,
+            "minimum": 0.5,
+      			"maximum": 50,
+      			"step":0.5
           },
           "pvl": {
 						"type": "array",
@@ -206,46 +249,54 @@
 					},
 					/***************************/
 					"struktureinheit": {
-            type: 'string',
-            title: 'Struktureinheit der Hochschule',
-            allowEmpty: true,
-            required: false
+            "type": 'string',
+            "title": 'Struktureinheit der Hochschule',
+            "allowEmpty": true,
+            "required": false
           },
 					"modulverantwortlicher": {
-            type: 'string',
-            title: 'Modulverantwortliche',
-            allowEmpty: true,
-            required: false
+            "type": 'string',
+            "title": 'Modulverantwortliche',
+            "allowEmpty": true,
+            "required": false
           },
           "email": {
-            type: 'email',
-            title: 'E-Mail',
-            allowEmpty: true,
-            required: false
+            "type": 'email',
+            "title": 'E-Mail',
+            "allowEmpty": true,
+            "required": false
           },
           "lecturers": {
-            type: 'string',
-            title: 'Weitere Dozenten',
-            allowEmpty: true,
-            required: false
+            "type": 'string',
+            "title": 'Weitere Dozenten',
+            "allowEmpty": true,
+            "required": false
           },
           "remarks_general": {
-            type: 'textarea',
-            title: 'Allgemeine Bemerkungen',
-            description: "(öffentlich sichtbar)",
-            allowEmpty: true,
-            required: false
+            "type": 'textarea',
+            "title": 'Allgemeine Bemerkungen',
+            "description": "(öffentlich sichtbar)",
+            "allowEmpty": true,
+            "required": false
           },
           "remarks_internal": {
-            type: 'textarea',
-            title: 'Interne Bemerkungen',
-            allowEmpty: true,
-            required: false
+            "type": 'textarea',
+            "title": 'Interne Bemerkungen',
+            "allowEmpty": true,
+            "required": false
           }
-				},
-        //
+        },
+        /**************************/
         "form": [
-        	{
+		      {
+						"type": "submit",
+						"title": "Speichern"
+					},
+					{
+		        "type": "button",
+		        "title": "Abbrechen"
+		      },  
+					{
 						"key": "modultitel",
 						"type": "text"
 					},
@@ -286,7 +337,16 @@
 					},
         	{
 						"key": "summer_winter",
-						"type": "radios"
+						"type": "radios",
+						"titleMap": {
+						  "WS": "Wintersemester",
+						  "SS": "Sommersemester",
+						  "WS + SS": "Winter- und Sommersemester"
+						}
+					},
+					{
+						"key": "tags",
+						"type": "textarea"
 					},
         	{
 						"key": "sws_total",
@@ -338,7 +398,7 @@
 						"key": "pl",
 						"type": "checkboxes",
 						"titleMap": {
-						  	"klausur":"Klausur",
+						  	"klausur":{title:"Klausur"},
 						    "mdlpruefung":"Mündliche Prüfung",
 						    "referat":"Referat",
 						    "praesentation":"Präsentation",
@@ -376,27 +436,41 @@
 					{
 						"key": "remarks_internal",
 						"type": "textarea"
-					},
-					///
-					{
-						"type": "submit",
-						"title": "Speichern"
-					},
-					{
-		        "type": "button",
-		        "title": "Abbrechen"
-		      }   	
+					}
+					 	
 				],
         //
-        onSubmit: function (errors, values) {
-          if (errors) {
-            $('#res').html('<p>I beg your pardon?</p>');
+        "onSubmit": function (error, values) {
+        	
+          if (error) {
+            alert(JSON.stringify( error ))
           }
           else {
-            $('#res').html('<p>Hello ' + values.name + '.' +
-              (values.age ? '<br/>You are ' + values.age + '.' : '') +
-              '</p>');
+          	
+          	values.tags = values.tags.split(/,|, /);
+          	values.courses = values.courses.split(/,|, /);
+
+          	$.ajax({
+								"type": "POST",
+								url: "/modules/update/<%= item._id %>",
+								data: JSON.stringify( values ),
+								success: function(){ 
+									window.location.replace("/modules/view/<%= item._id %>");
+								},
+								error: function(err){
+									alert(JSON.stringify(err))
+								},
+								contentType : "application/json"
+							});
           }
-        }
-      });
+        },
+        "displayErrors": function (errors, formElt) {
+					for (var i=0; i<errors.length; i++) {
+						errors[i].message = "Avast! Ye best be fixin' that field!";
+					}
+					$('#errors').jsonFormErrors(errors, formObject);
+				}
+      }
+      
+      $('form.modules-edit').jsonForm( formObject );
     </script>

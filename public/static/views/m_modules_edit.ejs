@@ -9,7 +9,8 @@
 
 <div class="container">
 	<div class="col-md-8">
-    <form class="modules-edit" action="/modules/save" method="post"></form>
+		<div id="errors"></div>
+    <form class="modules-edit" id="form"></form><!--  action="/modules/update/<%= item._id %>" type="POST"-->
     <div id="res" class="alert"></div>
    </div> 
 </div>
@@ -22,7 +23,8 @@
   
  
     <script type="text/javascript">
-      $('form.modules-edit').jsonForm({
+ 
+      var formObject = {
         schema: {
           "modultitel": {
             type: 'string',
@@ -52,7 +54,7 @@
             minLength: 4
           },
           "university": {
-            type: 'number',
+            type: 'string',
             title: 'Hochschule',
             default:  '<%= item.university %>',
             "enum": [
@@ -77,7 +79,6 @@
 					},	
 					"language": {
 						"title": "Sprache",
-						//"description": "Your gender",
 						"type": "string",
 						default: '<%= item.language %>',
 						"enum": [
@@ -89,13 +90,20 @@
 					},	
           "summer_winter": {
 						"title": "WS/SS",
-						default: '<%= item.summer_winter %>',
 						"type": "string",
+						default: '<%= item.summer_winter %>',
 						"enum": [
-							"Sommersemester",
-							"Wintersemester"
+							"SS",
+							"WS",
+							"WS + SS"
 						],
 						required: true
+					}, 
+					"tags": {
+						"title": "Schlüsselwörter",
+						"type": "string",
+						default: '<%=: item.tags | join:', ' %>',
+						required: false
 					}, 
 					/**************************/
 					"sws_total": {
@@ -111,61 +119,97 @@
 								"vorlesung": {
 									"type": "number",
 									"title":"Vorlesung",
+									minimum: 0,
+									maximum: 30,
+									step:1,
 									default: '<%: if(item.sws.vorlesung !== undefined){ %><%= item.sws.vorlesung %><%: }%>',
 								},
 								"seminar": {
 									"type": "number",
 									"title":"Seminar",
-									default: '<%: if(item.sws.seminar !== undefined){ %><%= item.sws.seminar %><%: }%>',
+									minimum: 0,
+									maximum: 30,
+									step:1,
+									default: '<%: if(item.sws.seminar !== undefined){ %><%= item.sws.seminar %><%}%>',
 								},
 								"ringvorlesung": {
 									"type": "number",
 									"title":"Ringvorlesung",
+									minimum: 0,
+									maximum: 30,
+									step:1,
 									default: '<%: if(item.sws.ringvorlesung !== undefined){ %><%= item.sws.ringvorlesung %><%: }%>',
 								},
 								"ubung": {
 									"type": "number",
 									"title":"Übung",
+									minimum: 0,
+									maximum: 30,
+									step:1,
 									default: '<%: if(item.sws.ubung !== undefined){ %><%= item.sws.ubung %><%: }%>',
 								},
 								"tutorium": {
 									"type": "number",
 									"title":"Tutorium",
+									minimum: 0,
+									maximum: 30,
+									step:1,
 									default: '<%: if(item.sws.tutorium !== undefined){ %><%= item.sws.tutorium %><%: }%>',
 								},
 								"praktikum": {
 									"type": "number",
 									"title":"Praktikum",
+									minimum: 0,
+									maximum: 30,
+									step:1,
 									default: '<%: if(item.sws.praktikum !== undefined){ %><%= item.sws.praktikum %><%: }%>',
 								},
 								"exkursion": {
 									"type": "number",
 									"title":"Exkursion",
+									minimum: 0,
+									maximum: 30,
+									step:1,
 									default: '<%: if(item.sws.exkursion !== undefined){ %><%= item.sws.exkursion %><%: }%>',
 								},
 								"projekt": {
 									"type": "number",
 									"title":"Projekt",
+									minimum: 0,
+									maximum: 30,
+									step:1,
 									default: '<%: if(item.sws.projekt !== undefined){ %><%= item.sws.projekt %><%: }%>',
 								},
 								"berufspraktikum": {
 									"type": "number",
 									"title":"Berufspraktikum",
+									minimum: 0,
+									maximum: 30,
+									step:1,
 									default: '<%: if(item.sws.berufspraktikum !== undefined){ %><%= item.sws.berufspraktikum %><%: }%>',
 								},
 								"sprachkurs": {
 									"type": "number",
 									"title":"Sprachkurs",
+									minimum: 0,
+									maximum: 30,
+									step:1,
 									default: '<%: if(item.sws.sprachkurs !== undefined){ %><%= item.sws.sprachkurs %><%: }%>',
 								},
 								"elearning": {
 									"type": "number",
 									"title":"E-Learning",
+									minimum: 0,
+									maximum: 30,
+									step:1,
 									default: '<%: if(item.sws.elearning !== undefined){ %><%= item.sws.elearning %><%: }%>',
 								},
 								"ubung_seminar": {
 									"type": "number",
 									"title":"Übungen/Seminar",
+									minimum: 0,
+									maximum: 30,
+									step:1,
 									default: '<%: if(item.sws.ubung_seminar !== undefined){ %><%= item.sws.ubung_seminar %><%: }%>',
 								}
 							}
@@ -186,7 +230,10 @@
             type: 'number',
             title: 'ECTS',
             default: '<%: if(item.ects !== undefined){ %><%= item.ects %><%: }%>',
-            required: true
+            required: true,
+            minimum: 0.5,
+      			maximum: 50,
+      			step:0.5
           },
           "pvl": {
 						"type": "array",
@@ -202,7 +249,8 @@
 						    "protokoll",
 						    "moderation"
 						  ]
-						}
+						},
+						"default": Object.keys(<%-JSON.stringify(item.pvl)%>)
 					},
 					"pl": {
 						"type": "array",
@@ -225,7 +273,8 @@
 						    "forschungsplan",
 						    "elearningtest"
 						  ]
-						}
+						},
+						"default": Object.keys(<%-JSON.stringify(item.pl)%>),
 					},
 					/***************************/
 					"struktureinheit": {
@@ -272,9 +321,17 @@
             required: false
           }
         },
-        //
+        /**************************/
         "form": [
-        	{
+		      {
+						"type": "submit",
+						"title": "Speichern"
+					},
+					{
+		        "type": "button",
+		        "title": "Abbrechen"
+		      },  
+					{
 						"key": "modultitel",
 						"type": "text"
 					},
@@ -315,7 +372,16 @@
 					},
         	{
 						"key": "summer_winter",
-						"type": "radios"
+						"type": "radios",
+						"titleMap": {
+						  "WS": "Wintersemester",
+						  "SS": "Sommersemester",
+						  "WS + SS": "Winter- und Sommersemester"
+						}
+					},
+					{
+						"key": "tags",
+						"type": "textarea"
 					},
         	{
 						"key": "sws_total",
@@ -405,27 +471,41 @@
 					{
 						"key": "remarks_internal",
 						"type": "textarea"
-					},
-					///
-					{
-						"type": "submit",
-						"title": "Speichern"
-					},
-					{
-		        "type": "button",
-		        "title": "Abbrechen"
-		      }   	
+					}
+					 	
 				],
         //
-        onSubmit: function (errors, values) {
-          if (errors) {
-            $('#res').html('<p>I beg your pardon?</p>');
+        "onSubmit": function (error, values) {
+        	
+          if (error) {
+            console.error(JSON.stringify( error ))
           }
           else {
-            $('#res').html('<p>Hello ' + values.name + '.' +
-              (values.age ? '<br/>You are ' + values.age + '.' : '') +
-              '</p>');
+
+          	values.tags = values.tags.split(/,|, /);
+          	values.courses = values.courses.split(/,|, /);
+
+          	$.ajax({
+								type: "POST",
+								url: "/modules/update/<%= item._id %>",
+								data: JSON.stringify( values ),
+								success: function(){ 
+									window.location.replace("/modules/view/<%= item._id %>");
+								},
+								error: function(err){
+									console.error(JSON.stringify(err))
+								},
+								contentType : "application/json"
+							});
           }
-        }
-      });
+        },
+        "displayErrors": function (errors, formElt) {
+					for (var i=0; i<errors.length; i++) {
+						errors[i].message = "Avast! Ye best be fixin' that field!";
+					}
+					$('#errors').jsonFormErrors(errors, formObject);
+				}
+      }
+      
+      $('form.modules-edit').jsonForm( formObject );
     </script>

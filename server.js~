@@ -81,7 +81,7 @@ var conn = mongoose.connect( 'mongodb://localhost/moduleBase' , function(err, db
 		console.log(err);
 	}else{
 		/*
-		Import data
+		Import initial data
 		**/
 		//m.importTags({}, m.importMetadata );
 		//m.getTagVectors(); // builts matrix of tags and module numbers
@@ -113,11 +113,19 @@ var conn = mongoose.connect( 'mongodb://localhost/moduleBase' , function(err, db
 		app.post(	'/modules/create', users.ensureAuthenticated, m.create );
 		app.post(	'/modules/update/:id', users.ensureAuthenticated, m.update );
 		app.get(	'/modules/tag/:id', m.modulesWithTag );
-		app.get(	'/modules/search', function ( req, res ){ res.render( 'm_search', { title : '',
-			  user: req.user !== undefined ? req.user : 'null' }); });
+		app.get(	'/modules/search', function ( req, res ){ 
+			res.render( 'm_search', { 
+				title : '',
+			  user: req.user !== undefined ? req.user : 'null' 
+			}); 
+		});
 		app.get(	'/modules/search/fulltext/:query', m.fulltextSearch );
 		app.get(	'/modules/search/tags/:query', m.tagSearch );
 		app.post(	'/modules/search', m.searchQuery );
+		app.get(	'/admin/tags/list', m.tagIndex );
+		app.get(	'/admin/tags/edit/:tag', m.tagEdit );
+		app.post(	'/admin/tags/update/:tag', m.tagUpdate );
+		app.get(	'/admin/tags/destroy/:tag', m.tagDestroy );
 		
 		// users	
 		app.get('/admin/users', users.ensureAuthenticated,	users.renderIndex );

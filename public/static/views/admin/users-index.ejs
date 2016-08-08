@@ -1,8 +1,8 @@
 <% layout( '../m_layout' ) -%>
 <div  class="jumbotron">
 	<div class="container">
-		<h2>Users</h2>
-		<a href="/admin/users/create" class="label label-primary"><span class="glyphicon glyphicon-plus"></span> Create new</a>
+		<h2>Benutzerverwaltung</h2>
+		<a href="/admin/users/create" class="label label-primary"><span class="glyphicon glyphicon-plus"></span> Nutzer hinzufügen</a>
   </div>
 </div>
 <div class="container">
@@ -18,9 +18,9 @@ $(document).ready (function () {
     strictSearch: true,
     trimOnSearch:true,
     columns: [
-		  { field: 'username', title: 'Username', formatter: userFormatter, sortable : true, order: 'asc', searchable: true }, 
+		  { field: 'username', title: 'Benutzername', formatter: userFormatter, sortable : true, order: 'asc', searchable: true }, 
 		  { field: 'name', title: 'Name',  formatter: nameFormatter, sortable : true, order: 'asc',searchable : true }, 
-		  { field: 'role', title: 'Role', visible:true, sortable : true, searchable : true }, 
+		  { field: 'role', title: 'Rolle', visible:true, sortable : true, searchable : true }, 
 		  //{ field: 'groups', title: 'Groups', visible:true, sortable : false, /*formatter: videoFormatter,*/ order: 'asc',searchable : true }, 
 		  { field: 'status', title: 'Status', visible:true, sortable : false, formatter: statusFormatter, order: 'asc',searchable : true }, 
 			{ field: 'operator', title: '', visible:true, sortable : false, formatter: operateFormatter, order: 'asc',searchable : false }, 
@@ -52,10 +52,10 @@ function statusFormatter(value, row, index) {
 function operateFormatter(value, row, index) {
 	return [
 		'<a class="table-link" href="/admin/users/edit/'+row._id+'" title="Edit user">',
-		'<i class="glyphicon glyphicon-pencil"></i> edit',
+		'<i class="glyphicon glyphicon-pencil"></i> bearbeiten',
 		'</a><br/>',
 		'<a class="table-link" href="/admin/users/destroy/'+row._id+'" title="Remove user">',
-		'<i class="glyphicon glyphicon-remove"></i> remove',
+		'<i class="glyphicon glyphicon-remove"></i> entfernen',
 		'</a>'
 	].join('');
 }

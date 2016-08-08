@@ -1,0 +1,27 @@
+<% layout( 'm_layout' ) -%>
+
+<div  class="jumbotron">
+	<div class="container">
+  <h2>Schlüsselwort '<%= tagname.tag %>' bearbeiten</h2>
+  <% if(user !== undefined){ %>
+  <!--<a href="/tags/new" class="label label-primary"><span class="glyphicon glyphicon-plus"></span> Create new</a>-->
+  <% } %>
+  </div>
+</div>
+<div class="container">
+<div class="col-md-10">
+  <div class="edit-form">
+    <form action="/admin/tags/update/<%= tagname.tag %>" method="post" accept-charset="utf-8">
+			
+       <div class="input-group input-group-xs">
+				<span class="input-group-addon" id="sizing-addon1">Tag</span>
+				<input type="text" class="form-control" placeholder="" aria-describedby="sizing-addon1" name="tagname" value="<%= tagname.tag %>">
+      </div>
+    <br>
+			<div class="buttons">
+				<button type="submit" class="btn-primary btn">In allen Modulen aktualisieren</button>  <a href="/admin/tags/list">abbrechen</a> <a class="alert-btn right" href="/admin/tags/destroy/<%= tagname.tag %>" title="Delete this item item">löschen</a>
+			</div>
+    </form>
+	</div>
+</div>
+</div>

@@ -29,7 +29,7 @@ exports.getFieldSchema = function(req,res){
 									//Modules.find().distinct('tags', function(error, tags) {
 									fs.readFile( './data/analysis/data-tag-level-relations.csv' , function read(err, data) { 
 										if(err){
-											console.log(err);
+											console.error(err);
 										} 
 										csv().from.string(data, {comment: '#'} )
 											.to.array( function(csv){
@@ -97,7 +97,7 @@ exports.importTags = function ( req, res ){
 	
 	fs.readFile( __dirname+'/../data/keyword_refinement_revisited.csv' , function read(err, data) { // test: data2.csv
 		if(err){
-			console.log(err);
+			console.error(err);
 		} 
 		csv().from.string(data, {comment: '#'} )
 			.to.array( function(replace_tags){
@@ -157,7 +157,7 @@ function importTagFile( req, res ){
 	var tagRelations = '2nd-level,1st-level\n';
 	fs.readFile( req.file , function read(err, data) { // test: data2.csv
 		if(err){
-			console.log(err);
+			console.error(err);
 		}	
 		csv().from.string(data, {comment: '#'} )
 			.to.array( function(csv){
@@ -175,7 +175,7 @@ function importTagFile( req, res ){
 							tag_level1_arr.push( csv[i][0] );
 							
 							if( csv[i][0] === ''){
-								console.log( req.file )
+								console.warn( req.file )
 							}
 							
 							// tags to be ignored
@@ -234,7 +234,7 @@ exports.modulesWithTag = function ( req, res ){
 		.sort( 'modultitel' )
 		.exec( function ( err, docs ){ 
 			res.render( 'm_modules_index', {
-			 	title : 'Module mit dem Schlüsselwort '+req.params.id.replace('_',' '),
+			 	title : "Module mit dem Schlüsselwort '"+req.params.id.replace('_',' ')+"'",
 			  items : docs,
 			  user: req.user !== undefined ? req.user : undefined
 			});
@@ -257,6 +257,90 @@ exports.getJSONbyTag = function ( req, res ){
 
 
 /*
+ * Render list of tags with its corresponding modules
+ */
+exports.tagIndex = function ( req, res ){
+	Modules
+		.find()
+		.select('modultitel tags _id')
+		.exec( function( err, modules ){
+			// prepare data
+			var tags = {};
+			for(var i = 0; i < modules.length; i++){
+				for(var j = 0; j < modules[i].tags.length; j++){
+					if( tags[ modules[i].tags[j] ] === undefined ){
+						tags[ modules[i].tags[j] ] = {};
+						tags[ modules[i].tags[j] ].tag = modules[i].tags[j];
+						tags[ modules[i].tags[j] ].modules = [];
+					}
+					tags[ modules[i].tags[j] ].modules.push( {title: modules[i].modultitel, _id: modules[i]._id } );
+				}
+			} 
+			// sort tags ::todo xxx
+			var 
+				keys = Object.keys(tags),
+				tmp = {}, 
+				 i, len = keys.length;
+
+			keys.sort();
+
+			for (i = 0; i < len; i++) {
+				k = keys[i];
+				tmp[keys[i]] = tags[keys[i]];//alert(k + ':' + data[k]);
+			}	
+			// render
+			res.render( 'm_tags_index', {
+			  tags : tmp,
+			  user: req.user !== undefined ? req.user : undefined
+			});
+		})
+		;
+};
+
+
+/*
+ * Render edit form for a tag
+ **/
+exports.tagEdit = function ( req, res ){ 
+	res.render( 'm_tags_edit', { 
+		tagname: req.params,
+	  user: req.user !== undefined ? req.user : undefined 
+	});
+}
+ 
+/*
+ * Update tag
+ **/ 
+exports.tagUpdate = function ( req, res ){ 
+  Modules
+  	.find( { tags : req.params.tag.replace('_',' ') })
+		.select( 'tags' )
+		.sort( 'modultitel' )
+		.exec( function ( err, docs ){
+			for(var i = 0; i < docs.length; i++){
+				docs[i].tags = docs[i].tags
+					.join(',')
+					.replace(','+req.params.tag+',', ','+req.body.tagname+',')
+					.split(',');
+				docs[i].save();	
+			} 
+			res.redirect('/admin/tags/list');
+		});
+};
+
+
+/*
+ * Destroy tag
+ **/ 
+exports.tagDestroy = function ( req, res ){
+  Modules
+		.find( { tags : req.params.tag.replace('_',' ') })
+		.remove()
+		.exec()
+		;
+};
+
+/*
  * 
  **/
 exports.getTagVectors = function( req, res ){
@@ -269,7 +353,7 @@ exports.getTagVectors = function( req, res ){
 	.select('modulnr1 tags')
 	.lean()
 	.exec( function ( err, modules ){
-		if(err){ console.log( err ); }
+		if(err){ console.error( err ); }
 		for(var i = 0; i < modules.length; i++){
 			// init array
 			for(var j = 0; j < 570; j++){ tmp[j] = 0; }	
@@ -313,7 +397,7 @@ exports.importMetadata = function ( req, res ){
 	// load data
 	fs.readFile(__dirname+'/../data/module_metadata_clean2.csv', function read(err, data) { // test: data2.csv
 		if(err){
-			console.log(err);
+			console.error(err);
 		} 
 		// get tags
 		//var tags = importTags();
@@ -404,7 +488,7 @@ exports.importMetadata = function ( req, res ){
 							
 							// add tags
 							if( Object.keys(req.tags).indexOf( obj.modulnr1 ) === -1 ){
-								console.log('- no tags found for module: '+obj.modulnr1);
+								console.warn('- no tags found for module: '+obj.modulnr1);
 							}else{
 								obj.tags = req.tags[ obj.modulnr1 ];
 							}
@@ -574,7 +658,7 @@ exports.index = function ( req, res ){
 		.sort( 'modultitel' )
 		.exec( function ( err, docs ){ 
 			res.render( 'm_modules_index', {
-			  title : 'Modules',
+			  title : 'Module',
 			  items : docs,
 			  user: req.user !== undefined ? req.user : undefined
 			});
@@ -657,8 +741,8 @@ exports.destroy = function ( req, res ){
 exports.edit = function ( req, res ){
   Modules.findOne({_id: String(req.params.id)}, function ( err, item ){
   	if(err){
-  		console.log(err);
-  	} console.log(req.params.id)
+  		console.error(err);
+  	} 
     res.render( 'm_modules_edit', {
         item   : item,
         current : req.params.id,
@@ -682,7 +766,7 @@ exports.newModule = function ( req, res ){
 exports.create = function ( req, res ){
   Modules.save( req.params, function ( err, module ){
     if(err){ 
-    	console.log(err); 
+    	console.error(err); 
     }
     res.redirect( '/modules/view/'+module.id );
   });
@@ -692,11 +776,15 @@ exports.create = function ( req, res ){
 /*
  * Updates data of an existing Module
  **/
-exports.update = function ( req, res ){
-  Modules.update( { '_id':req.params.id}, function ( err, module ){
-    if(err){ console.log(err); }
+exports.update = function ( req, res ){ 
+	var data = req.body;
+	Modules.findOneAndUpdate( { '_id':req.params.id }, data, { returnNewDocument: true}, function ( err, module ){
+    if(err){ 
+    	console.error(err);
+    	res.end(); 
+    }else{
     	res.redirect( '/modules/view/'+req.params.id );
-    
+    }	   
   });
 };
 
@@ -710,7 +798,8 @@ exports.update = function ( req, res ){
 /*
  *
  **/
-exports.tagSearch = function ( req, res ){ console.log(req.params.query);
+exports.tagSearch = function ( req, res ){ 
+	//console.log(req.params.query);
 	// prepare query
 	var query = {};
 	// send query
@@ -738,7 +827,7 @@ exports.makeIndex = function( req, res){
  *
  **/
 exports.searchQuery = function( req, res ){ 
- console.log( JSON.stringify(req.body.data));
+ //console.log( JSON.stringify(req.body.data));
  var query = [];
  for(var i = 0; i < req.body.data.length; i++){
  	var key = Object.keys(req.body.data[i])[0];
@@ -750,13 +839,13 @@ exports.searchQuery = function( req, res ){
  		query.push(o); // e.g. [{"modultitel" : new RegExp("umwelt","i") }]
  	}
  }
- console.log(query)
+ //console.log(query)
  
 	Modules
 	 .find( { $and : query } )// req.body.data
 	 .exec( function ( err, modules ){
 			if(err){
-				console.log(err);
+				console.error(err);
 			}else{ //console.log(modules)
 				res.jsonp(modules);
 			}	
@@ -770,12 +859,12 @@ exports.searchQuery = function( req, res ){
  **/
 exports.fulltextSearch = function ( req, res ){ 
 	var query = decodeURI( req.params.query ).split(' ');
-	console.log(query);
+	//console.log(query);
 	Modules
 	 .find({ keywords: { $in: query }})
 	 .exec( function ( err, modules ){
 			if(err){
-				console.log(err)
+				console.error(err)
 			}else{
 				res.jsonp(modules);
 			}	
@@ -790,12 +879,12 @@ exports.fulltextSearch = function ( req, res ){
 exports.tagSearch = function ( req, res ){ 
 	//console.log( decodeURI( req.params.query ) );
 	var query = decodeURI( req.params.query ).split(',');
-	console.log(query);
+	//console.log(query);
 	Modules
 		.find( { tags: { $all: query } } )
 		.exec( function ( err, modules ){
 			if(err){
-				console.log(err);
+				console.error(err);
 			}else{
 				res.jsonp(modules);
 			}
@@ -814,12 +903,12 @@ write2file = function(filename, dataset, new_path){
 		path = new_path;
 	}
 	if(!filename || ! dataset){
-		console.log('No data or file to write'); return;
+		console.warn('No data or file to write'); return;
 	}
 //	fs.writeFile(__dirname+'/results/data/'+filename, dataset, function(err){
 	fs.writeFile(path+filename, dataset, function(err){
 	 if(err) {
-	      console.log(err);
+	      console.error(err);
 	  } else {
 	  	 console.log('Data generated: '+filename);
 		}	

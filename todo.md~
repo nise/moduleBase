@@ -1,10 +1,6 @@
 
 # todo
-- test save / update
-- manage tags
 - @search: deactivate fuzzy for multi-select search
-- edit form => sws
-
 
 
 # bugs
@@ -24,6 +20,7 @@
 - visual analytics
 - pdfs im browser: https://github.com/mozilla/pdf.js
 - Feedback/Kommentar ... 
+- tag admin index as sortable table
 
 
 
@@ -59,12 +56,13 @@ Arbeitszeit:
 17.02.16	2h
 20.07.16	9h
 21.07.16	9h__40.5h
-22.07.16
+22.07.16	4h
+04.08.16	3h
 SUMME:
 
 
 
-# Noch nicht getaggte Studiengänge
+# Noch nicht getaggte Module
 **Modulnummer**
 POL-METH
 BA-WW-BWL-0604

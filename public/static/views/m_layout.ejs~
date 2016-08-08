@@ -28,7 +28,7 @@ margin-top:20px;
 }
 
 .navbar-nav > li > a {
-	font-size:10pt;
+	font-size:12pt;
 }
 
 
@@ -181,7 +181,7 @@ var server = '';
 				      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Admin<span class="caret"></span></a>
 				      <ul class="dropdown-menu" role="menu">
 				        <li><a href="/admin/users"><span class="glyphicon glyphicon-cog"></span> Benutzerverwaltung</a></li>
-				        <li><a href="/admin/tags"><span class="glyphicon glyphicon-tags"></span> Tags</a></li>
+				        <li><a href="/admin/tags/list"><span class="glyphicon glyphicon-tags"></span> Tags</a></li>
 				      </ul>
 				    </li>
 				    <% } %>
