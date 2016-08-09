@@ -122,10 +122,10 @@ var conn = mongoose.connect( 'mongodb://localhost/moduleBase' , function(err, db
 		app.get(	'/modules/search/fulltext/:query', m.fulltextSearch );
 		app.get(	'/modules/search/tags/:query', m.tagSearch );
 		app.post(	'/modules/search', m.searchQuery );
-		app.get(	'/admin/tags/list', m.tagIndex );
-		app.get(	'/admin/tags/edit/:tag', m.tagEdit );
-		app.post(	'/admin/tags/update/:tag', m.tagUpdate );
-		app.get(	'/admin/tags/destroy/:tag', m.tagDestroy );
+		app.get(	'/admin/tags/list', users.ensureAuthenticated, m.tagIndex );
+		app.get(	'/admin/tags/edit/:tag', users.ensureAuthenticated, m.tagEdit );
+		app.post(	'/admin/tags/update/:tag', users.ensureAuthenticated, m.tagUpdate );
+		app.get(	'/admin/tags/destroy/:tag', users.ensureAuthenticated, m.tagDestroy );
 		
 		// users	
 		app.get('/admin/users', users.ensureAuthenticated,	users.renderIndex );

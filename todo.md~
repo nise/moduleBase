@@ -4,7 +4,7 @@
 
 
 # bugs
-- tags ohne modul
+- tags ohne modul ?
 
 # minor bugs
 - @modul index: transalte "search" into "Suchen" => $('.bootstrap-table > input.form-control').attr('placeholder','Suchen');
@@ -15,27 +15,11 @@
 
 
 # Ideenregal
-- Vergleich aktueller PDFs mit den Anfang 2014 heruntergeladenen PDFs
-- fuzzy search
+- maschineller Vergleich aktueller PDFs mit den Anfang 2014 heruntergeladenen PDFs
 - visual analytics
 - pdfs im browser: https://github.com/mozilla/pdf.js
 - Feedback/Kommentar ... 
 - tag admin index as sortable table
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -58,6 +42,9 @@ Arbeitszeit:
 21.07.16	9h__40.5h
 22.07.16	4h
 04.08.16	3h
+05.08.16	4h
+08.08.16	2h
+
 SUMME:
 
 
