@@ -11,10 +11,11 @@
 
 
 # Immer noch offen
-- Nadine: Verfahrensbeschreibung für Datenschutz 
+- @Steffi: Verfahrensbeschreibung für Datenschutz 
 
 
-# Ideenregal
+# nice to have
+- split modules, tags, and search
 - maschineller Vergleich aktueller PDFs mit den Anfang 2014 heruntergeladenen PDFs
 - visual analytics
 - pdfs im browser: https://github.com/mozilla/pdf.js
@@ -39,11 +40,11 @@ Arbeitszeit:
 03.12.15  3h
 17.02.16	2h
 20.07.16	9h
-21.07.16	9h__40.5h
+21.07.16	9h
 22.07.16	4h
 04.08.16	3h
 05.08.16	4h
-08.08.16	2h
+08.08.16	2h__Dev_sum 53.5
 
 SUMME:
 
