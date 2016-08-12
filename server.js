@@ -1,7 +1,8 @@
 /*
  * author: niels.seidel@nise81.com
  * titel: moduleBase
- * description: 
+ * description: User Interface for searching and browsing in a database of course module descriptions.
+ * license: MIT
  **/
 
 
@@ -20,10 +21,20 @@ var
 	users = require('./routes/users')
 	;
 	
-	var port = 3003;
-	server.listen(port);
-	server.setMaxListeners(0); 
+	var port = 3003; // default port
+	 
 
+	/*
+	 * read arguments from node
+	 **/ 
+	process.argv.forEach(function (val, index, array) {
+  		if( val.split("=")[0].replace(/\ /g,'') === "port" ){
+  			port = typeof Number(val.split("=")[1].replace(/\ /g,'')) === "number" ? val.split("=")[1].replace(/\ /g,'') : port;
+  		}	
+	});
+	
+	server.listen(port);
+	server.setMaxListeners(0);
 	
 console.log('\n\n************************************************');
 console.log('Started server on port: '+ port);	
@@ -35,7 +46,7 @@ console.log('************************************************\n\n');
 	};
 
 /* configure application **/
-  app.set('port', process.env.PORT || port);
+  app.set('port', port); console.log(app.get('port'))
   app.use(express.logger('dev'));  /* 'default', 'short', 'tiny', 'dev' */
 	app.use(compression())
 	
