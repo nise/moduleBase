@@ -17,33 +17,35 @@ var
 	flash = require('connect-flash'),
 	server = require('http').createServer(app),
 	fs = require('node-fs'),
+	mongoose = require( 'mongoose' ),
 	m = require('./routes/modules')
 	users = require('./routes/users')
+	port = 3003, // default port
+	import_modules = false,
+	import_tags = false
 	;
-	
-	var port = 3003; // default port
 	 
 
 	/*
 	 * read arguments from node
 	 **/ 
 	process.argv.forEach(function (val, index, array) {
-  		if( val.split("=")[0].replace(/\ /g,'') === "port" ){
+  		if( val.split("=")[0].replace(/\ /g,'') === "--port" ){
   			port = typeof Number(val.split("=")[1].replace(/\ /g,'')) === "number" ? val.split("=")[1].replace(/\ /g,'') : port;
+  		}else if( val.split("=")[0].replace(/\ /g,'') === "--import-modules" ){
+  			import_modules = true:
+  		}else if( val.split("=")[0].replace(/\ /g,'') === "--import-tags" ){
+  			import_tags = true:
   		}	
 	});
 	
 	server.listen(port);
 	server.setMaxListeners(0);
 	
-console.log('\n\n************************************************');
-console.log('Started server on port: '+ port);	
-console.log('************************************************\n\n');
+	console.log('\n\n************************************************');
+	console.log('Started server on port: '+ port);	
+	console.log('************************************************\n\n');
 
-	
-	exports.getServer = function ( req, res ){
-		return server;
-	};
 
 /* configure application **/
   app.set('port', port); console.log(app.get('port'))
@@ -86,7 +88,6 @@ console.log('************************************************\n\n');
 
 
 /* ACL */
-var mongoose = require( 'mongoose' );
 var conn = mongoose.connect( 'mongodb://localhost/moduleBase' , function(err, db){
 	if(err){
 		console.log(err);
@@ -94,6 +95,8 @@ var conn = mongoose.connect( 'mongodb://localhost/moduleBase' , function(err, db
 		/*
 		Import initial data
 		**/
+		if(import_modules){}
+		if(import_tags){}
 		//m.importTags({}, m.importMetadata );
 		//m.getTagVectors(); // builts matrix of tags and module numbers
 		//users.csvImport();
@@ -101,16 +104,33 @@ var conn = mongoose.connect( 'mongodb://localhost/moduleBase' , function(err, db
 		/*
 		 * Define HTTP routes
 		 **/ 
-		app.get(	'/', function ( req, res ){ res.render( 'index', { title : '',
-			  user: req.user !== undefined ? req.user : 'null' }); });
-		app.get(	'/home', function ( req, res ){ res.render( 'index', { title : '',
-			  user: req.user !== undefined ? req.user : 'null' }); });
-		app.get(	'/api', function ( req, res ){ res.render( 'api', { title : '',
-			  user: req.user !== undefined ? req.user : 'null' }); });
-		app.get(	'/about', function ( req, res ){ res.render( 'about', { title : 'About',
-			  user: req.user !== undefined ? req.user : 'null' }); });
-		app.get(	'/impressum', function ( req, res ){ res.render( 'impressum', { title : 'Impressum',
-			  user: req.user !== undefined ? req.user : 'null' }); });
+		app.get(	'/', function ( req, res ){ res.render( 'index', { 
+				title : '',
+				user: req.user !== undefined ? req.user : 'null' 
+			}); 
+		});
+		app.get(	'/home', function ( req, res ){ res.render( 'index', { 
+				title : '',
+			  user: req.user !== undefined ? req.user : 'null' 
+			}); 
+		});
+		app.get(	'/api', function ( req, res ){ res.render( 'api', { 
+				title : '',
+			  user: req.user !== undefined ? req.user : 'null' 
+			});
+		});
+		app.get(	'/about', function ( req, res ){ res.render( 'about', { 
+				title : 'About',
+			  user: req.user !== undefined ? req.user : 'null' 
+			});
+		});
+		app.get(	'/impressum', function ( req, res ){ res.render( 'impressum', { 
+				title : 'Impressum',
+			  user: req.user !== undefined ? req.user : 'null' 
+			});
+		});
+		
+		// modules
 		app.get(	'/data/json/modules', m.getJSON );
 		app.get(	'/data/json/modules/tag/:id', m.getJSONbyTag );
 		app.get(	'/json/modules/field-schema', m.getFieldSchema );
@@ -130,9 +150,13 @@ var conn = mongoose.connect( 'mongodb://localhost/moduleBase' , function(err, db
 			  user: req.user !== undefined ? req.user : 'null' 
 			}); 
 		});
+		
+		// search
 		app.get(	'/modules/search/fulltext/:query', m.fulltextSearch );
 		app.get(	'/modules/search/tags/:query', m.tagSearch );
 		app.post(	'/modules/search', m.searchQuery );
+		
+		// tags
 		app.get(	'/admin/tags/list', users.ensureAuthenticated, m.tagIndex );
 		app.get(	'/admin/tags/edit/:tag', users.ensureAuthenticated, m.tagEdit );
 		app.post(	'/admin/tags/update/:tag', users.ensureAuthenticated, m.tagUpdate );
@@ -145,13 +169,10 @@ var conn = mongoose.connect( 'mongodb://localhost/moduleBase' , function(err, db
 		app.get('/admin/users/edit/:id', users.ensureAuthenticated, users.renderEdit );
 		app.post(	'/admin/users/update/:id', users.ensureAuthenticated, users.update );//users.updateUsers);	
 		app.get('/admin/users/destroy/:id',	users.ensureAuthenticated,	users.destroy );
-
-
-		app.get(	'/users/view/:username', users.ensureAuthenticated,	users.renderByUsername );
-		app.get(	'/users/register', users.ensureAuthenticated, users.registrationForm ); // opens input form
-		app.post(	'/users/register', users.ensureAuthenticated, users.registerUser ); // saves user
-		app.post(	'/users/create', users.ensureAuthenticated, users.create ); // saves user
-
+		app.get('/users/view/:username', users.ensureAuthenticated,	users.renderByUsername );
+		app.get('/users/register', users.ensureAuthenticated, users.registrationForm ); // opens input form
+		app.post('/users/register', users.ensureAuthenticated, users.registerUser ); // saves user
+		app.post('/users/create', users.ensureAuthenticated, users.create ); // saves user
 		app.get('/json/users', users.ensureAuthenticated, users.getJSON);
 		app.get('/json/user-data', users.ensureAuthenticated, users.getUserData );
 

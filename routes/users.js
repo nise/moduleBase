@@ -183,8 +183,7 @@ passport.use(new LocalStrategy(
       // indicate failure and set a flash message.  Otherwise, return the
       // authenticated `user`.
       findByUsername(username, function(err, user) { 
-      	//console.log(require('../server').getServer())
-        if (err) { return done(err); }
+      	if (err) { return done(err); }
         
         if(user[0] !== undefined){
 		      if (user[0].password !== password) { 
