@@ -33,9 +33,9 @@ var
   		if( val.split("=")[0].replace(/\ /g,'') === "--port" ){
   			port = typeof Number(val.split("=")[1].replace(/\ /g,'')) === "number" ? val.split("=")[1].replace(/\ /g,'') : port;
   		}else if( val.split("=")[0].replace(/\ /g,'') === "--import-modules" ){
-  			import_modules = true:
+  			import_modules = true;
   		}else if( val.split("=")[0].replace(/\ /g,'') === "--import-tags" ){
-  			import_tags = true:
+  			import_tags = true;
   		}	
 	});
 	
