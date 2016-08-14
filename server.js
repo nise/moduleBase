@@ -88,7 +88,7 @@ var
 
 
 /* ACL */
-var conn = mongoose.connect( 'mongodb://localhost/moduleBase' , function(err, db){
+var conn = mongoose.connect( 'mongodb://localhost:27017/moduleBase' , function(err, db){
 	if(err){
 		console.log(err);
 	}else{
