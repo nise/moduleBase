@@ -1,0 +1,1 @@
+{ "indexes" : [ { "v" : 1, "key" : { "_id" : 1 }, "ns" : "moduleBase.modules", "name" : "_id_" }, { "v" : 1, "key" : { "tags" : 1 }, "ns" : "moduleBase.modules", "name" : "tags_1", "background" : true, "safe" : null } ] }

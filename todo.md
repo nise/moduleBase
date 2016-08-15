@@ -11,13 +11,10 @@ https
 
 
 # Analytics
-- done: recommend similar courses and subjects
-## graph network
- - on similarity of courses
- - on similarity of subjects
-forced layout: see https://github.com/paulovn/movie-network
-forced directed graph: https://bl.ocks.org/mbostock/4062045 
-curved links: https://bl.ocks.org/mbostock/4600693 
+- done: recommend similar courses and subjects 
+- graph network on similarity of courses
+- graph network on similarity of subjects
+- done: forced layout: see https://github.com/paulovn/movie-network
 - show overlapping topics within a course
 
 

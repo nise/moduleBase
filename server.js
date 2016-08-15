@@ -100,7 +100,7 @@ var conn = mongoose.connect( 'mongodb://localhost:27017/moduleBase' , function(e
 		//m.importTags({}, m.importMetadata );
 		//m.getTagVectors(); // builts matrix of tags and module numbers
 		//users.csvImport();
-		
+		//m.getPatternCoOccurences()
 		/*
 		 * Define HTTP routes
 		 **/ 
@@ -119,6 +119,12 @@ var conn = mongoose.connect( 'mongodb://localhost:27017/moduleBase' , function(e
 			  user: req.user !== undefined ? req.user : 'null' 
 			});
 		});
+			app.get(	'/test2', function ( req, res ){ res.render( 'analysis_similarity3', { 
+				title : '',
+			  user: req.user !== undefined ? req.user : 'null' 
+			});
+		});
+		
 		app.get(	'/about', function ( req, res ){ res.render( 'about', { 
 				title : 'About',
 			  user: req.user !== undefined ? req.user : 'null' 
@@ -135,6 +141,7 @@ var conn = mongoose.connect( 'mongodb://localhost:27017/moduleBase' , function(e
 		app.get(	'/data/json/modules/tag/:id', m.getJSONbyTag );
 		app.get(	'/json/modules/field-schema', m.getFieldSchema );
 		app.get(	'/json/modules/similar/:id', m.getSimilarModulesJSON );
+		app.get(	'/test', m.getTagCoOccurences );
 		app.get(	'/data/csv/modules', m.getCSV );
 		app.get(	'/modules/tag-schema', m.getTagSchema );
 		app.get(	'/modules/list', m.index );

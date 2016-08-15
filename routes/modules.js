@@ -372,9 +372,94 @@ exports.getTagVectors = function( req, res ){
 }
 
 
+/********************************************************************************/
+/* ANALYSIS */
 
 
+/*
+Returns a tsv of the number of connections between co-occuring patterns over all portals
+This can be randered in a heatmap (=> d3) or network graph (=> gephi)
+example: patterns-co-occurance
+status: finished
+**/
+exports.getTagCoOccurences = function(req, res) { console.log(3)
+	Modules
+		.find()
+		.select('modultitel tags _id university')
+		.exec( function( err, modules ){
+			// prepare data
+			var tags = {};
+			var json = {};
+			var nodes = [];
+			json.nodes = [], json.links =[];
+			var tmp = {};
+			for(var i = 0; i < modules.length; i++){
+				// generate list of modules
+				nodes.push( {id: i, title: modules[i].modultitel, group: modules[i].university } );
+				// collect tags
+				for(var j = 0; j < modules[i].tags.length; j++){
+					if( tags[ modules[i].tags[j] ] === undefined ){
+						tags[ modules[i].tags[j] ] = {};
+						tags[ modules[i].tags[j] ].tag = modules[i].tags[j];
+						tags[ modules[i].tags[j] ].modules = [];
+					}
+					//tags[ modules[i].tags[j] ].modules.push( {title: modules[i].modultitel, _id: modules[i]._id } );
+					tags[ modules[i].tags[j] ].modules.push( i );
+				}
+			} 
+			// generate list of links
+			for(var tag in tags){
+				if(tags.hasOwnProperty(tag) && tags[tag].modules.length > 1 ){
+					var 
+						permutations = pairs( tags[tag].modules ),
+						len = permutations.length
+						;
+						
+					for(var i=0; i < len; i++){
+						permutations[i] = permutations[i].sort();
+						var key = permutations[i][0]+'-'+permutations[i][1]
+						tmp[key] = (tmp[key] || 0) + 1
+					}
+				}
+			}
+			// print
+			var used = [];
+			for(var j in tmp){
+				if(tmp.hasOwnProperty(j) && tmp[j] > 1){
+					var t = j.split('-');
+					json.links.push( { source: Number(t[0]), target: Number(t[1]), value: tmp[j]} )
+					used.push(Number(t[0])); used.push(Number(t[1]))
+				}
+			}
+			for(var j in nodes){
+				if(nodes.hasOwnProperty(j)){
+					json.nodes.push( nodes[j] );
+				}
+			} 
+			//console.log(json)
+			res.render('analysis_similarity2', { data: json, user: undefined });
+			//res.jsonp(json);
+			// save file
+		})
+		;
+}
 
+
+/*
+ * Util: Returns all possible combinations of array elements
+ * status: finished
+ **/
+pairs = function (list) {
+    var pairs = [];
+    for (var i = 0; i < list.length - 1; i++) {
+        for (var j = i; j < list.length - 1; j++) {
+            pairs.push([list[i], list[j+1]]);
+        }
+    }
+    return pairs;
+}
+
+																																												
 
 
 
@@ -526,12 +611,6 @@ function validate(obj, entry, val, type, not_null){
 		obj[entry] = Number(val.replace(',','.'));	
 	}
 }
-
-
-/***********************************************************/
-/* ANALYSIS */
-
-
 
 
 
