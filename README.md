@@ -11,30 +11,28 @@ The current instance of moduleBase includes a data set from two german universit
 
 The project follows the idea of Open Daten. All containing data is publically available. The purposes target audiences include faculty members from the cooperating universities, as well as university managers, and scientist. In order to adjust course contents and learning objectives faculty member can make use of the data by searching and comparing existing courses. 
 
-See our (demo)[http://185.25.252.55:3003/].
+See our (demo)[http://141.30.61.22/].
 
 ## Install instructions
 
 ### Initial setup on a server
 
-* **get the source:** git clone https://github.com/nise/moduleBase
-* **start moduleBase:** sudo forever start -a -l forever.log -o out.log -e err.log server.js
-* **stop moduleBase:** sudo forever stop server.js
+* get the source: `git clone https://github.com/nise/moduleBase`
+* restore data: `mongorestore --db video-patterns ./dump/module-base`
+* test run: `node server`
+* start moduleBase: `forever start -a -l forever.log -o out.log -e err.log server.js`
+* stop moduleBase: `forever stop server.js`
 
 ### Update from github repository
 
-git fetch --all
-git reset --hard origin/master
+`git fetch --all && git reset --hard origin/master`
 
 ### Database / backups
 
-**mongoDB server**
-mongodb: mongodb://localhost/module-base
+mongoDB server: `mongodb://localhost/module-base`
 
-**dump database from mongoDB** 
-mongodump --db module-base
+dump database from mongoDB: `mongodump --db module-base`
 
-**restore database to mongoDB**
-mongorestore --db video-patterns ./dump/module-base
+restore database to mongoDB `mongorestore --db video-patterns ./dump/module-base`
 
 

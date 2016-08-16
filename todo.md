@@ -25,6 +25,8 @@ https
 - render PDF in the browser, see https://github.com/mozilla/pdf.js
 - Feedback as comments for every module
 - display tag index as sortable table
+- passport: check token beside session ID
+- test req.headers.referer at every HTTP-request
 
 
 # working hours
