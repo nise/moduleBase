@@ -1,0 +1,192 @@
+<% layout( 'm_layout' ) -%>
+
+<div class="jumbotron">
+	<div class="container">
+  	<h2>Visualisierung</h2>
+  </div>
+</div>
+
+<style>
+
+.links line {
+  stroke: #aaa;
+  stroke-opacity: 0.4;
+}
+
+.nodes circle {
+  stroke: #fff;
+  stroke-width: 1.5px;
+}
+
+.node:hover circle {
+  fill: green;
+  stroke: #fff;
+}
+
+.node:hover text {
+  display: inline;
+  z-index:1000;
+}
+
+
+.node text {
+  display: none;
+}
+
+</style>
+<div class="container">
+	<div>
+	Im folgenden Forced Layout Graphen sind die Module als Punkte angeordnet und je nach Hochschule farblich gekennzeichnet. Je näher zwei Module nebeneinander stehen, desto mehr übereinstimmende Schlüsworte haben sie.
+	</div>
+	<svg width="800" height="450"></svg>
+</div>
+
+<script>
+
+
+var svg = d3.select("svg"),
+    width = +svg.attr("width"),
+    height = +svg.attr("height");
+
+var color = d3.scaleOrdinal(d3.schemeCategory20);
+
+var manyBody = d3  // see https://github.com/d3/d3-force
+	.forceManyBody()
+	.strength(-40)
+//	.distanceMax(100)
+	.distanceMin(10)
+	.theta(3);
+
+var simulation = d3.forceSimulation()
+    .force("link", d3.forceLink().id(function(d) { return d.id; }))
+    .force("charge", manyBody)
+    .force("center", d3.forceCenter(width / 2, height / 2));
+
+	var graph = <%-JSON.stringify(data,null,'\t') %>;
+	
+	
+	var drawGraph = function (graph) {
+	
+		var link = svg.append("g")
+			.attr("class", "links")
+		.selectAll("line")
+		.data(graph.links)
+		.enter().append("line")
+			.attr("stroke-width", function(d) { return Math.sqrt(d.value)/2; });
+
+
+	
+
+
+		var node = svg.append("g")
+			.attr("class", "nodes")
+		.selectAll("circle")
+		.data(graph.nodes)
+		.enter().append("g")
+			.attr("class", "node")
+				.append("circle")
+					.attr("r", 5)
+					.attr("fill", function(d) { return color(d.group); })
+					.on("mouseover", handleMouseOver)
+          .on("mouseout", handleMouseOut)
+					.call(d3.drag()
+							.on("start", dragstarted)
+							.on("drag", dragged)
+							.on("end", dragended));
+
+		var label = d3.selectAll('.node')
+				.append("text")
+					.attr("dy", ".35em")
+					.text(function(d){ return d.title; })
+	
+		
+		
+		simulation
+			.nodes(graph.nodes)
+			.on("tick", ticked);
+
+		simulation.force("link")
+			.links(graph.links);
+
+		function ticked() {
+			link
+					.attr("x1", function(d) { return d.source.x; })
+					.attr("y1", function(d) { return d.source.y; })
+					.attr("x2", function(d) { return d.target.x; })
+					.attr("y2", function(d) { return d.target.y; });
+
+			node
+					.attr("cx", function(d) { return d.x; })
+					.attr("cy", function(d) { return d.y; });
+			
+			label
+					.attr("x", function(d) { return d.x+4; })
+					.attr("y", function(d) { return d.y; });		
+						
+		}
+
+		function click() { 
+			d3.select(this).select("circle").transition()
+					.duration(750)
+					.attr("r", 30)
+					.style("fill", "lightsteelblue");
+			}
+
+		var legend = svg.selectAll(".legend")
+			.data(color.domain())
+		.enter().append("g")
+			.attr("class", "legend")
+			.attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+		legend.append("rect")
+			.attr("x", width - 18)
+			.attr("width", 18)
+			.attr("height", 18)
+			.style("fill", color);
+
+		legend.append("text")
+			.attr("x", width - 24)
+			.attr("y", 9)
+			.attr("dy", ".35em")
+			.style("text-anchor", "end")
+			.text(function(d) { 
+				if(d==="TUD"){ return "TUD/Fak.Umweltwissenschaften"}
+				return d; 
+			});  
+
+
+		function dragstarted(d) { console.log(JSON.stringify(d))
+			
+			if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+				d.fx = d.x;
+				d.fy = d.y;
+			}
+
+		function dragged(d) {
+			d.fx = d3.event.x;
+			d.fy = d3.event.y;
+		}
+
+		function dragended(d) {
+			if (!d3.event.active) simulation.alphaTarget(0);
+			d.fx = null;
+			d.fy = null;
+		}
+		
+		function handleMouseOut(d){
+		
+		}
+		
+		function handleMouseOver(d){
+			d.fill = orange;
+		}
+		
+		
+}
+
+	drawGraph(graph);
+
+
+
+
+</script>
