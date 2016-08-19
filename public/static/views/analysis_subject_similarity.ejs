@@ -2,7 +2,7 @@
 
 <div class="jumbotron">
 	<div class="container">
-  	<h2>Visualisierung</h2>
+  	<h2>Forced Layout Graph der Module</h2>
   </div>
 </div>
 
@@ -72,6 +72,9 @@ var simulation = d3.forceSimulation()
 		.selectAll("line")
 		.data(graph.links)
 		.enter().append("line")
+			.attr("class", "link")
+			.attr("source", function(d){ return d.source; })
+			.attr("target", function(d){ return d.target; })
 			.attr("stroke-width", function(d) { return Math.sqrt(d.value)/2; });
 
 
@@ -86,9 +89,9 @@ var simulation = d3.forceSimulation()
 			.attr("class", "node")
 				.append("circle")
 					.attr("r", 5)
+					.attr("id", function(d) { return d.id })
 					.attr("fill", function(d) { return color(d.group); })
-					.on("mouseover", handleMouseOver)
-          .on("mouseout", handleMouseOut)
+					.on("mouseover", fadeAll(.4,"red"))
 					.call(d3.drag()
 							.on("start", dragstarted)
 							.on("drag", dragged)
@@ -155,7 +158,7 @@ var simulation = d3.forceSimulation()
 			});  
 
 
-		function dragstarted(d) { console.log(JSON.stringify(d))
+		function dragstarted(d) { 
 			
 			if (!d3.event.active) simulation.alphaTarget(0.3).restart();
 				d.fx = d.x;
@@ -173,12 +176,19 @@ var simulation = d3.forceSimulation()
 			d.fy = null;
 		}
 		
-		function handleMouseOut(d){
 		
-		}
-		
-		function handleMouseOver(d){
-			d.fill = orange;
+		function fadeAll(opacity,color) { 
+			return function(ds) { 
+				var selected = Number(d3.select(this).attr('id')); 
+				link
+					.style("stroke-opacity", function(o) { 
+						return o.source.id === selected || o.target.id === selected ? 1 : 0.1;
+					})   
+					.style("stroke", function(o) {
+						return o.source.id === selected || o.target.id === selected ? "#000" : "#ddd" ;
+					})
+					;
+			}
 		}
 		
 		

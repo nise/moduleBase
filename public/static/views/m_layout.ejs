@@ -168,6 +168,7 @@ var server = '';
 				    </li>
 				    <li><a href="/modules/search"><span class="glyphicon glyphicon-search"></span> Suche<span class="sr-only"></span></a>
 				    </li>
+				    
 				  </ul>
 				  <form hidden class="navbar-form navbar-left" role="search">
 				    <div class="form-group">
@@ -176,6 +177,14 @@ var server = '';
 				    <button type="submit" class="btn btn-default">Submit</button>
 				  </form>
 				  <ul class="nav navbar-nav navbar-right">
+				  	<li>
+				    	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Analysen<span class="caret"></span></a>
+				      <ul class="dropdown-menu" role="menu">
+				    		<li><a href="/analysis/graph/subjetcs">Forced Layout Graph der Module</a></li>
+				    		<li><a href="/analysis/graph/courses">Forced Layout Graph der Studiengänge</a></li>
+				    		<li><a href="/analysis/matrix/courses">Adjazenzmatrix der Studiengänge</a></li>
+				    	</ul>
+				    </li>
 				    <li><a href="/api">Daten API</a></li>
 				    <li><a href="/about">Über diese Seite</a></li>
 				    <% if(user !== undefined){ %>

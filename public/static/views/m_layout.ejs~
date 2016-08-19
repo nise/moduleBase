@@ -106,7 +106,7 @@ label.radio span, label.checkbox span{
 <script src="/static/js/jquery-image-loader.js"></script>
 <script src='/static/js/db.js'></script>
 <script src="https://d3js.org/d3.v4.min.js"></script>
-<script src="http:////d3js.org/d3.v3.min.js"></script>
+
 <% } %>
 <link href='https://fonts.googleapis.com/css?family=Oswald:400,300,700|Roboto|Droid+Sans:400,700' rel='stylesheet' type='text/css'>
 <script src="/static/js/require.js" data-main="/static/js/requirejs-conf"></script>
@@ -167,6 +167,14 @@ var server = '';
 				    <a href="/modules/list">Module<span class="sr-only">(current)</span></a>
 				    </li>
 				    <li><a href="/modules/search"><span class="glyphicon glyphicon-search"></span> Suche<span class="sr-only"></span></a>
+				    </li>
+				    <li>
+				    	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Analysen<span class="caret"></span></a>
+				      <ul class="dropdown-menu" role="menu">
+				    		<li><a href="/analysis/graph/subjetcs">Forced Layout Graph der Module</a></li>
+				    		<li><a href="/analysis/graph/courses">Forced Layout Graph der Studiengänge</a></li>
+				    		<li><a href="/analysis/matrix/courses">Adjazenzmatrix der Studiengänge</a></li>
+				    	</ul>
 				    </li>
 				  </ul>
 				  <form hidden class="navbar-form navbar-left" role="search">

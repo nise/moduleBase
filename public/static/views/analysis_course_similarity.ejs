@@ -2,7 +2,7 @@
 
 <div class="jumbotron">
 	<div class="container">
-  	<h2>Visualisierung</h2>
+  	<h2>Forced Layout Graph der Studiengänge</h2>
   </div>
 </div>
 
@@ -63,11 +63,8 @@ var simulation = d3.forceSimulation()
     .force("charge", manyBody)
     .force("center", d3.forceCenter(width / 2, height / 2));
 
-	var graph = <%-JSON.stringify(data,null,'\t') %>;
-	
-	
-	var drawGraph = function (graph) {
-	
+d3.json("/analysis/json/courses", function(error, graph) { 
+
 		var link = svg.append("g")
 			.attr("class", "links")
 		.selectAll("line")
@@ -92,9 +89,7 @@ var simulation = d3.forceSimulation()
 					.attr("r", 5)
 					.attr("id", function(d) { return d.id })
 					.attr("fill", function(d) { return color(d.group); })
-					//.on("mouseover", handleMouseOver)
-        //  .on("mouseout", handleMouseOut)
-       .on("mouseover", fadeAll(.4,"red"))
+					.on("mouseover", fadeAll(.4,"red"))
 					.call(d3.drag()
 							.on("start", dragstarted)
 							.on("drag", dragged)
@@ -103,6 +98,7 @@ var simulation = d3.forceSimulation()
 		var label = d3.selectAll('.node')
 				.append("text")
 					.attr("dy", ".35em")
+					.attr("id", function(d) { return 'node'+d.id })
 					.text(function(d){ return d.title; })
 	
 		
@@ -126,18 +122,12 @@ var simulation = d3.forceSimulation()
 					.attr("cy", function(d) { return d.y; });
 			
 			label
-					.attr("x", function(d) { return d.x+6; })
+					.attr("x", function(d) { return d.x+8; })
 					.attr("y", function(d) { return d.y; });		
 						
 		}
 
-		function click() { 
-			d3.select(this).select("circle").transition()
-					.duration(750)
-					.attr("r", 30)
-					.style("fill", "lightsteelblue");
-			}
-
+	
 		var legend = svg.selectAll(".legend")
 			.data(color.domain())
 		.enter().append("g")
@@ -179,26 +169,35 @@ var simulation = d3.forceSimulation()
 			d.fy = null;
 		}
 		
-	
 		
 		function fadeAll(opacity,color) { 
 			return function(ds) { 
 				var selected = Number(d3.select(this).attr('id')); 
 				link
 					.style("stroke-opacity", function(o) { 
-						return o.source.id === selected || o.target.id === selected ? 1 : 0.1;
+						if(o.source.id === selected){
+							//var t = d3.select( 'text#node'+o.target.id ).style('display', 'inline');
+							//var t = d3.select( 'text#node'+o.source.id ).style('display', 'none');
+							return .6;
+						}else if( o.target.id === selected){
+						 	//var t = d3.select( 'text#node'+o.source.id ).style('display', 'inline');
+						 	//var t = d3.select( 'text#node'+o.target.id ).style('display', 'none');
+						 	return .6;
+						}else{ 
+							//var t = d3.select( 'text#node'+o.source.id ).style('display', 'none');
+							//var t = d3.select( 'text#node'+o.target.id ).style('display', 'none');
+							return 0.1;
+						}	
 					})   
 					.style("stroke", function(o) {
-						return o.source.id === selected || o.target.id === selected ? "#000" : "#ddd" ;
+						return o.source.id === selected || o.target.id === selected ? "lightblue" : "#ddd" ;
 					})
 					;
 			}
 		}
-		
-		
-}
+});
 
-	drawGraph(graph);
+	
 
 
 

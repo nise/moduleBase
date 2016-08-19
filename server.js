@@ -119,12 +119,6 @@ var conn = mongoose.connect( 'mongodb://localhost:27017/moduleBase' , function(e
 			  user: req.user !== undefined ? req.user : 'null' 
 			});
 		});
-			app.get(	'/test2', function ( req, res ){ res.render( 'analysis_similarity3', { 
-				title : '',
-			  user: req.user !== undefined ? req.user : 'null' 
-			});
-		});
-		
 		app.get(	'/about', function ( req, res ){ res.render( 'about', { 
 				title : 'About',
 			  user: req.user !== undefined ? req.user : 'null' 
@@ -141,8 +135,15 @@ var conn = mongoose.connect( 'mongodb://localhost:27017/moduleBase' , function(e
 		app.get(	'/data/json/modules/tag/:id', m.getJSONbyTag );
 		app.get(	'/json/modules/field-schema', m.getFieldSchema );
 		app.get(	'/json/modules/similar/:id', m.getSimilarModulesJSON );
-		app.get(	'/analysis/subjetcs', m.getTagCoOccurencesBySubjects );
-		app.get(	'/analysis/courses', m.getTagCoOccurencesByCourses );
+		app.get(	'/analysis/graph/subjetcs', m.getTagCoOccurencesBySubjects );
+		app.get(	'/analysis/json/courses', m.getTagCoOccurencesByCourses );
+		app.get(	'/analysis/graph/courses', function ( req, res ){
+			res.render('analysis_course_similarity', {user:undefined});
+		});
+		app.get(	'/analysis/matrix/courses', function ( req, res ){
+			res.render('analysis_course_similarity2', {user:undefined});
+		});
+		
 		app.get(	'/data/csv/modules', m.getCSV );
 		app.get(	'/modules/tag-schema', m.getTagSchema );
 		app.get(	'/modules/list', m.index );

@@ -1,0 +1,84 @@
+<% layout( 'm_layout' ) -%>
+
+<div class="jumbotron">
+	<div class="container">
+  	<h2>Adjazenzmatrix der Studiengänge</h2>
+  </div>
+</div>
+
+<style>
+
+.background {
+  fill: #eee;
+}
+
+line {
+  stroke: #fff;
+}
+
+text.active {
+  fill: red;
+  font-size: 100%;
+}
+
+rect.highlight {
+    fill: none;
+    stroke: red;
+    stroke-width: 2;
+}
+
+</style>
+<script src="/static/js/d3.v3.min.js"></script>
+<script src="/static/js/science.v1.min.js"></script>
+<script src="/static/js/tiny-queue.js"></script>
+<script src="/static/js/reorder.v1.min.js"></script>
+<script src="/static/js/matrix.js"></script>
+
+
+<div class="container">
+	<div class="mark">In der folgenden Adjazenzmatrix ist die Anzahl übereinstimmender Schlüsselworte der zusammengefassten Module je Studiengang dargestellt. Jede farbige Zelle repäsentiert die Übereinstimmungen an Schlüsselworten von zwei Studiengängen. Je dunkler die Zelle, desto mehr Übereinstimmungen existieren.
+<!--<p>A network can be represented by an <i><a href="http://en.wikipedia.org/wiki/Adjacency_matrix">adjacency matrix</a></i>, where each cell <i>ij</i> represents an edge from vertex <i>i</i> to vertex <i>j</i>. Here, vertices represent characters in a book, while edges represent co-occurrence in a chapter.
+<p>Given this two-dimensional representation of a graph, a natural visualization is to show the matrix!
+--></div>
+<div>
+<p>Sortierung: <select id="order">
+  <option value="name">by Name</option>
+  <option value="count">by Frequency</option>
+  <option value="group">by Cluster</option>
+  <option value="leafOrder">by Leaf Order</option>
+  <option value="leafOrderDist">by Leaf Order over Distance Matrix</option>
+  <option value="barycenter">by Crossing Reduction</option>
+  <option value="rcm">by Bandwidth Reduction (RCM)</option>
+  <option value="spectral">Spectral</option>
+</select>
+<p>Distanzmaß: <select id="distance">
+  <option value="manhattan" selected="true">Manhattan</option>
+  <option value="euclidean">Euclidean</option>
+  <option value="chebyshev">Chebyshev</option>
+  <option value="hamming">Hamming</option>
+  <option value="jaccard">Jaccard</option>
+  <option value="braycurtis">Braycurtis</option>
+</select>
+</div>	
+<svg width="900" height="900"></svg>
+</div>
+<script>
+var margin = {top: 300, right: 0, bottom: 0, left: 300},
+    width = 500,
+    height = 500;
+
+var x = d3.scale.ordinal().rangeBands([0, width]),
+    z = d3.scale.linear().domain([0, 4]).clamp(true),
+    c = d3.scale.category10().domain(d3.range(10));
+
+var svg = d3.select("svg").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .style("margin-left", -margin.left + "px")
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+   d3.json("/analysis/json/courses", loadJson);
+
+</script>
+

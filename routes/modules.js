@@ -95,7 +95,7 @@ Import tags from several csv files
 exports.importTags = function ( req, res ){ 
 	// import tag classification
 	
-	fs.readFile( __dirname+'/../data/keyword_refinement_revisited.csv' , function read(err, data) { // test: data2.csv
+	fs.readFile( __dirname+'/../data/data-module-tags.csv' , function read(err, data) { 
 		if(err){
 			console.error(err);
 		} 
@@ -446,11 +446,9 @@ exports.getTagCoOccurencesBySubjects = function(req, res) {
 
 
 /*
-Returns a tsv of the number of connections between co-occuring patterns over all portals
+Returns a JSON object for being rendered with D3 to forced network graph. This graph expresses the number of connections between co-occuring tags over all study courses
 This can be randered in a heatmap (=> d3) or network graph (=> gephi)
-example: patterns-co-occurance
 status: finished
-xxxxxxxxxx
 **/
 exports.getTagCoOccurencesByCourses = function(req, res) { 
 	Modules
@@ -472,7 +470,7 @@ exports.getTagCoOccurencesByCourses = function(req, res) {
 					if(modules[i].courses[c] !== ""){
 						// generate list of courses
 						if( nodes[modules[i].courses[c]] === undefined ){
-							nodes[modules[i].courses[c]] = { id: ii, title: modules[i].courses[c], group: modules[i].university };
+							nodes[modules[i].courses[c]] = { id: ii, name:modules[i].courses[c], title: modules[i].courses[c], group: modules[i].university };
 							ii++
 						}	
 						
@@ -520,9 +518,10 @@ exports.getTagCoOccurencesByCourses = function(req, res) {
 					json.nodes.push( nodes[j] );
 				}
 			} 
-			console.log(json.links)
-			res.render('analysis_course_similarity', { data: json, user: undefined });
-			//res.jsonp(json);
+			//console.log(json.links)
+			//res.render('analysis_course_similarity', { data: json, user: undefined });
+			//res.render('analysis_course_similarity2', { data: json, user: undefined });
+			res.jsonp(json);
 		})
 		;
 }
@@ -567,7 +566,7 @@ exports.importMetadata = function ( req, res ){
 	
 	
 	// load data
-	fs.readFile(__dirname+'/../data/module_metadata_clean2.csv', function read(err, data) { // test: data2.csv
+	fs.readFile(__dirname+'/../data/data-module_metadata.csv', function read(err, data) { // test: data2.csv
 		if(err){
 			console.error(err);
 		} 
