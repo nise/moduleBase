@@ -5,20 +5,20 @@ https
 - Are there any tags without a modul?
 - @search: deactivate fuzzy for multi-select search
 
-
 # Open Issues
 - @Steffi: Verfahrensbeschreibung für Datenschutz 
 
 
 # Analytics
+
 - done: recommend similar courses and subjects 
 - graph network on similarity of courses
-- graph network on similarity of subjects
 - done: forced layout: see https://github.com/paulovn/movie-network
 - show overlapping topics within a course
 
 
 # nice to have
+
 - @modul index: transalte "search" into "Suchen" => $('.bootstrap-table > input.form-control').attr('placeholder','Suchen');
 - beaty of code: split modules, tags, and search
 - maschineller Vergleich aktueller PDFs mit den Anfang 2014 heruntergeladenen PDFs
@@ -27,6 +27,7 @@ https
 - display tag index as sortable table
 - passport: check token beside session ID
 - test req.headers.referer at every HTTP-request
+- fav.ico
 
 
 # working hours

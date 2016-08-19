@@ -105,7 +105,8 @@ label.radio span, label.checkbox span{
 <script src="/static/js/jquery.colorbox-min.js"></script>
 <script src="/static/js/jquery-image-loader.js"></script>
 <script src='/static/js/db.js'></script>
-<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="http:////d3js.org/d3.v3.min.js"></script>
 <% } %>
 <link href='https://fonts.googleapis.com/css?family=Oswald:400,300,700|Roboto|Droid+Sans:400,700' rel='stylesheet' type='text/css'>
 <script src="/static/js/require.js" data-main="/static/js/requirejs-conf"></script>

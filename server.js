@@ -141,7 +141,8 @@ var conn = mongoose.connect( 'mongodb://localhost:27017/moduleBase' , function(e
 		app.get(	'/data/json/modules/tag/:id', m.getJSONbyTag );
 		app.get(	'/json/modules/field-schema', m.getFieldSchema );
 		app.get(	'/json/modules/similar/:id', m.getSimilarModulesJSON );
-		app.get(	'/test', m.getTagCoOccurences );
+		app.get(	'/analysis/subjetcs', m.getTagCoOccurencesBySubjects );
+		app.get(	'/analysis/courses', m.getTagCoOccurencesByCourses );
 		app.get(	'/data/csv/modules', m.getCSV );
 		app.get(	'/modules/tag-schema', m.getTagSchema );
 		app.get(	'/modules/list', m.index );

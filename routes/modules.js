@@ -382,7 +382,7 @@ This can be randered in a heatmap (=> d3) or network graph (=> gephi)
 example: patterns-co-occurance
 status: finished
 **/
-exports.getTagCoOccurences = function(req, res) { console.log(3)
+exports.getTagCoOccurencesBySubjects = function(req, res) { 
 	Modules
 		.find()
 		.select('modultitel tags _id university')
@@ -437,12 +437,96 @@ exports.getTagCoOccurences = function(req, res) { console.log(3)
 				}
 			} 
 			//console.log(json)
-			res.render('analysis_similarity2', { data: json, user: undefined });
+			res.render('analysis_subject_similarity', { data: json, user: undefined });
 			//res.jsonp(json);
 			// save file
 		})
 		;
 }
+
+
+/*
+Returns a tsv of the number of connections between co-occuring patterns over all portals
+This can be randered in a heatmap (=> d3) or network graph (=> gephi)
+example: patterns-co-occurance
+status: finished
+xxxxxxxxxx
+**/
+exports.getTagCoOccurencesByCourses = function(req, res) { 
+	Modules
+		.find()
+		.select('modultitel tags _id university courses')
+		.exec( function( err, modules ){
+			if(err){
+				console.log(err)
+			} 
+			// prepare data
+			var tags = {};
+			var json = {};
+			var nodes = [];
+			json.nodes = [], json.links =[], ii=0;
+			var tmp = {};
+			for(var i = 0; i < modules.length; i++){
+				for(var c = 0; c < modules[i].courses.length; c++){
+					
+					if(modules[i].courses[c] !== ""){
+						// generate list of courses
+						if( nodes[modules[i].courses[c]] === undefined ){
+							nodes[modules[i].courses[c]] = { id: ii, title: modules[i].courses[c], group: modules[i].university };
+							ii++
+						}	
+						
+						// collect tags for each course
+						for(var j = 0; j < modules[i].tags.length; j++){
+							if( tags[ modules[i].tags[j] ] === undefined ){
+								tags[ modules[i].tags[j] ] = {};
+								tags[ modules[i].tags[j] ].tag = modules[i].tags[j];
+								tags[ modules[i].tags[j] ].courses = [];
+							}
+							tags[ modules[i].tags[j] ].courses.push( nodes[modules[i].courses[c]].id );
+						}
+						
+					}	
+				}
+				
+				// app
+			} 
+			// generate list of links
+			for(var tag in tags){
+				if(tags.hasOwnProperty(tag) && tags[tag].courses.length > 1 ){
+					var 
+						permutations = pairs( tags[tag].courses ),
+						len = permutations.length
+						;
+						
+					for(var i=0; i < len; i++){
+						permutations[i] = permutations[i].sort();
+						var key = permutations[i][0]+'-'+permutations[i][1]
+						tmp[key] = (tmp[key] || 0) + 1
+					}
+				}
+			}
+			// print
+			var used = [];
+			for(var j in tmp){
+				if(tmp.hasOwnProperty(j) && tmp[j] > 1){
+					var t = j.split('-');
+					json.links.push( { source: Number(t[0]), target: Number(t[1]), value: tmp[j]} )
+					used.push(Number(t[0])); used.push(Number(t[1]))
+				}
+			}
+			for(var j in nodes){
+				if(nodes.hasOwnProperty(j)){
+					json.nodes.push( nodes[j] );
+				}
+			} 
+			console.log(json.links)
+			res.render('analysis_course_similarity', { data: json, user: undefined });
+			//res.jsonp(json);
+		})
+		;
+}
+
 
 
 /*
@@ -459,7 +543,10 @@ pairs = function (list) {
     return pairs;
 }
 
-																																												
+
+hashCode = function(s){
+  return s.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0);              
+}																																												
 
 
 
