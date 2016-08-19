@@ -76,8 +76,8 @@ sudo locale-gen
 **Update and load module and tag data**
 Possibility 1: restore an existing Database
 Pessebility 2: load data from a csv (comma separated values) file:
-1. Under /data/xxx you will find a csv file containing all meta data of the cours module descriptions. Open the file and make some edits if necessary.
-2. The file /data/.. contains the course module names and all the tags that can be related with the modules. Make some edits here. Take care that the name of the module has an expression in the previously mention file containing the meta data.
+1. Under /data/data-module-metadata.csv you will find a csv file containing all meta data of the cours module descriptions. Open the file and make some edits if necessary.
+2. The file /data/data-module-tags.csv contains the course module names and all the tags that can be related with the modules. Make some edits here. Take care that the name of the module has an expression in the previously mention file containing the meta data.
 3. Stop the production mode: `forever stop server.js`
 4. Start the application with the following command: `node server.js --update-modules --update-tags`
 5. Stop the application by pressing Ctrl+C and go into the production mode again: `forever start -a -l forever.log -o out.log -e err.log server.js`
