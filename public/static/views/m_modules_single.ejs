@@ -156,7 +156,7 @@
 	<ul id="relatedmodules"></ul>
 	<label><span class="glyphicon glyphicon-time" aria-hidden="true"></span> Erstellt:</label> <span class="">11/2014 - 11.2015</span><br>
 	<label><span class="glyphicon glyphicon-time" aria-hidden="true"></span> Aktualisiert:</label> <span class="date"><%- items.updated_at %></span><br>
-	<label><span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span> Quelle:</label> <a href="/static/files/<%= items.university%>_<%=: items.modulnr1 | replace:' ','_' %>.pdf">Modulbeschreibung</a><br>
+	<label><span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span> Quelle:</label> <a href="/static/files/<%=: items.university | replace:'/','_' %>_<%=: items.modulnr1 | replace:/\ /g,'_' %>.pdf">Modulbeschreibung</a><br>
 	<label><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> Kommentare:</label> <%=: items.comments | length %>
 </div>
 </div>
