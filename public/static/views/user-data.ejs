@@ -1,4 +1,4 @@
-<% if (!items.user) { %>
+<% if (!items.user || items.username === 'undefined') { %>
 	<!--<a class="account-data" href="/users/register">Registrieren</a>-->
 	<a class="account-data" href="/login"><span class="glyphicon glyphicon-log-in"></span>Login</a>			
 <% } else { %>
