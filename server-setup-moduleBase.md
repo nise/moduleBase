@@ -7,6 +7,7 @@ description: technical manual for setting up and running moduleBase on a linux s
 ------------------
 # toDos
 - verinice
+- remote backup
 - server PW ändern
 - test reboot: xxx 
 - Abnahme
@@ -37,10 +38,13 @@ sudo locale-gen
 
 - install node and npm:
 	sudo apt-get install build-essential libssl-dev
-	curl -sL https://raw.githubusercontent.com/creationix/nvm/v0.31.0/install.sh -o install_nvm.sh
-	bash install_nvm.sh
+	curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.0/install.sh | bash
+	export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+	
 	nvm install 5.0.0
 	nvm use 5.0.0
+	
 	sudo rm /usr/bin/npm
 	sudo rm /usr/bin/node
 	sudo ln -s /home/service/.nvm/versions/node/v5.1.1/bin/node /usr/bin/node
@@ -51,8 +55,6 @@ sudo locale-gen
 
 
 **configure ubuntu server**
-- port 80 auf port 3003 umleiten: `sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 3003`
-
 - install *forever*: `npm install -g forever`
 /etc/rc.local
 
@@ -60,16 +62,35 @@ sudo locale-gen
 - open issue: set up domain, e.g. http://moduleBase.de
 
 
+**configure nginx as reverse proxy**
+see manual: https://www.digitalocean.com/community/tutorials/how-to-set-up-a-node-js-application-for-production-on-ubuntu-14-04
+
+* `sudo apt-get install nginx`
+* `sudo vi /etc/nginx/sites-available/default`
+		server {
+			listen 80;
+			server_name example.com;
+			location / {
+				proxy_pass http://127.0.0.1:3003;
+				proxy_http_version 1.1;
+				proxy_set_header Upgrade $http_upgrade;
+				proxy_set_header Connection 'upgrade';
+				proxy_set_header Host $host;
+				proxy_cache_bypass $http_upgrade;
+			}
+		}
+* `sudo service nginx restart`
+
 ------------------
 # Using moduleBase
 
 **Update moduleBase source code**
 - fetch source from gitHub: `git fetch --all && git reset --hard origin/master`
-- restart moduleBase: `sudo forever stop server.js && sudo forever start -a -l forever.log -o out.log -e err.log server.js`
+- restart moduleBase: `NODE_ENV=production forever start -a -l forever.log -o out.log -e err.log server.js`
 
 **Run moduleBase**
 - testing `node server.js`
-- start production mode: `forever start -a -l forever.log -o out.log -e err.log server.js`
+- start production mode: `NODE_ENV=production forever start -a -l forever.log -o out.log -e err.log server.js`
 - stop production mode: `forever stop server.js`
 - restart: `forever stop server.js && forever start -a -l forever.log -o out.log -e err.log server.js`
 
@@ -91,7 +112,7 @@ A backup of the application source is not necessary
 
 **Database/ mongoDB**
 - mongodb: mongodb://localhost/moduleBase
-- dump: `mongodump --db moduleBase`
+- dump: `mongodump --forceTableScan --db moduleBase`
 - restore: `mongorestore --db moduleBase ./dump/moduleBase`
 - convert database for inspection: `bsondump collection.bson > collection.json`
 

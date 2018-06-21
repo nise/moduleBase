@@ -49,7 +49,7 @@ var
 
 /* configure application **/
   app.set('port', port); console.log(app.get('port'))
-  app.use(express.logger('dev'));  /* 'default', 'short', 'tiny', 'dev' */
+  app.use(express.logger('tiny'));  /* 'default', 'short', 'tiny', 'dev' */
 	app.use(compression())
 	
   app.use(express.static(path.join(__dirname, 'public')));
@@ -88,22 +88,27 @@ var
 
 
 /* ACL */
-var conn = mongoose.connect( 'mongodb://localhost:27017/moduleBase' , function(err, db){
-	if(err){
-		console.log(err);
-	}else{
-		/*
-		Import initial data
-		**/
+//var conn = mongoose.connect('mongodb://localhost/moduleBase', function () { /* dummy function */ })
+mongoose.Promise = require('bluebird');
+var conn = mongoose.connect(
+	'mongodb://localhost:27017/moduleBase', 
+	{
+		useMongoClient: true,
+		promiseLibrary: require('bluebird')
+	})// , function () { /* dummy function */ }
+.then(() => {
+	 console.log(333);
+		mongoose.model( 'Modules' ).find().exec(function(data){
+			console.log(data);
+		});
+		
 		if(import_modules){}
 		if(import_tags){}
 		//m.importTags({}, m.importMetadata );
 		//m.getTagVectors(); // builts matrix of tags and module numbers
 		//users.csvImport();
 		//m.getPatternCoOccurences()
-		/*
-		 * Define HTTP routes
-		 **/ 
+		
 		app.get(	'/', function ( req, res ){ res.render( 'index', { 
 				title : '',
 				user: req.user !== undefined ? req.user : 'null' 
@@ -190,7 +195,7 @@ var conn = mongoose.connect( 'mongodb://localhost:27017/moduleBase' , function(e
 		app.get('/login',  users.openLoginPage );
 		app.post('/login', users.authenticate );
 		//app.get('/login-guest', users.authenticateGuest );
-	}	
+		
 });
 
 
